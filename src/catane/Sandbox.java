@@ -1,25 +1,47 @@
 package catane;
-
+import java.awt.Color ;
 public class Sandbox {
 
-    public static void main(String[] args) {
-        System.out.println("bouc");
+public static void main ( String [] args )	 {
+System.out.println("bouc");
+//Plateau p = new Plateau();
+////p.afficherPlateau();
+////p.afficherPlateau2();
+//p.afficherPlateau3();
+//Scanner sc = new Scanner(System.in);
+//Partie p = new Partie();
+//p.plateau.afficherPlateau3();
+Plateau p = new Plateau();
+p.afficherPlateau();
 
-        // Plateau p = new Plateau();
 
-        // // p.afficherPlateau();
-        // //// p.afficherPlateau2();
-        // // p.afficherPlateau3();
 
-        // Joueur j = new Joueur("a");
-        // j.placerColonieInit(p.plateauS[2][3]);
-        // j.placerRoute(p.plateauS[2][3], p.plateauS[2][4], p);
-        // j.placerRoute(p.plateauS[2][3], p.plateauS[2][4], p);
-        // j.placerRoute(p.plateauS[2][3], p.plateauS[3][3], p);
-        // Scanner sc = new Scanner(System.in);
-        Partie p = new Partie();
-        // p.afficherPlateau();
 
-    }
+javax.swing.SwingUtilities.invokeLater(
+		new Runnable() {
+		public void run() { 
+			
 
+//		Vue v = new Vue(p.vp);
+//		Joueur J = new Joueur ("marielle") ;
+//		J.setCouleur(Color.BLUE);
+//		v.updateJoueur(J);
+		Partie p = new Partie();
+//		Sommet s = new Sommet (3, 2) ;
+//		Sommet s2 = new Sommet (0, 3) ;
+//		Route r = new Route (s, s2);
+//		v.vp.drawRoute(J, r);
+//		v.vp.drawColonie(J, s2);
+//		v.vp.drawVille(J, s);
+		}
+		}
+		);
+
+
+
+
+
+
+}
+	
 }
