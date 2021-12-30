@@ -1,5 +1,5 @@
 package catane;
 
 public class Carte {
-    int numero;
+int numero ;
 }

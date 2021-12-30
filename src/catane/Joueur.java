@@ -1,166 +1,99 @@
 package catane;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.random.RandomGenerator;
 
 public class Joueur {
-    private String nom;
-    private boolean ia;
-    private Inventaire inventaire = new Inventaire();
-    public int de;
+private String nom ;
+private boolean ia ;
+private int ble ;
+private int fer ;
+private int argile ;
+private int bois ;
+private int pierre ;
+ArrayList<Sommet> colonies ;
+ArrayList<Route> routes ;
+ArrayList<Carte> cartes ;
+private int pts_victoire = 0 ;
 
-    private ArrayList<Sommet> colonies;
-    private ArrayList<Route> routes;
-    private ArrayList<Carte> cartes;
-    private int pts_victoire = 0;
 
-    Joueur(String nom) {
-        super();
-        this.nom = nom;
-        this.colonies = new ArrayList<Sommet>();
-        this.routes = new ArrayList<Route>();
-        this.cartes = new ArrayList<Carte>();
+ Joueur(String nom) {
+	super();
+	this.nom = nom;
+	
+}
+ 
+private void setIA() { this.ia = true ;} 
 
-    }
+public int getPts() {return this.pts_victoire ; }
 
-    public ArrayList<Route> getListRoute() {
-        return this.routes;
-    }
 
-    public ArrayList<Sommet> getListColonies() {
-        return this.colonies;
-    }
 
-    public String getNom() {
-        return this.nom;
-    }
+public void Tour() {
+RandomGenerator rd = null ;
+int de = rd.nextInt(2, 13) ;
+System.out.println("Les dÈs ont donnÈ "+ de + " ! ") ;
+if (de == 7 ) {
+	
+}
 
-    public Inventaire getInventaire() {
-        return this.inventaire;
-    }
+}
 
-    public String toString() {
-        return "JOUEUR : " + this.nom + "\n" + "RESSOURCES : " + "Argile : " + this.inventaire.argile + " Ble : " +
-                this.inventaire.ble + " Bois : " + this.inventaire.bois + " Fer : " + this.inventaire.fer + " Laine : "
-                + this.inventaire.laine;
-    }
 
-    private void setIA() {
-        this.ia = true;
-    }
+private void placerColonieInit (Sommet s) {
+	if (s.colonie) {System.out.println("il y a dÈj‡ une colonie ici ! ");  return ;}
+	s.colonie = true ; 
+	this.colonies.add(s);
+	this.pts_victoire ++ ;
+	}
 
-    public int getPts() {
-        return this.pts_victoire;
-    }
 
-    public void Tour() {
-        Random rd = new Random();
-        this.de = rd.nextInt(11) + 2;
-        System.out.println("Les d√©s ont donn√© " + de + " ! ");
-        if (de == 7) {
+private void placerVilleInit (Sommet s) {
+	if ( ( this.colonies.contains(s)) && (s.ville = false) ) {
+		s.ville = true ;
+	}
+	else { System.out.println("Il vous faut dÈj‡ avoir une colonie ‡ cet endroit pÙur la faire Èvoluer en ville");
+	this.pts_victoire ++ ;
+	}
 
-        }
+}
 
-    }
+private void placerRoute (Sommet s1, Sommet s2) {
+	// 1er Èt
+	
+	
+}
 
-    public void placerColonieInit(Sommet s) {
 
-        if (this.inventaire.compteurColonies == 0) {
-            System.out.println("vous n'avez plus de colonies ÔøΩ poser!");
-            return;
-        }
-        s.colonie = true;
-        s.joueur = this;
-        this.colonies.add(s);
-        this.inventaire.compteurColonies--;
-        this.pts_victoire++;
-        System.out.println("colonie cr√©√©e!");
-    }
 
-    public void placerVilleInit(Sommet s) {
-        if (this.inventaire.compteurVilles == 0) {
-            System.out.println("vous n'avez plus de villes ÔøΩ poser!");
-            return;
-        }
-        if ((this.colonies.contains(s)) && (!s.ville)) {
-            s.ville = true;
-            this.inventaire.compteurVilles--;
-            this.pts_victoire++;
-            System.out.println("ville cr√©√©e!");
-        } else {
-            System.out.println("Il vous faut d√©j√† avoir une colonie √† cet endroit pour la faire ÔøΩvoluer en ville");
-        }
+public String toString() {
+	String st = "JOUEUR : " +this.nom + "\n"+ "RESSOURCES : " + "Argile : " + this.argile + " BlÈ : " +
+this.ble + " Bois : "+ this.bois + " Fer : " +this.fer +" Pierre : "+this.pierre ;
+	
+	return st ;
+	
+}
 
-    }
 
-    public void placerRoute(Sommet s1, Sommet s2, Plateau plateau) {
-        boolean flag = false;
 
-        // verifie qu'il existe une colonie sur un des 2 sommets
-        if (this.colonies.contains(s1) || this.colonies.contains(s2)) {
-            flag = true;
 
-        }
 
-        // verifie s'il existe des routes qui ont un des points de d√©part
-        Sommet[] boucle = { s1, s2 };
-        for (Sommet s : boucle) {
-            for (Route route : this.routes) {
-                if (route.depart.equals(s) || route.arrivee.equals(s)) {
-                    flag = true;
-                    break;
-                }
-            }
-        }
-        if (flag) {
 
-            // norme les routes pour que d√©part soit tjrs plus √† gauche ou plus haut.
-            Sommet dep = s2;
-            Sommet arr = s1;
-            if (s1.plusPetit(s2)) {
-                dep = s1;
-                arr = s2;
-            }
-            Route routeTouteNeuve = new Route(dep, arr);
-            this.routes.add(routeTouteNeuve);
-            this.inventaire.compteurRoutes--;
-            plateau.routes.add(routeTouteNeuve);
 
-            // TODO sera remplacee par un boolean dans Route
-            if (routeTouteNeuve.depart.hauteur == routeTouteNeuve.arrivee.hauteur) {
-                int largeur = Math.max(routeTouteNeuve.depart.largeur, routeTouteNeuve.arrivee.largeur);
 
-                plateau.setRouteHorizontale(routeTouteNeuve.depart.hauteur, largeur);
-            }
-            if (routeTouteNeuve.depart.largeur == routeTouteNeuve.arrivee.largeur) {
-                int hauteur = Math.max(routeTouteNeuve.depart.hauteur, routeTouteNeuve.arrivee.hauteur);
 
-                plateau.setRouteVerticale(hauteur, routeTouteNeuve.arrivee.largeur);
-            }
-            // fin du remplacement par boolean Route
-            System.out.println("route cr√©√©e!");
-        } else {
-            System.out.println(
-                    "Une route doit avoir une de vos colonies ou une de vos routes sur l'une de ses extr√©mit√©");
-        }
-    }
 
-    public boolean routeDejaConstruite(Sommet s1, Sommet s2) {
-        Sommet depart = s2;
-        Sommet arrivee = s1;
-        if (s1.plusPetit(s2)) {
-            depart = s1;
-            arrivee = s2;
-        }
 
-        for (Route route : this.routes) {
-            if (route.depart == depart && route.arrivee == arrivee) {
-                return true;
-            }
-        }
-        return false;
 
-    }
+
+
+
+
+
+
+
+
+
+
 
 }
