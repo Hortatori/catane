@@ -1,5 +1,5 @@
 package catane;
 
-public class CarteInvention extends CarteProgres {
+public class CarteInvention extends CarteProgres{
 
 }
