@@ -1,16 +1,9 @@
 package catane;
 
 import java.util.*;
-
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Ellipse2D.Double;
+import catane.Case.Paysage;
+import catane.Port;
+import catane.PortSpecial;
 
 public class Plateau {
     Case[][] plateauC;
@@ -20,10 +13,9 @@ public class Plateau {
     String[][] routesVerticales;
     LinkedList<Carte> pioche;
     LinkedList<Port> ports;
-    VuePlateau vp;
-    public boolean graphique = false;
 
     public Plateau() {
+
         // version basique du constructeeur de plateau pour un 4 cases sur 4
         Sommet[][] plateaus = new Sommet[7][7];
         for (int i = 0; i < 7; i++) {
@@ -33,9 +25,6 @@ public class Plateau {
             }
         }
         this.plateauS = plateaus;
-
-        VuePlateau vp = new VuePlateau();
-        this.vp = vp;
 
         Case[][] plateauc = new Case[4][4];
         for (int i = 1; i < 5; i++) {
@@ -47,18 +36,14 @@ public class Plateau {
         }
         this.plateauC = plateauc;
         this.setCaseType();
-
         setPorts(4, 4);
         setPositionPorts();
-        this.affichePorts();
-
-        this.setile();
 
         this.routesHorizontales = new String[7][7];
 
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
-                routesHorizontales[i][j] = "		";
+                routesHorizontales[i][j] = "        ";
 
             }
         }
@@ -67,7 +52,6 @@ public class Plateau {
 
             for (int j = 1; j < 6; j++) {
                 routesHorizontales[i][j] = "-------------";
-                // System.out.println(routesHorizontales[i][j]);
             }
         }
         // this.routesHorizontales = routesHorizontales;
@@ -85,6 +69,18 @@ public class Plateau {
         }
         // this.routesVerticales = routesVerticales;
 
+    }
+
+    public void setRouteHorizontale(int i, int j) {
+        this.routesHorizontales[i + 2][j + 1] = "============";
+        System.out.println("horizontales " + i + j);
+        System.out.println(Arrays.deepToString(this.routesHorizontales));
+    }
+
+    public void setRouteVerticale(int i, int j) {
+        System.out.println("verticales " + i + j);
+        routesVerticales[i + 1][j + 2] = "H";
+        System.out.println(Arrays.deepToString(this.routesVerticales));
     }
 
     public void setCaseType() {
@@ -160,29 +156,15 @@ public class Plateau {
             Port ptop = this.ports.get(index);
             Port pbottom = this.ports.get(index + 1);
             ptop.setSommets(this.plateauS[1][i + 1], this.plateauS[1][i + 2]);
-            ptop.setOrientation(Cardinal.N);
             pbottom.setSommets(this.plateauS[5][i + 2], this.plateauS[5][i + 3]);
-            pbottom.setOrientation(Cardinal.S);
             index += 2;
-
         }
         for (int h = 0; h < 4; h += 2) {
             Port pleft = this.ports.get(index);
             Port pright = this.ports.get(index + 1);
-            pleft.setSommets(this.plateauS[h + 1][5], this.plateauS[h + 2][5]);
-            pleft.setOrientation(Cardinal.E);
-            // pright.setSommets(this.plateauS[5][h+2], this.plateauS[5][h+3]);
-            pright.setSommets(this.plateauS[h + 2][1], this.plateauS[h + 3][1]);
-            pright.setOrientation(Cardinal.O);
+            pleft.setSommets(this.plateauS[h + 1][1], this.plateauS[h + 2][1]);
+            pright.setSommets(this.plateauS[5][h + 2], this.plateauS[5][h + 3]);
             index += 2;
-        }
-    }
-
-    public void affichePorts() {
-        for (Port p : this.ports) {
-            System.out.println(
-                    p.afficherPort() + p.getOrientation().name() + p.getS1().largeur + "   " + p.getS2().hauteur);
-            this.vp.drawPort(p);
         }
     }
 
@@ -278,7 +260,7 @@ public class Plateau {
                 sc += this.ports.get(index_port).afficherPort();
                 index_port += 1;
                 ss += mer;
-                sstandard += portdroit;
+                sstandard += portgauche;
             }
 
             System.out.println(ss);
@@ -302,39 +284,4 @@ public class Plateau {
 
     }
 
-    public void setile() {
-        for (Case[] tc : this.plateauC) {
-            for (Case c : tc) {
-                VueCase v = new VueCase(c);
-
-                v.setText(c.type.name() + " \n " + c.numero);
-                v.setHorizontalAlignment(SwingConstants.CENTER);
-                v.setVerticalAlignment(SwingConstants.CENTER);
-
-                this.vp.ile.add(v);
-            }
-        }
-
-    }
-
-    //// work in progress
-    // public void setvueport( Graphics g) {
-    // JComponent c = new DrawComponent();
-    // //Graphics g = this.vp.ile.getGraphics();
-    // Graphics2D g2 = (Graphics2D) g ;
-    // Ellipse2D.Double e = new Ellipse2D.Double ( 50, 50, 50, 50) ;
-    // int[] x = {0, 0, 50, 50};
-    // int[] y = {0, 50, 30, 50};
-    //
-    // //g2.draw(e) ; }
-
-    public void setRouteHorizontale(int i, int j) {
-        this.routesHorizontales[i][j] = "============";
-    }
-
-    public void setRouteVerticale(int i, int j) {
-        routesVerticales[i][j] = "H";
-        System.out.println("barbulie");
-    }
-
-public void printBoolean () { for (Sommet[] s : this.plateauS ) { for (Sommet so : s) {System.out.println(so.colonie) ; }}}
+}

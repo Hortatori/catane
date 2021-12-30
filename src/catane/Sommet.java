@@ -25,19 +25,14 @@ public class Sommet {
         return " * ";
     }
 
-    public String AfficherCoord() {
-        return " x : " + this.largeur + "   y : " + this.hauteur;
-    }
-
     public boolean routeLegale(Sommet s) {
         if ((Math.abs(this.hauteur - s.hauteur) != 1) && (Math.abs(this.largeur - s.largeur) != 0)) {
             return true;
-        }
-        if ((Math.abs(this.hauteur - s.hauteur) != 0) && (Math.abs(this.largeur - s.largeur) != 1)) {
+        } else if ((Math.abs(this.hauteur - s.hauteur) != 0) && (Math.abs(this.largeur - s.largeur) != 1)) {
             return true;
+        } else {
+            return false;
         }
-        System.out.println("Toute route ne doit avoir qu'une longueur de 1");
-        return false;
     }
 
     public boolean plusPetit(Sommet s) {

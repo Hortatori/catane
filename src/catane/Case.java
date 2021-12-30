@@ -8,9 +8,9 @@ public class Case {
     Paysage type;
     int numero;
 
-    // public enum Paysage {
-    // DESERT, FORET, MONTAGNE, COLLINE, PRE, CHAMP
-    // }
+    public enum Paysage {
+        DESERT, FORET, MONTAGNE, COLLINE, PRE, CHAMP
+    }
 
     public void setType(Paysage t) {
         this.type = t;
