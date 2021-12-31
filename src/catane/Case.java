@@ -1,5 +1,7 @@
 package catane;
 
+import java.util.LinkedList;
+
 public class Case {
     Sommet NO;
     Sommet NE;
@@ -7,7 +9,8 @@ public class Case {
     Sommet SE;
     Paysage type;
     int numero;
-
+    LinkedList<Sommet> Sommets  = new LinkedList<Sommet>() ;
+ 
     public enum Paysage {
         DESERT, FORET, MONTAGNE, COLLINE, PRE, CHAMP
     }
@@ -26,6 +29,10 @@ public class Case {
         NE = nE;
         SO = sO;
         SE = sE;
+        this.Sommets.add(nO);
+        this.Sommets.add(nE);
+        this.Sommets.add(sO);
+        this.Sommets.add(nE);
     }
 
     public String toString() {
@@ -51,3 +58,6 @@ public class Case {
         }
     }
 }
+
+
+

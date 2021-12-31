@@ -3,25 +3,43 @@ package catane;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
+import java.awt.Color ;
+
 
 public class Joueur {
     private String nom;
     private boolean ia;
+    private Ressources ressources ;
+    private Color couleur ;
+
     private Inventaire inventaire = new Inventaire();
     public int de;
 
-    private ArrayList<Sommet> colonies;
-    private ArrayList<Route> routes;
-    private ArrayList<Carte> cartes;
+    ArrayList<Sommet> colonies;
+    ArrayList<Route> routes;
+    ArrayList<Carte> cartes;
     private int pts_victoire = 0;
 
     Joueur(String nom) {
         super();
         this.nom = nom;
+        this.ressources = new Ressources();
         this.colonies = new ArrayList<Sommet>();
         this.routes = new ArrayList<Route>();
         this.cartes = new ArrayList<Carte>();
 
+    }
+
+    public void setCouleur (Color c ) {
+        this.couleur = c ;}
+    
+    
+    public Ressources getR() {
+        return ressources;
+    }
+    
+    public void setR(Ressources r) {
+        this.ressources = r;
     }
 
     public ArrayList<Route> getListRoute() {
@@ -32,13 +50,36 @@ public class Joueur {
         return this.colonies;
     }
 
+    public ArrayList<Sommet> getColonies() {
+        return colonies;
+    }
+    
+    public ArrayList<Route> getRoutes() {
+        return routes;
+    }
+
     public String getNom() {
         return this.nom;
+    }
+
+    public Color getCouleur() {
+        return this.couleur;
     }
 
     public Inventaire getInventaire() {
         return this.inventaire;
     }
+
+    public ArrayList<Carte> getCartes() {
+        return cartes;
+    }
+
+    
+    public void afficherColonies() { 
+        for (Sommet s : this.colonies ) { System.out.println (s.AfficherCoord() ) ;} }
+
+    public void afficherRoutes() { 
+        for (Route r : this.routes ) {System.out.println( r.toString()) ;} }
 
     public String toString() {
         return "JOUEUR : " + this.nom + "\n" + "RESSOURCES : " + "Argile : " + this.inventaire.argile + " Ble : " +
@@ -48,6 +89,10 @@ public class Joueur {
 
     private void setIA() {
         this.ia = true;
+    }
+
+    public boolean isIa() {
+        return ia;
     }
 
     public int getPts() {
@@ -74,6 +119,7 @@ public class Joueur {
         s.joueur = this;
         this.colonies.add(s);
         this.inventaire.compteurColonies--;
+        this.ressources.placeColonie() ;
         this.pts_victoire++;
         System.out.println("colonie créée!");
     }
@@ -113,7 +159,7 @@ public class Joueur {
                 }
             }
         }
-        if (flag) {
+        if ((flag) && s1.routeLegale(s2)) {
 
             // norme les routes pour que départ soit tjrs plus à gauche ou plus haut.
             Sommet dep = s2;
@@ -123,44 +169,70 @@ public class Joueur {
                 arr = s2;
             }
             Route routeTouteNeuve = new Route(dep, arr);
+            if (plateau.routes.contains(routeTouteNeuve)    ) { System.out.println("La route existe d�j�") ;
+        }else{
             this.routes.add(routeTouteNeuve);
             this.inventaire.compteurRoutes--;
             plateau.routes.add(routeTouteNeuve);
 
-            // TODO sera remplacee par un boolean dans Route
-            if (routeTouteNeuve.depart.hauteur == routeTouteNeuve.arrivee.hauteur) {
-                int largeur = Math.max(routeTouteNeuve.depart.largeur, routeTouteNeuve.arrivee.largeur);
-
-                plateau.setRouteHorizontale(routeTouteNeuve.depart.hauteur, largeur);
+            Sommet d = routeTouteNeuve.depart ;
+            System.out.println(d.hauteur + "   " + d.largeur) ;
+            if (routeTouteNeuve.horizontale) {
+         
+                plateau.setRouteHorizontale(d.hauteur +2, d.largeur+2);
             }
-            if (routeTouteNeuve.depart.largeur == routeTouteNeuve.arrivee.largeur) {
-                int hauteur = Math.max(routeTouteNeuve.depart.hauteur, routeTouteNeuve.arrivee.hauteur);
-
-                plateau.setRouteVerticale(hauteur, routeTouteNeuve.arrivee.largeur);
+            else {
+                System.out.println("vertical");
+                plateau.setRouteVerticale(d.hauteur +2, d.largeur+2);
             }
-            // fin du remplacement par boolean Route
-            System.out.println("route créée!");
-        } else {
+
+            System.out.println("route créée!");}
+        } 
             System.out.println(
                     "Une route doit avoir une de vos colonies ou une de vos routes sur l'une de ses extrémité");
-        }
+        
     }
 
-    public boolean routeDejaConstruite(Sommet s1, Sommet s2) {
-        Sommet depart = s2;
-        Sommet arrivee = s1;
-        if (s1.plusPetit(s2)) {
-            depart = s1;
-            arrivee = s2;
-        }
 
-        for (Route route : this.routes) {
-            if (route.depart == depart && route.arrivee == arrivee) {
-                return true;
+
+    
+    public void PossedeCase (Case elue) {
+        System.out.println(this.getNom() + "   "+elue.type.name() ) ;
+        for (Sommet c : this.colonies) {
+            if (elue.Sommets.contains(c)) {
+                int coef = 1 ;
+                if (c.ville == true) { coef = 2 ; }
+                switch (elue.type) {
+                
+            
+                case MONTAGNE :
+                    this.ressources.addPierre(coef);
+                    
+                    
+                case PRE :
+                    this.ressources.addMouton(coef);
+                
+                    
+                case FORET :
+                    this.ressources.addBois(coef);
+                    
+                    
+                case COLLINE :
+                    this.ressources.addArgile(coef);
+                    
+                    
+                case CHAMP :
+                    this.ressources.addBle(coef);
+                    
+                    
+                default :
+                    return ;
+                
+                    
+                }
             }
+            
         }
-        return false;
-
     }
 
 }

@@ -28,4 +28,9 @@ public class PortSpecial extends Port {
         return super.toString() + " vous pourrez ici �changer du " + this.Ressource;
     }
 
+    public String afficherTaux() {
+        String Newligne = System.getProperty("line.separator");
+        return super.afficherTaux() + Newligne + this.Ressource ;
+    }
 }
+
