@@ -1,4 +1,5 @@
 package catane;
+import catane.Case.Paysage;
 
 import java.util.*;
 
@@ -115,7 +116,7 @@ for (int i = 0 ; i<4 ; i++ ) {
 }
 }
 
-// on paramétrise la fonction pour pouvoir la généraliser plus facilement
+// on paramï¿½trise la fonction pour pouvoir la gï¿½nï¿½raliser plus facilement
 public void setPorts(int largeur, int longueur) {
 	int nb_ports = largeur + longueur ;
 	LinkedList<Port> ports = new LinkedList<Port>() ;
@@ -215,15 +216,15 @@ System.out.println(ss);
 
 public void afficherPlateau3() {
 	
-// pour la gestion des ports, on considère qu'ils seront gérés sur une Array list indépendante et qu'ils seront répartis aléatoirement et ce en utilisant un incrément.
+// pour la gestion des ports, on considï¿½re qu'ils seront gï¿½rï¿½s sur une Array list indï¿½pendante et qu'ils seront rï¿½partis alï¿½atoirement et ce en utilisant un incrï¿½ment.
 String init ="		";
-String porttop = "~~~/¨¨¨¨¨¨¨¨¨\\~~" ;
-String portgauche = "~~~~/¨¨¨¨¨¨¨¨¨¨¨" ;
-String portdroit = "¨¨¨¨¨¨¨¨¨¨¨¨¨/~~~~	" ;	
+String porttop = "~~~/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\\~~" ;
+String portgauche = "~~~~/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" ;
+String portdroit = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/~~~~	" ;	
 String portbottom = "~~~\\__________/~";
 String mer = "~~~~~~~~~~~~~~~~";
 
-// Ce code est compliqué mais il pourra permettre plus facilement une extension du plateau
+// Ce code est compliquï¿½ mais il pourra permettre plus facilement une extension du plateau
 int index_port = 0 ;
 LinkedList<Integer> porttab = new LinkedList<Integer>() ;
 porttab.add(1);

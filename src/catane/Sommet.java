@@ -16,10 +16,10 @@ public class Sommet {
     }
 
     public String toString() {
-        if (this.colonie == true) {
+        if (this.colonie&&!this.ville == true) {
             // return "col " + this.joueur.getNom();
             return "MMU";
-        } else if (this.ville == true) {
+        } else if (this.colonie&&this.ville == true) {
             // return "vil " + this.joueur.getNom();
             return "UUM";
         }

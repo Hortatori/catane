@@ -87,7 +87,7 @@ public class Joueur {
                 + this.inventaire.laine;
     }
 
-    private void setIA() {
+    public void setIA() {
         this.ia = true;
     }
 

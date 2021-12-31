@@ -21,7 +21,7 @@ public class RoutePanel extends JPanel {
 	
 	protected void paintComponent(Graphics g) {
 		 
-		 super.paintComponent(g); // n'enlève pas la gestion standard du dessin du composant
+		 super.paintComponent(g); // n'enlï¿½ve pas la gestion standard du dessin du composant
 	 
 		 g.setColor(this.j.getCouleur());  
 		 int width ;

@@ -12,8 +12,8 @@ System.out.println("bouc");
 //Scanner sc = new Scanner(System.in);
 //Partie p = new Partie();
 //p.plateau.afficherPlateau3();
-Plateau p = new Plateau();
-p.afficherPlateau();
+// Plateau p = new Plateau();
+// p.afficherPlateau();
 
 
 

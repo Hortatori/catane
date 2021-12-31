@@ -5,6 +5,8 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import catane.Case.Paysage;
+
 public class VoleurPanel extends JPanel {
 	private Plateau p ;
 	private int x ;

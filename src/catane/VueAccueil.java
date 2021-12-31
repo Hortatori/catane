@@ -79,11 +79,18 @@ public class VueAccueil extends JPanel {
 		
 		
 	}
-	
+
+	private static int iaset = 0 ;
+	public static void IAset() {
+		iaset ++ ;
+	}
+	// public static void IAset() {
+	// 	Namebox.iaset ++ ;
+	// }
 	public class NameBox extends JPanel {
 		int i ;
 		JTextField tf ;
-		private static int iaset = 0 ;
+
 		public NameBox(int i) {
 			
 		super();
@@ -104,15 +111,7 @@ public class VueAccueil extends JPanel {
 		VueAccueil.this.remove(this);
 		
 		
-		
-		
-		
 		}
-		
-				
-				
-				
-				
 				
 				
 				);
@@ -123,9 +122,7 @@ public class VueAccueil extends JPanel {
 		public String getNom() {
 			return tf.getText() ;
 		}
-		public static void IAset() {
-			NameBox.iaset ++ ;
-		}
+
 		
 		public void finAccueil() {
 			if(iaset == nbj) {
@@ -181,7 +178,8 @@ public class VueAccueil extends JPanel {
 		}
 	
 		void close() {
-		NameBox.IAset() ;
+		// NameBox.IAset() ;
+		IAset() ;
 		this.setVisible(false);
 		finAccueil();
 		

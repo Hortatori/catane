@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import java.awt.FlowLayout ;
+import catane.Case.Paysage;
 
 
 

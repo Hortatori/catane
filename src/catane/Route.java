@@ -5,23 +5,23 @@ public class Route {
 
     Sommet depart;
     Sommet arrivee;
-    boolean horizontal;
+    boolean horizontale;
 
     Route(Sommet depart, Sommet arrivee) {
-        this.depart = depart;
-        this.arrivee = arrivee;
-        this.horizontal = this.depart.routeHorizontale(this.arrivee);
-        // if ((depart.hauteur <= arrivee.hauteur) && (depart.largeur <= arrivee.largeur)) {
-        //     System.out.println("bon ordre");
-        //     this.depart = depart;
-        //     this.arrivee = arrivee;}
-        //     else { this.depart = arrivee ; this.arrivee = depart; 
-        //     System.out.println("maivaos ordre");}
-        //     int x = Math.abs (this.depart.largeur - this.arrivee.largeur );
-        //     System.out.println(x);
-        //     System.out.println("dep ! " + this.depart.largeur + this.depart.hauteur) ;
-        //     System.out.println("arr ! " + this.arrivee.largeur + this.arrivee.hauteur) ;
-        //     this.horizontale = (x == 1);
+        // this.depart = depart;
+        // this.arrivee = arrivee;
+        // this.horizontale = this.depart.routeHorizontale(this.arrivee);
+        if ((depart.hauteur <= arrivee.hauteur) && (depart.largeur <= arrivee.largeur)) {
+            System.out.println("bon ordre");
+            this.depart = depart;
+            this.arrivee = arrivee;}
+            else { this.depart = arrivee ; this.arrivee = depart; 
+            System.out.println("maivaos ordre");}
+            int x = Math.abs (this.depart.largeur - this.arrivee.largeur );
+            System.out.println(x);
+            System.out.println("dep ! " + this.depart.largeur + this.depart.hauteur) ;
+            System.out.println("arr ! " + this.arrivee.largeur + this.arrivee.hauteur) ;
+            this.horizontale = (x == 1);
 
     }
 

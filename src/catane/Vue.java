@@ -36,7 +36,7 @@ public Vue(Partie p) {
 }
 	
 public void updateJoueur(Joueur j, int de ) {
-	VueJoueur v = new VueJoueur(j, d) ;
+	VueJoueur v = new VueJoueur(j, de) ;
 		this.leftpanel = v;
 		this.getContentPane().add(v);
 		this.repaint();

@@ -73,14 +73,14 @@ public class Partie {
 
     System.out.println("Vous serez donc " + this.n_joueur + " joueurs à jouer !");
 
-    String bienvenue = "Bienvenue dans le jeu, ";
+    String bienvenue = "Bienvenue dans le jeu";
     for (int i = 1; i < (this.n_joueur + 1); i++) {
         System.out.println("Entrez le nom du joueur " + (i));
         scan = ij.sc.next();
         for (Joueur former : this.joueurs) { if (former.getNom().equals(scan) ) { System.out.println("nom d�j� pris") ;
         scan = ij.sc.next() ; }} 
         Joueur j = new Joueur(scan);
-        bienvenue += scan + ", ";
+        bienvenue += ", " + scan ;
 
         Color c = new RandomColor().c ;
         
@@ -168,11 +168,11 @@ public class Partie {
 
         while (Victoire() == false) {
             Joueur joueur = this.joueurs.get(ind_joueur);
-            LanceDe();
-            this.incrementRessource(joueur.de);
+            int de = LanceDe();
+            this.incrementRessource(de);
             System.out.println(joueur);
-            // actions(joueur);
-            ij.actions(joueur);
+            actions(joueur);
+            // ij.actions(joueur);
             this.plateau.afficherPlateau();
             ind_joueur++;
             if (ind_joueur == this.n_joueur) {
@@ -247,8 +247,8 @@ public class Partie {
             }
             joueur.placerColonieInit(plateau.plateauS[X][Y]);
             return;
-        }
-        joueur.placerVilleInit(plateau.plateauS[X][Y]);
+        }else{
+        joueur.placerVilleInit(plateau.plateauS[X][Y]);}
 
     }
 
@@ -352,11 +352,11 @@ public class Partie {
         for (Joueur joueur : this.joueurs) {
             for (Route route : joueur.getListRoute()) {
 
-                if (route.arrivee.plusPetit(route.depart) && route.horizontal) {
+                if (route.arrivee.plusPetit(route.depart) && route.horizontale) {
                     routesHJoueurs[route.arrivee.hauteur][route.arrivee.largeur] = joueur;
-                } else if (route.arrivee.plusPetit(route.depart) && !route.horizontal) {
+                } else if (route.arrivee.plusPetit(route.depart) && !route.horizontale) {
                     routesVJoueurs[route.arrivee.hauteur][route.arrivee.largeur] = joueur;
-                } else if (!route.arrivee.plusPetit(route.depart) && route.horizontal) {
+                } else if (!route.arrivee.plusPetit(route.depart) && route.horizontale) {
                     routesHJoueurs[route.depart.hauteur][route.depart.largeur] = joueur;
                 } else {
                     routesVJoueurs[route.depart.hauteur][route.depart.largeur] = joueur;
