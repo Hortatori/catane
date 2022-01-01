@@ -1,5 +1,4 @@
 package catane;
-import catane.Case.Paysage;
 
 import java.util.*;
 

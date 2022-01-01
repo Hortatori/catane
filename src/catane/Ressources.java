@@ -57,6 +57,26 @@ public class Ressources {
 	}
 	
 	
+	public void payBle(int i) {
+		 ble+= i;
+	}
+	public void payMouton(int i) {
+		 mouton+= i;
+	}
+	public void payArgile(int i) {
+		 argile+= i;
+	}
+	public void payBois(int i) {
+		 bois+= i;
+	}
+	public void payPierre(int i) {
+		 pierre += i;
+	}
+	
+	
+	
+	
+	
 	
 	
 	

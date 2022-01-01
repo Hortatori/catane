@@ -1,6 +1,6 @@
 package catane;
 
-import catane.Case.Paysage;
+import catane.Paysage;
 
 public class PortSpecial extends Port {
 

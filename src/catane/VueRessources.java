@@ -30,11 +30,11 @@ public class VueRessources  extends JPanel{
 		this.add(new JLabel ("Ble")) ;
 		this.add(new JLabel ("Pierre")) ;
 		this.add(new JLabel ("Mouton")) ;
-		this.add(new JLabel ( String.valueOf ( this.j.getR().getArgile()  ) )) ;
-		this.add(new JLabel ( String.valueOf ( this.j.getR().getBois()  ) )) ;
-		this.add(new JLabel ( String.valueOf ( this.j.getR().getBle()  ) )) ;
-		this.add(new JLabel ( String.valueOf ( this.j.getR().getPierre()  ) )) ;
-		this.add(new JLabel ( String.valueOf ( this.j.getR().getMouton()  ) )) ;
+		this.add(new JLabel ( String.valueOf ( this.j.getInventaire().getArgile()  ) )) ;
+		this.add(new JLabel ( String.valueOf ( this.j.getInventaire().getBois()  ) )) ;
+		this.add(new JLabel ( String.valueOf ( this.j.getInventaire().getBle()  ) )) ;
+		this.add(new JLabel ( String.valueOf ( this.j.getInventaire().getPierre()  ) )) ;
+		this.add(new JLabel ( String.valueOf ( this.j.getInventaire().getMouton()  ) )) ;
 		this.setOpaque(true);
 		
 		this.setAlignmentX(SwingConstants.CENTER);

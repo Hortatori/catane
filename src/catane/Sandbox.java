@@ -24,7 +24,6 @@ javax.swing.SwingUtilities.invokeLater(
 			
 
 //		Vue v = new Vue(p.vp);
-//		Joueur J = new Joueur ("marielle") ;
 //		J.setCouleur(Color.BLUE);
 //		v.updateJoueur(J);
 		Partie p = new Partie();

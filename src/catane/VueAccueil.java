@@ -64,7 +64,7 @@ public class VueAccueil extends JPanel {
 	
 	public void setJoueurs(int nbj ) {
 		this.nbj = nbj ;
-		this.p.n_joueur = nbj ;
+		
 		System.out.println(nbj);
 		for (int i = 0 ; i<nbj; i++) {
 		System.out.println("ariv");
@@ -79,14 +79,10 @@ public class VueAccueil extends JPanel {
 		
 		
 	}
-
 	private static int iaset = 0 ;
 	public static void IAset() {
 		iaset ++ ;
 	}
-	// public static void IAset() {
-	// 	Namebox.iaset ++ ;
-	// }
 	public class NameBox extends JPanel {
 		int i ;
 		JTextField tf ;
@@ -102,17 +98,17 @@ public class VueAccueil extends JPanel {
 		this.setVisible(true);
 		repaint();
 		tf.addActionListener(e -> {String nom = getNom(); 
-		Joueur j = new Joueur(nom);
+		Joueur j = new Joueur(nom, p);
+		
 		p.joueurs.add(j);
+		
 		IABox iab = new IABox( i, j);
 		this.setVisible(false);
 		
 		VueAccueil.this.add(iab);
 		VueAccueil.this.remove(this);
 		
-		
 		}
-				
 				
 				);
 		this.add(tf);
@@ -129,6 +125,7 @@ public class VueAccueil extends JPanel {
 				VueAccueil.this.setVisible(false);
 				VueAccueil.this.p.initialiser();
 				System.out.println("lets gooo");
+				p.Jouer();
 			}
 			else {   System.out.println( iaset + "est diff de " + i) ;}
 		}
@@ -178,7 +175,6 @@ public class VueAccueil extends JPanel {
 		}
 	
 		void close() {
-		// NameBox.IAset() ;
 		IAset() ;
 		this.setVisible(false);
 		finAccueil();

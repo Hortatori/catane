@@ -2,7 +2,7 @@ package catane;
 
 import java.util.*;
 
-import catane.Case.Paysage;
+import catane.Paysage;
 
 public class Plateau3 {
 Case[] [] plateauC ;
@@ -63,17 +63,17 @@ this.routesVerticales = routesVerticales ;
 
 }
 public void setCaseType() {
-	Case.Paysage[]	tabp = new Case.Paysage[16];
+	Paysage[]	tabp = new Paysage[16];
 
 for (int j = 0  ; j<3 ; j++) {
-	tabp[5*j] = Case.Paysage.FORET ;
-	tabp[5*j+1] = Case.Paysage.MONTAGNE;
-	tabp[5*j+2] = Case.Paysage.COLLINE ;
-	tabp[5*j+3] = Case.Paysage.PRE ;
-	tabp[5*j+4] = Case.Paysage.CHAMP ;
+	tabp[5*j] = Paysage.FORET ;
+	tabp[5*j+1] = Paysage.MONTAGNE;
+	tabp[5*j+2] = Paysage.COLLINE ;
+	tabp[5*j+3] = Paysage.PRE ;
+	tabp[5*j+4] = Paysage.CHAMP ;
 	
 }
-tabp[15] = Case.Paysage.DESERT ;
+tabp[15] = Paysage.DESERT ;
 
 List<Paysage> listep = Arrays.asList(tabp);
 Collections.shuffle(listep);
@@ -90,7 +90,7 @@ for (int i = 0 ; i<4 ; i++ ) {
 		
 		this.plateauC[i][j].setType(listep.get(l));
 		
-		if (listep.get(l) != Case.Paysage.DESERT) { 
+		if (listep.get(l) != Paysage.DESERT) { 
 		this.plateauC[i][j].setNumber(listen.get(k));
 		k++;
 		}

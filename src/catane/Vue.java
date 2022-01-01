@@ -27,10 +27,10 @@ public Vue(Partie p) {
 	this.vp = vp ;
 	this.getContentPane().add(vp ) ;
 	
-	VueAccueil vj = new VueAccueil(p);
-	this.leftpanel = vj ;
-	this.getContentPane().add(vj ) ;
-	this.add(new DrawComponent()) ;
+//	VueAccueil vj = new VueAccueil(p);
+//	this.leftpanel = vj ;
+//	this.getContentPane().add(vj ) ;
+//	this.add(new DrawComponent()) ;
 	
 
 }
@@ -48,6 +48,19 @@ public void drawRoute(Joueur j, Route r) {
 	
 }
 
+public void drawColonie (Joueur j, int x, int y) 
+{
+	this.add(new ColoniePanel(j, this.p.plateau.plateauS[y][x]) ) ;
+	this.repaint();
+	
+}
+
+public void drawVille(Joueur j, int x, int y) 
+{
+	this.add(new VillePanel(j, this.p.plateau.plateauS[y][x]) ) ;
+	this.repaint();
+	
+}
 
 	
 }

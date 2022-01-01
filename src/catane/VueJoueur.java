@@ -3,15 +3,17 @@ package catane;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import java.awt.GridLayout ;
 import java.awt.GridBagLayout ;
 import java.awt.GridBagConstraints ;
 import java.awt.* ;
+import javax.swing.JLabel ;
 
 public class VueJoueur extends JPanel {
+	
+Joueur joueur ;
 	
 	VueJoueur() {
 		super();
@@ -25,7 +27,7 @@ public class VueJoueur extends JPanel {
 		//c.weighty = 0.2 ;
 		JPanel tour = new JPanel ();
 	
-		tour.add(new JLabel ("tour"));
+		tour.add(new JLabel ("TOUR "));
 		
 		tour.setOpaque(false);
 		//tour.setMaximumSize(new Dimension(400, 100));
@@ -33,16 +35,19 @@ public class VueJoueur extends JPanel {
 		
 		}
 	
-	VueJoueur(Joueur j){
-		this() ;
-		this.add (new JLabel ("placez votre colonie de départ")) ; 
-		
-	}
+//	VueJoueur(Joueur j){
+//		this() ;
+//		
+//		this.add (new JLabel ("placez votre colonie de dï¿½part")) ; 
+//		
+//	}
 	
 	VueJoueur(Joueur j, int de) {
+		
 		this();
+		this.joueur = j ;
 		if (de != 42) {
-		this.add (new JLabel ( " Le dé a donné"+ de)) ; }
+		this.add (new JLabel ( " Le dï¿½ a donnï¿½"+ de)) ; }
 		
 		VueRessources r = new VueRessources(j);
 		
@@ -75,7 +80,13 @@ public class ActionPanel extends JPanel {
 		this.add(new JLabel ( " Choisissez une action :")) ;
 		
 		JButton colonie = new JButton("Placer une nouvelle colonie") ;
-		// colonie . addActionListener( e -> {    ;} ) ;
+		colonie . addActionListener( e -> { this.setVisible(false) ;
+										CoordPanel p= new CoordPanel("Cliquez sur le bouton correspondant ï¿½ l 'endroit ou vous voulez installer une colonie" );
+										VueJoueur.this.add (p);
+										int [] result = p.getResult();
+										// ConstruireColonie(VueJoueur.this.joueur, result [0] , result [1]);
+										
+			;} ) ;
 		this.add(colonie);
 		
 		
@@ -118,8 +129,13 @@ public class ActionPanel extends JPanel {
 
 
 public class CoordPanel extends JPanel {
+	
+	int resultx = 42 ;
+	int resulty = 42 ;
+	
 	CoordPanel(String question) {
 		
+	
 		super() ;
 		this.setSize(300 , 400);
 		this.setLayout(new FlowLayout()) ;
@@ -132,12 +148,25 @@ public class CoordPanel extends JPanel {
 				
 				String nom = "[" + w+ ";"+ h +"]" ;
 				RadioCoord radio = new RadioCoord(nom, h, w) ;
-				//listener
+				int X = w ;
+				int Y = h;
+				radio.addActionListener( e ->  {
+				this.resultx = X;
+				this.resulty = Y;
+				this.setVisible(false) ;
+				
+				}
+				);
 				grille.add(radio);
 				
 			}
 		}
 		this.add(grille);
+	}
+	
+	public int[] getResult() {
+		int [] result = { this.resultx , this.resulty } ;
+		return result;
 	}
 	
 }
