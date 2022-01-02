@@ -58,22 +58,46 @@ public class Ressources {
 	
 	
 	public void payBle(int i) {
-		 ble+= i;
+		 ble -= i;
 	}
 	public void payMouton(int i) {
-		 mouton+= i;
+		 mouton -= i;
 	}
 	public void payArgile(int i) {
-		 argile+= i;
+		 argile -= i;
 	}
 	public void payBois(int i) {
-		 bois+= i;
+		 bois -= i;
 	}
 	public void payPierre(int i) {
-		 pierre += i;
+		 pierre  -= i;
 	}
 	
-	
+	public void incrementInventaire(Paysage paysage ) {
+        switch (paysage) {
+            case FORET:
+                this.bois++;
+                break;
+            case MONTAGNE:
+                this.pierre++;
+                break;
+
+            case COLLINE:
+                this.argile++;
+                break;
+
+            case PRE:
+                this.mouton++;
+                break;
+
+            case CHAMP:
+                this.ble++;
+                break;
+                
+            default :
+            	break; }
+           
+        }
 	
 	
 	

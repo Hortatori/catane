@@ -2,155 +2,190 @@ package catane;
 
 import java.awt.Color;
 import java.util.Scanner;
-import catane.Paysage;
 
-public class OperationCommerciale {
-	boolean legal = true;
-	int taux = 4;
-	Joueur j;
-	{
-		if (j.ports.size() > 0) {
-			taux = 3;
+public class OperationCommerciale  {
+
+int taux = 4 ;
+Joueur j  ;
+
+
+
+public OperationCommerciale (Joueur j) {
+	
+	this.j = j ;
+	{if (j.ports.size() > 0 ) { taux = 3 ;} 
+	}
+}
+
+public void effectuer (boolean graphique) {
+	// ruse pour éviter de demander un accès au plateau.
+	if (!graphique) {
+		System.out.println ("Quelle ressource voulez vous obtenir ?") ;
+		Paysage p = demanderRessource() ;
+		System.out.println("Le taux de base est de "+taux+ " contre 1 .");
+		for (Port port : j.ports) {
+			if (port instanceof PortSpecial) {
+				System.out.println(" Grâce au port, vous bénéficiez d'un taux de 2 contre 1 en échangeant du "+ ((PortSpecial) port).Ressource.name() ) ;
+			}
 		}
-	}
-
-	public OperationCommerciale(Joueur j) {
-
-		this.j = j;
-	}
-
-	public void effectuer(boolean graphique) {
-		// ruse pour ï¿½viter de demander un accï¿½s au plateau.
-		if (!graphique) {
-			System.out.println("Quelle ressource voulez vous obtenir ?");
-			Paysage p = demanderRessource();
-			System.out.println("Le taux de base est de " + taux + " contre 1 .");
-			for (Port port : j.ports) {
-				if (port instanceof PortSpecial) {
-					System.out.println(" Grï¿½ce au port, vous bï¿½nï¿½ficiez d'un taux de 2 contre 1 en ï¿½changeant du "
-							+ ((PortSpecial) port).Ressource.name());
+		
+		System.out.println ("Quelle ressource voulez vous obtenir ?") ;
+		Paysage p2 = demanderRessource() ;
+		for (Port port : j.ports) {
+			if (port instanceof PortSpecial) {
+				if ( ((PortSpecial) port).Ressource == p2 ) {
+					this.taux = 2 ;
 				}
-			}
-
-			System.out.println("Quelle ressource voulez vous obtenir ?");
-			Paysage p2 = demanderRessource();
-			for (Port port : j.ports) {
-				if (port instanceof PortSpecial) {
-					if (((PortSpecial) port).Ressource == p2) {
-						this.taux = 2;
-					}
-
+				
+				
 				}
-			}
-			boolean legal = false;
-			// conversion paysage ressource
-			switch (p) {
-
-				case MONTAGNE:
-					if (j.getInventaire().getPierre() >= taux) {
-
-						j.getInventaire().payPierre(taux);
-						break;
-					}
-
-				case PRE:
-					if (j.getInventaire().getMouton() >= taux) {
-
-						j.getInventaire().payMouton(taux);
-						break;
-
-					}
-
-				case FORET:
-					if (j.getInventaire().getBois() >= taux) {
-
-						j.getInventaire().payBois(taux);
-						break;
-
-					}
-				case COLLINE:
-					if (j.getInventaire().getArgile() >= taux) {
-
-						j.getInventaire().payArgile(taux);
-						break;
-
-					}
-
-				case CHAMP:
-					if (j.getInventaire().getBle() >= taux) {
-
-						j.getInventaire().payBle(taux);
-						break;
-
-					}
-
-				default:
-					return;
-			}
-
-			// et si c est lï¿½gal on verse la ressource achetï¿½e
-
-			if (legal) {
-				switch (p) {
-
-					case MONTAGNE:
-
-						j.getInventaire().addPierre(1);
-
-					case PRE:
-
-						j.getInventaire().addMouton(1);
-
-					case FORET:
-
-						j.getInventaire().addBois(1);
-
-					case COLLINE:
-
-						j.getInventaire().addArgile(1);
-
-					case CHAMP:
-						j.getInventaire().addBle(1);
-
-					default:
-						return;
-
-				}
-			} else {
-				System.out.println("transaction illï¿½gale");
-			}
-
 		}
-	}
-
-	public Paysage demanderRessource() {
-		System.out.println(
-				" Sï¿½lectionnez une ressource :\n 1 : Bois\n 2 : Laine \n 3 : Fer \n 4 : Ble \n 5 : Argile");
-		Scanner sc = new Scanner(System.in);
-		int scan = sc.nextInt();
-		switch (scan) {
-			case 1:
-				return Paysage.FORET;
-
-			case 2:
-				return Paysage.PRE;
-
-			case 3:
-				return Paysage.MONTAGNE;
-
-			case 4:
-				return Paysage.CHAMP;
-
-			case 5:
-				return Paysage.COLLINE;
-
-			default:
-				System.out.println("vous devez donner un entier entre 1 et 5");
-				demanderRessource();
-
+boolean legal = false ;
+// conversion paysage ressource
+switch (p2) {
+	
+			
+		case MONTAGNE :
+			if (j.getR().getPierre() >= taux ) {
+	
+				j.getR().payPierre(taux);
+				legal = true ;
+				}
+			
+			
+			
+		case PRE :
+			if (j.getR().getMouton() >= taux ) {
+				
+				j.getR().payMouton(taux);
+				legal = true ;
+				}
+			
+			
+		case FORET :
+			if (j.getR().getBois() >= taux ) {
+				
+				j.getR().payBois(taux);
+				legal = true ;
+				}
+			
+			
+			
+		case COLLINE :
+			if (j.getR().getArgile() >= taux ) {
+				
+				j.getR().payArgile(taux);
+				legal = true ;
+				}
+			
+			
+		case CHAMP :
+			if (j.getR().getBle() >= taux ) {
+				
+				j.getR().payBle(taux);
+				legal = true ;
+				}
+			
+			
+		default :
+			break ;
+			
+		
+		
+			
 		}
-		return null;
+		
+// et si c est légal on verse la ressource achetée
+	
+if (legal ) { 
+System.out.println("la transaction peut avoir lieu") ;
+	
+	
+	switch (p) {
 
+
+case MONTAGNE :
+	
+		j.getR().addPierre(1);
+		
+	
+	
+	
+case PRE :
+		
+		j.getR().addMouton(1);
+		
+	
+	
+case FORET :
+	
+		j.getR().addBois(1);
+		
+	
+	
+	
+case COLLINE :
+		
+		j.getR().addArgile(1);
+		
+	
+	
+case CHAMP :
+		j.getR().addBle(1);
+		
+	
+	
+default :
+	return ;
+	
+
+		
 	}
+}
+else { System.out.println("transaction illégale") ; }
+
+}
+	
+	
+}
+
+
+public Paysage demanderRessource() {
+    System.out.println(
+           " Sélectionnez une ressource :\n 1 : Bois\n 2 : Laine \n 3 : Pierre \n 4 : Champ \n 5 : Argile");
+    Scanner sc = new Scanner (System.in);
+    int scan = sc.nextInt();
+    switch (scan) {
+        case 1:
+        	 return Paysage.FORET ;
+            
+        case 2:
+            return Paysage.PRE ;
+            
+
+        case 3:
+            return Paysage.MONTAGNE ;
+           
+
+        case 4:
+        	return Paysage.CHAMP ;
+            
+
+        case 5:
+            return Paysage.COLLINE ;
+
+        default:
+            System.out.println("vous devez donner un entier entre 1 et 5");
+            demanderRessource();
+
+    }
+	return null;
+   
+	
+
+}
+
+
+
 
 }
