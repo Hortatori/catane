@@ -8,12 +8,9 @@ import java.awt.Color ;
 public class Joueur {
 private String nom ;
 private boolean ia ;
-// private Ressources ressources ;
+private Ressources ressources ;
 private Color couleur ;
 public static int totalj  = 0;
-private int pts_victoire = 0 ;
-private Partie partie;
-private Inventaire inventaire = new Inventaire();
 
 ArrayList<Sommet> colonies  = new ArrayList<Sommet> () ;
 ArrayList<Port> ports = new ArrayList <Port>() ;
@@ -25,13 +22,13 @@ public void setCouleur (Color c ) {
 	this.couleur = c ;}
 
 
-// public Ressources getR() {
-// 	return ressources;
-// }
+public Ressources getR() {
+	return ressources;
+}
 
-// public void setR(Ressources r) {
-// 	this.ressources = r;
-// }
+public void setR(Ressources r) {
+	this.ressources = r;
+}
 
 public String getNom() {
 	return nom;
@@ -62,10 +59,6 @@ public int getPts_victoire() {
 	return pts_victoire;
 }
 
-public Inventaire getInventaire() {
-    return this.inventaire;
-}
-
 
 
 public void afficherRoutes() { 
@@ -79,14 +72,15 @@ public void afficherRoutes() {
 
 
 
-
+private int pts_victoire = 0 ;
+private Partie partie;
 
 
  Joueur(String nom, Partie p) {
 	super();
 	this.partie = p ;
 	this.nom = nom;
-	// this.ressources = new Ressources();
+	this.ressources = new Ressources();
 	totalj ++; 
 	
 }
@@ -106,8 +100,8 @@ public int getPts() {return this.pts_victoire ; }
 
 
 public String toString() {
-	String st = "JOUEUR : " +this.nom + "\n"+ "RESSOURCES : " + "Argile : " + this.inventaire.getArgile() + " Blï¿½ : " +
-this.inventaire.getBle() + " Bois : "+ this.inventaire.getBois() + " Fer : " +this.inventaire.getFer() +" Pierre : "+this.inventaire.getPierre() ;
+	String st = "JOUEUR : " +this.nom + "\n"+ "RESSOURCES : " + "Argile : " + this.ressources.getArgile() + " Blé : " +
+this.ressources.getBle() + " Bois : "+ this.ressources.getBois() + " Mouton : " +this.ressources.getMouton() +" Pierre : "+this.ressources.getPierre() ;
 	
 	return st ;
 	
@@ -126,19 +120,19 @@ this.inventaire.getBle() + " Bois : "+ this.inventaire.getBois() + " Fer : " +th
 
 public void placerColonieInit(Sommet s) {
 
-    if (this.inventaire.getCompteurColonies() == 0) {
-        System.out.println("vous n'avez plus de colonies ï¿½ poser!");
+    if (this.ressources.getCompteurColonies() == 0) {
+        System.out.println("vous n'avez plus de colonies à poser!");
         return;
     }
     if (s.colonie == true) {
     	
-    	System.out.println("Il y a dï¿½jï¿½ une colonie ici") ;
+    	System.out.println("Il y a déjà une colonie ici") ;
     	return ;
     }
     s.colonie = true;
     this.colonies.add(s);
     
-  // on stocke l'info si une colonie est associï¿½e ï¿½ un port pour faciliter l implï¿½mentation du commerce.
+  // on stocke l'info si une colonie est associée à un port pour faciliter l implémentation du commerce.
     for (Port p : this.partie.plateau.ports) {
     	if ( (p.getS1() == s) || (p.getS2() == s) ){
     		this.ports.add(p) ;
@@ -146,14 +140,14 @@ public void placerColonieInit(Sommet s) {
     }
     
     
-    this.inventaire.placeColonie() ;
+    this.ressources.placeColonie() ;
     this.pts_victoire++;
-    System.out.println("colonie crï¿½ï¿½e !");
+    System.out.println("colonie créée !");
 }
 
 public void placerVilleInit(Sommet s) {
-    if (this.inventaire.getCompteurVilles() == 0) {
-        System.out.println("Vous n'avez plus de ville ï¿½ poser !");
+    if (this.ressources.getCompteurVilles() == 0) {
+        System.out.println("Vous n'avez plus de ville à poser !");
         return;
     }
     if ((this.colonies.contains(s)) && (!s.ville)) {
@@ -161,12 +155,12 @@ public void placerVilleInit(Sommet s) {
         
         
         
-        this.inventaire.placeVille();
+        this.ressources.placeVille();
         this.pts_victoire++;
-        System.out.println("ville crï¿½ï¿½e !");
+        System.out.println("ville créée !");
         
     } else {
-        System.out.println("Il vous faut dï¿½jï¿½ avoir une colonie ï¿½ cet endroit pour la faire ï¿½voluer en ville !");
+        System.out.println("Il vous faut déjà  avoir une colonie à cet endroit pour la faire évoluer en ville !");
         return;
     }
 
@@ -181,7 +175,7 @@ public void placerRoute(Sommet s1, Sommet s2, Plateau plateau) {
 
         this.routes.add(routeTouteNeuve);
         plateau.routes.add(routeTouteNeuve);
-        this.inventaire.placeRoute();
+        this.ressources.placeRoute();
        
         plateau.routes.add(routeTouteNeuve);
         Sommet d = routeTouteNeuve.depart ;
@@ -195,7 +189,7 @@ public void placerRoute(Sommet s1, Sommet s2, Plateau plateau) {
             plateau.setRouteVerticale(d.hauteur +2, d.largeur+2);
         }
         // TODO plateau maj routes
-        System.out.println("route crï¿½ï¿½e!");
+        System.out.println("route créée!");
     
     
     
@@ -221,23 +215,23 @@ public void PossedeCase (Case elue) {
 			
 		
 			case MONTAGNE :
-				this.inventaire.addPierre(coef);
+				this.ressources.addPierre(coef);
 				
 				
 			case PRE :
-				this.inventaire.addMouton(coef);
+				this.ressources.addMouton(coef);
 			
 				
 			case FORET :
-				this.inventaire.addBois(coef);
+				this.ressources.addBois(coef);
 				
 				
 			case COLLINE :
-				this.inventaire.addArgile(coef);
+				this.ressources.addArgile(coef);
 				
 				
 			case CHAMP :
-				this.inventaire.addBle(coef);
+				this.ressources.addBle(coef);
 				
 				
 			default :
@@ -260,7 +254,7 @@ public void PossedeCase (Case elue) {
 
 public void afficherColonies() {
 	
-	System.out.println( this.nom + " possï¿½de les colonies suivantes : " );
+	System.out.println( this.nom + " possède les colonies suivantes : " );
 
 	for (Sommet s : this.colonies) {
 		

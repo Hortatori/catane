@@ -135,8 +135,6 @@ public void AccueilTexte() {
 
     System.out.println(bienvenue + " !");
 
-    this.plateau = new Plateau();
-
     plateau.afficherPlateau();
 
    
@@ -156,14 +154,20 @@ public void initialiser() {
 		VueJoueur vj = new VueJoueur () ;
 		CoordPanel p= vj.new CoordPanel("Cliquez sur le bouton correspondant � l 'endroit ou vous voulez installer une colonie" );
 		
+		
+		
 		vj.add (new JLabel ("Vous pouvez placer une premi�re colonie gratuitement "));
 		this.view.add (vj);
-		int [] result = p.getResult();
-		while ( result [0] == 42 )  {
-			System.out.println("booo") ;
-		}
-		ij.construireColonie(j, result [0] , result [1]);
 		
+		// PROBLEME ICI : COMMENT GERER LE FAIT QUE LE PROGRAMME ATTENDE LA REPONSE DU JOUEUR AVANT DE PASSER A LA SUITE ? 
+		int [] result = p.getResult();
+		
+		
+//		while ( result [0] == 42 )  {
+//			// System.out.println("booo") ;
+//		}
+//		ij.construireColonie(j, result [0] , result [1]);
+//		
 	}
 	}
 	
@@ -172,39 +176,39 @@ public void initialiser() {
 	     for (Joueur joueur : joueurs) {
 	     
 	    	
-	    	int [] coord =  ij.getCoord (joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�es") ;
-	    		 int X = coord [0];
-	    		int Y = coord [1];
-	    	  
 	    	
-	     ij.construireColonie(joueur, X, Y);
+	    	  
+	    int [] tab = tab = ij.getCoord (joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�es") ;
+	     ij.construireColonie(joueur, tab);
 	     // on attribue une ressource initiale
-	     
+	     Sommet etoile = joueur.colonies.get(0) ;
 	     for (Case [] tc : this.plateau.plateauC) {
 	 		for (Case c : tc) {
-	 			if (c.Sommets.contains(joueur))
-	 				joueur.PossedeCase(c);
+	 				if ((c.NE == etoile) || (c.SE == etoile) || (c.NO == etoile) ||(c.SO == etoile) ) {
+	 				String message = "Gr�ce � sa colonie situ�e en " + etoile.AfficherCoord()+ " , "+ joueur.getNom() + " touche une ressource" ;
+	 				System.out.println(message) ;
+	 				joueur.getR().incrementRessource(c.type, 1); }
 	 			}
 	 			
 	 		}
-	 	
+	     ij.construireRoute(joueur, ij.getCoord (joueur.getNom() + ", pour placer une route , donnez les coordonn�es du d�part"), ij.getCoord ("et celle de l'arriv�e"));
+	     System.out.println(etoile.AfficherCoord() );
+	     }
 	     
-	     ij.construireRoute(joueur);
+	      
 	     }
 //	     System.out.println("Et on recommence dans l ordre inverse");
 //	     
 //	     for (int i = 0 ; i< this.n_joueur ; i++) {
 //	    	 Joueur joueur = this.joueurs.get(i) ;
-//	    		 int [] coord =  ij.getCoord (joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�es") ;
-//	    	int 	X = coord [0];
-//	    	int 	Y = coord [1];
-//	    	 
-//	    	 ij.construireColonie(joueur, X, Y);
-//	    	 ij.construireRoute(joueur);
+//	    		 
+//	    	 ij.construireColonie(joueur, ij.getCoord (joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�es"));
+//	    	 ij.construireRoute(joueur, ij.getCoord (joueur.getNom() + ", pour placer une route , donnez les coordonn�es du d�part"), ij.getCoord ("et celle de l'arriv�e"));
+         
 //	     }
 	     
 	    System.out.println("D�but de la partie !");
-	}
+	
 	
 }
 
@@ -308,7 +312,9 @@ public void printTables() {
 }
 public int LanceDe() {
     Random rd = new Random();
-    int de = rd.nextInt(11) + 2;
+    int de1 = rd.nextInt(6) + 1;
+    int de2 = rd.nextInt(6) + 1;
+    int de = de1 +de2 ;
     System.out.println("Les d�s ont donn� " + de + " ! ");
     return de ;
 
@@ -316,22 +322,23 @@ public int LanceDe() {
 
 public void Tour (Joueur leader) {
 	int de = LanceDe()  ;
-	// update les ressources par rapport au lanc� de d�
+
+	// on update les ressources selon le lanc� du d�
 	
-	
-	for (Case [] tc : this.plateau.plateauC) {
-		for (Case c : tc) {
-			for (Joueur j : this.joueurs) {
-			
-				j.PossedeCase(c);
-			}
-			
-		}
+	LinkedList<Case> elues = plateau.getCase(de);
+	for (Case c : elues) {
+		for (Joueur j : this.joueurs )
+		c.checkCornerIncrement(j);
 	}
+	
 	
 	if (this.plateau.graphique == false ) {
 		System.out.println("C'est � "+ leader.getNom()+ " de jouer");
-		System.out.println(leader.getInventaire());
+		System.out.println(leader.getR());
+		
+		
+		
+		
 		leader.afficherColonies();
 		leader.afficherPort();
 		this.ij.actions(leader);
@@ -344,6 +351,8 @@ public void Tour (Joueur leader) {
 	
 	
 }
+
+
 
 
 

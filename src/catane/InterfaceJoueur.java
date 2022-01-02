@@ -46,22 +46,26 @@ public void actions(Joueur joueur) {
     switch (scan) {
         case 1:
         	 
-        		 int [] coord =  getCoord (joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�es") ;
-        		int X = coord [0];
-        		int Y = coord [1];
+        		 
+        		 
         	 
-            construireColonie(joueur, X , Y);
+            construireColonie(joueur,getCoord (joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�es") );
+   
             break;
         case 2:
-            construireVille(joueur);
+        	
+        	
+        	
+            construireVille(joueur, getCoord (joueur.getNom() + ", pour placer une ville , donnez ses coordonn�es"));
             break;
 
         case 3:
-            construireRoute(joueur);
+            construireRoute(joueur, getCoord (joueur.getNom() + ", pour placer une route , donnez les coordonn�es du d�part"), getCoord ("et celle de l'arriv�e"));
             break;
 
         case 4:
-          //  Commerce(this.sc, joueur);
+        	OperationCommerciale tc = new OperationCommerciale(joueur) ;
+        	tc.effectuer(false);
             break;
 
         case 5:
@@ -89,9 +93,10 @@ public int [] getCoord(String question ) {
 	 int [] result = {X , Y};
 	 return result ;
 }
-public void construireColonie(Joueur joueur, int X, int Y) {
+public void construireColonie(Joueur joueur, int [] tab) {
   
- 
+	int X = tab[0] +1 ;
+	int Y = tab [1] +1;  // pb de l indice est ici +1 a jouter ou pas
   boolean flag = true ;
   
   if (plateau.plateauS[X][Y].colonie) {
@@ -140,33 +145,30 @@ public void construireColonie(Joueur joueur, int X, int Y) {
     }
     else {
     	 if (this.plateau.graphique == false) {
-    		 int [] coord =  getCoord (joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�es") ;
-    		X = coord [0];
-    		Y = coord [1];
-    	 
+    		 
     	  
-    	construireColonie(joueur, X, Y)  ; }
+    	construireColonie(joueur, getCoord (joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�es"))  ; }
     }
     
       }
 	
     
 
-public void construireVille(Joueur joueur) {
+public void construireVille(Joueur joueur, int[] tab) {
 	 
-	  System.out.println(joueur.getNom() + ", pour placer une ville , donnez ses coordonn�es");
-	  int scan = sc.nextInt();
-	  int X = answerInPlateau(scan, 0);
-	  scan = sc.nextInt();
-	  int Y = answerInPlateau(scan, 1);
+	  int X = tab [0] +1 ;
+	  int Y = tab [1] +1 ;
 	  Sommet considere = plateau.plateauS[Y][X] ;
 
 	      if ((considere.colonie) && (joueur.colonies.contains(considere)))
+	    	  // verifier si pas d�j� colonie
 	      {
 	      joueur.placerColonieInit(plateau.plateauS[Y][X]);
 	      plateau.afficherPlateau();
 	      }
-	      else  {System.out.println("Vous devez poss�der une colonie pour l am�liorer en ville") ; }
+	      else  {System.out.println("Vous devez poss�der une colonie pour l am�liorer en ville") ;
+	      construireVille( joueur,  getCoord (joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�es")) ;
+	      }
 }
 	     
 
@@ -176,20 +178,14 @@ public void construireVille(Joueur joueur) {
  
 
 //************construction route***************
-public void construireRoute(Joueur joueur) {
+public void construireRoute(Joueur joueur, int[] tabd, int[] tabf) {
   System.out.println(
           joueur.getNom() + ", pour placer une Route, donnez les coordonnées de dbut et de fin de la route");
-
-  System.out.println("Donnez les coordonnées du d�but de la route");
-  int scan = sc.nextInt();
-  int debutX = answerInPlateau(scan, 0);
-  scan = sc.nextInt();
-  int debutY = answerInPlateau(scan, 1);
-  System.out.println("Donner les coordonn�es d'arriv�e de la route");
-  scan = sc.nextInt();
-  int finX = answerInPlateau(scan, 0);
-  scan = sc.nextInt();
-  int finY = answerInPlateau(scan, 1);
+  int debutX = tabd[0] +1;
+  int debutY = tabd[1] +1;
+  int finX = tabf[0] +1;
+  int finY = tabf[1] +1 ;
+  
   // Attention, dans le tableau le premier �l�ment renvoie � la hauteur, le second � la l abcisse
   Sommet s1 = plateau.plateauS[debutY][debutX];
   Sommet s2 = plateau.plateauS[finY][finX];
@@ -231,43 +227,44 @@ public void construireRoute(Joueur joueur) {
   else { 
 	  
 	  System.out.println("les conditions ne sont pas r�unies");
-	  construireRoute(joueur);}
+	  construireRoute(joueur,getCoord (joueur.getNom() + ", pour placer une route , donnez les coordonn�es du d�part"), getCoord ("et celle de l'arriv�e"));
+      }
   //this.printTables();
 }
 
 
-
+//
 public Paysage demandeRessource() {
-    System.out.println(
-           " S�lectionnez une ressource :\n 1 : Bois\n 2 : Laine \n 3 : Pierre \n 4 : Champ \n 5 : Argile");
-    int scan = this.sc.nextInt();
-    switch (scan) {
-        case 1:
-        	return Paysage.FORET ;
-            
-            
-        case 2:
-            return Paysage.PRE ;
+   System.out.println(
+          " S�lectionnez une ressource :\n 1 : Bois\n 2 : Laine \n 3 : Pierre \n 4 : Champ \n 5 : Argile");
 
-        case 3:
-            return Paysage.MONTAGNE ;
+   int scan = this.sc.nextInt();
+   switch (scan) {
+       case 1:
+       	 return Paysage.FORET ;
+           
+       case 2:
+           return Paysage.PRE ;
 
-        case 4:
-        	return Paysage.CHAMP ;
+       case 3:
+           return Paysage.MONTAGNE ;
 
-        case 5:
-            return Paysage.COLLINE ;
+       case 4:
+       	return Paysage.CHAMP ;
 
-        default:
-            System.out.println("vous devez donner un entier entre 1 et 5");
-            return demandeRessource();
-            
+       case 5:
+           return Paysage.COLLINE ;
 
-    }
+       default:
+           System.out.println("vous devez donner un entier entre 1 et 5");
+           return demandeRessource();
+
+   } }
+
    
 	
 
-}
+
 
 
 

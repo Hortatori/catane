@@ -12,7 +12,6 @@ import java.awt.Graphics2D ;
 import java.awt.geom.Ellipse2D ;
 import java.awt.geom.Ellipse2D.Double ;
 
-import catane.Paysage;
 
 public class Plateau {
 Case[] [] plateauC ;
@@ -31,7 +30,7 @@ public Plateau() {
 Sommet[][] plateaus = new Sommet[7][7] ;
 for (int i = 0 ; i<7 ; i++ ) {
 	for (int j = 0 ; j<7 ; j++ ) {
-		plateaus [i][j] = new Sommet(i-1, j-1) ;	
+		plateaus [i][j] = new Sommet(i-1, j-1) ;	// test sans le -1
 		//System.out.println(plateauS [i][j])
 									}
 							}
@@ -70,9 +69,11 @@ for (int i = 0 ; i<7 ; i++ ) {
 }
 }
 
-for (int i = 1 ; i<6 ; i++ ) {
-		
-		for (int j = 1 ; j<6 ; j++ ) {
+for (int i = 1 ; i<7 ; i++ ) {
+		// for (int i = 1 ; i<6 ; i++ ) {
+		//  indexes ancienne version pour rappel
+		// for (int j = 1 ; j<6 ; j++ ) {
+		for (int j = 1 ; j<7 ; j++ ) {
 			routesHorizontales [i][j] = "-------------" ;		
 			//System.out.println(routesHorizontales[i][j]);
 	}
@@ -272,17 +273,27 @@ for (int i = 0 ; i<4 ; i++ ) {
 			while (sint.length() < 15 )  {
 				sint += " " ;}
 			
-			sc += this.routesVerticales[i+1][j+1] + sint ;
-			sstandard += this.routesVerticales[i+1][j+1]+"  		" ;
-			ss += this.plateauS[i][j].toString() +  this.routesHorizontales[i+1][j+1] ;
+			sc += this.routesVerticales[i+2][j+2] + sint ;
+			sstandard += this.routesVerticales[i+2][j+2]+"  		" ;
+			ss += this.plateauS[i+1][j+1].toString() +  this.routesHorizontales[i+2][j+2] ;
 			
 			
 			
 		}
 		sstandard += this.routesVerticales[i+1][4+1] ;
-		ss += this.plateauS[i][4] ;
-		sc += this.routesVerticales[i+1][3+1]	;	
-		
+		ss += this.plateauS[i+1][5] ;
+		sc += this.routesVerticales[i+2][3+2]	;	
+				// anciens indexes pour rappel
+				// 	sc += this.routesVerticales[i+1][j+1] + sint ;
+				// 	sstandard += this.routesVerticales[i+1][j+1]+"  		" ;
+				// 	ss += this.plateauS[i][j].toString() +  this.routesHorizontales[i+1][j+1] ;
+					
+					
+					
+				// }
+				// sstandard += this.routesVerticales[i+1][4+1] ;
+				// ss += this.plateauS[i][4] ;
+				// sc += this.routesVerticales[i+1][3+1]	;	
 		
 		if (!alter) {
 			sc += mer ;
@@ -313,9 +324,15 @@ for (int i = 0 ; i<4 ; i++ ) {
 
 String ss = mer ;
 for (int j = 0 ; j<4 ; j++ ) {
-	ss +=  this.plateauS[4][j].toString() +  this.routesHorizontales[4+1][j+1] ;
+	ss +=  this.plateauS[5][j+1].toString() +  this.routesHorizontales[4+2][j+2] ;
 		}
-	ss += this.plateauS[4][4]+mer ;
+	ss += this.plateauS[5][5]+mer ;
+		//  anciens indexes pour rappel
+		// ss +=  this.plateauS[4][j].toString() +  this.routesHorizontales[4+1][j+1] ;
+		// }
+		// ss += this.plateauS[4][4]+mer ;
+
+
 System.out.println(ss);
 
 System.out.println(bottom1);
@@ -365,6 +382,17 @@ public void setRouteVerticale(int i, int j) {
 
 public void printBoolean () { for (Sommet[] s : this.plateauS ) { for (Sommet so : s) {System.out.println(so.colonie) ; }}}
 
+LinkedList<Case> getCase(int de) {
+	LinkedList<Case> elues = new LinkedList<Case> () ;
+	for (Case[] tc : this.plateauC) {
+		for (Case c : tc) {
+			if (c.getNumero() == de) { elues.add(c) ; 
+			System.out.println( " la case " + c.toString() + " produit !") ;}
+	}
+	
+}
+return elues ;
+}
 
 
 
@@ -375,9 +403,31 @@ public void printBoolean () { for (Sommet[] s : this.plateauS ) { for (Sommet so
 
 
 
-
-
-
+public void debug() {
+	for (Sommet[] st : this.plateauS) {
+		String string = "" ;
+	
+		for (Sommet s : st) { string += s.AfficherCoord() ; }
+		System.out.println(string) ;
+		
+		
+	
+	}
+	
+	for (Case[] st : this.plateauC) {
+		String string = "" ;
+	
+		for (Case s : st) { 
+			s.debug() ; }
+			//string += s.NO.AfficherCoord() ; }
+		//System.out.println(string) ;
+		
+		
+		
+	
+	}
+	
+}
 
 
 
