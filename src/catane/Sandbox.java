@@ -1,6 +1,5 @@
 package catane;
-
-
+import java.awt.Color ;
 public class Sandbox {
 
 public static void main ( String [] args )	 {
@@ -12,8 +11,9 @@ System.out.println("bouc");
 //Scanner sc = new Scanner(System.in);
 //Partie p = new Partie();
 //p.plateau.afficherPlateau3();
-// Plateau p = new Plateau();
-// p.afficherPlateau();
+//Plateau p = new Plateau();
+//p.afficherPlateau();
+System.out.println("voo") ;
 
 
 
@@ -24,9 +24,14 @@ javax.swing.SwingUtilities.invokeLater(
 			
 
 //		Vue v = new Vue(p.vp);
+//		Joueur J = new Joueur ("marielle") ;
 //		J.setCouleur(Color.BLUE);
 //		v.updateJoueur(J);
 		Partie p = new Partie();
+//		Plateau p = new Plateau(); 
+//		p.debug();
+		System.out.println("voo") ;
+		
 //		Sommet s = new Sommet (3, 2) ;
 //		Sommet s2 = new Sommet (0, 3) ;
 //		Route r = new Route (s, s2);
@@ -42,6 +47,6 @@ javax.swing.SwingUtilities.invokeLater(
 
 
 
-    }
 }
 	
+}

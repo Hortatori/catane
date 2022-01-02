@@ -99,14 +99,7 @@ public class Ressources {
            
         }
 	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	@Override
 	public String toString() {
@@ -123,5 +116,36 @@ public class Ressources {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
+
+	public void incrementRessource(Paysage paysage, int quantite) {
+        switch (paysage) {
+            case FORET:
+                this.bois+=quantite;
+                break;
+            case MONTAGNE:
+                this.pierre+=quantite;
+                break;
+
+            case COLLINE:
+                this.argile+=quantite;
+                break;
+
+            case PRE:
+                this.mouton+=quantite;
+                break;
+
+            case CHAMP:
+                this.ble+=quantite;
+                break;
+
+            case DESERT:
+                break;
+        }
+
+    }
 	
 }
