@@ -200,9 +200,9 @@ public void afficherPlateau() {
 	
 // pour la gestion des ports, on consid�re qu'ils seront g�r�s sur une Array list ind�pendante et qu'ils seront r�partis al�atoirement et ce en utilisant un incr�ment.
 String init ="		";
-String porttop = "~~~/���������\\~~" ;
-String portgauche = "~~~~/�����������" ;
-String portdroit = "�������������/~~~~	" ;	
+String porttop = "~~~/__________\\~~" ;
+String portgauche = "~~~~/___________/" ;
+String portdroit = "___________/~~~~	" ;	
 String portbottom = "~~~\\__________/~";
 String mer = "~~~~~~~~~~~~~~~~";
 

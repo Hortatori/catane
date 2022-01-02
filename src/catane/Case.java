@@ -9,6 +9,7 @@ Sommet SO ;
 Sommet SE ;
 Paysage type ;
 int numero ;
+private boolean voleur;
 LinkedList<Sommet> Sommets  = new LinkedList<Sommet>() ;
 
 
@@ -19,6 +20,13 @@ public void setType(Paysage t) {this.type = t;}
 public void setNumber(int i) {this.numero = i;}
 
 public int getNumero() { return this.numero ;}
+
+public boolean getStatutVoleur(){
+	return voleur;
+}
+public void setStatutVoleur(boolean vol){
+	this.voleur=vol;
+}
 
 
 

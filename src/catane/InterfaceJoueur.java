@@ -86,9 +86,10 @@ public void actions(Joueur joueur) {
 
 
 public int [] getCoord(String question ) {
-	int scan = sc.nextInt();
+    System.out.println(question);
+	int scan = this.sc.nextInt();
 	  int X = answerInPlateau(scan, 0);
-	  scan = sc.nextInt();
+	  scan = this.sc.nextInt();
 	  int Y = answerInPlateau(scan, 1);
 	 int [] result = {X , Y};
 	 return result ;
@@ -260,6 +261,8 @@ public Paysage demandeRessource() {
            return demandeRessource();
 
    } }
+
+
 
    
 	

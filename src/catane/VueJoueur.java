@@ -38,7 +38,7 @@ Joueur joueur ;
 //	VueJoueur(Joueur j){
 //		this() ;
 //		
-//		this.add (new JLabel ("placez votre colonie de départ")) ; 
+//		this.add (new JLabel ("placez votre colonie de dï¿½part")) ; 
 //		
 //	}
 	
@@ -47,7 +47,7 @@ Joueur joueur ;
 		this();
 		this.joueur = j ;
 		if (de != 42) {
-		this.add (new JLabel ( " Le dé a donné"+ de)) ; }
+		this.add (new JLabel ( " Le dï¿½ a donnï¿½"+ de)) ; }
 		
 		VueRessources r = new VueRessources(j);
 		
@@ -80,13 +80,13 @@ public class ActionPanel extends JPanel {
 		this.add(new JLabel ( " Choisissez une action :")) ;
 		
 		JButton colonie = new JButton("Placer une nouvelle colonie") ;
-		colonie . addActionListener( e -> { this.setVisible(false) ;
-										CoordPanel p= new CoordPanel("Cliquez sur le bouton correspondant à l 'endroit ou vous voulez installer une colonie" );
-										VueJoueur.this.add (p);
-										int [] result = p.getResult();
-										ConstruireColonie(VueJoueur.this.joueur, result [0] , result [1]);
+		// colonie . addActionListener( e -> { this.setVisible(false) ;
+		// 								CoordPanel p= new CoordPanel("Cliquez sur le bouton correspondant ï¿½ l 'endroit ou vous voulez installer une colonie" );
+		// 								VueJoueur.this.add (p);
+		// 								int [] result = p.getResult();
+		// 								ConstruireColonie(VueJoueur.this.joueur, result [0] , result [1]);
 										
-			;} ) ;
+			// ;} ) ;
 		this.add(colonie);
 		
 		
