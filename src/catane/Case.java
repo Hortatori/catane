@@ -18,7 +18,6 @@ public void setType(Paysage t) {this.type = t;}
 
 public void setNumber(int i) {this.numero = i;}
 
-public int getNumero() { return this.numero ;}
 
 
 
@@ -36,15 +35,7 @@ public Case(Sommet nO, Sommet nE, Sommet sO, Sommet sE) {
 }
 
 public String toString() {
-	return this.type.toString() + " " + this.numero ;
-}
-
-public void debug() {
-	System.out.println(this.toString());
-	for (Sommet s : this.Sommets ) {
-		System.out.println( s.AfficherCoord() ) ;
-	}
-}
+	return this.type.toString() + " " + this.numero ; }
 
 public void afficheSommets() {
 	for (Sommet s : this.Sommets ) {
@@ -52,28 +43,23 @@ public void afficheSommets() {
 	}
 }
 
-
-public void checkCornerIncrement(Joueur joueur) {
+public void checkCornerIncrement(Joueur joueur, int quantite) {
     if (joueur.getColonies().contains(this.NE)) {
 
-        joueur.getR().incrementInventaire(this.type);
+        joueur.getInventaire().incrementInventaire(this.type, quantite);
     }
     if (joueur.getColonies().contains(this.NO)) {
 
-        joueur.getR().incrementInventaire(this.type);
+        joueur.getInventaire().incrementInventaire(this.type, quantite);
     }
     if (joueur.getColonies().contains(this.SO)) {
 
-        joueur.getR().incrementInventaire(this.type);
+        joueur.getInventaire().incrementInventaire(this.type, quantite);
     }
     if (joueur.getColonies().contains(this.SE)) {
 
-        joueur.getR().incrementInventaire(this.type);
+        joueur.getInventaire().incrementInventaire(this.type, quantite);
     }
 }
-
-
-
-
 
 }

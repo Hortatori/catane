@@ -83,10 +83,10 @@ public class VueAccueil extends JPanel {
 	public static void IAset() {
 		iaset ++ ;
 	}
-
 	public class NameBox extends JPanel {
 		int i ;
 		JTextField tf ;
+
 		public NameBox(int i) {
 			
 		super();
@@ -108,17 +108,7 @@ public class VueAccueil extends JPanel {
 		VueAccueil.this.add(iab);
 		VueAccueil.this.remove(this);
 		
-		
-		
-		
-		
 		}
-		
-				
-				
-				
-				
-				
 				
 				);
 		this.add(tf);

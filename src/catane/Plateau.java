@@ -12,6 +12,7 @@ import java.awt.Graphics2D ;
 import java.awt.geom.Ellipse2D ;
 import java.awt.geom.Ellipse2D.Double ;
 
+import catane.Paysage;
 
 public class Plateau {
 Case[] [] plateauC ;
@@ -30,7 +31,7 @@ public Plateau() {
 Sommet[][] plateaus = new Sommet[7][7] ;
 for (int i = 0 ; i<7 ; i++ ) {
 	for (int j = 0 ; j<7 ; j++ ) {
-		plateaus [i][j] = new Sommet(i-1, j-1) ;	// test sans le -1
+		plateaus [i][j] = new Sommet(i-1, j-1) ;	
 		//System.out.println(plateauS [i][j])
 									}
 							}
@@ -69,9 +70,9 @@ for (int i = 0 ; i<7 ; i++ ) {
 }
 }
 
-for (int i = 1 ; i<7 ; i++ ) {
+for (int i = 1 ; i<6 ; i++ ) {
 		
-		for (int j = 1 ; j<7 ; j++ ) {
+		for (int j = 1 ; j<6 ; j++ ) {
 			routesHorizontales [i][j] = "-------------" ;		
 			//System.out.println(routesHorizontales[i][j]);
 	}
@@ -137,7 +138,7 @@ for (int i = 0 ; i<4 ; i++ ) {
 }
 }
 
-// on paramétrise la fonction pour pouvoir la généraliser plus facilement
+// on paramï¿½trise la fonction pour pouvoir la gï¿½nï¿½raliser plus facilement
 public void setPorts(int largeur, int longueur) {
 	int nb_ports = largeur + longueur ;
 	LinkedList<Port> ports = new LinkedList<Port>() ;
@@ -196,15 +197,15 @@ public void affichePorts() {
 
 public void afficherPlateau() {
 	
-// pour la gestion des ports, on considère qu'ils seront gérés sur une Array list indépendante et qu'ils seront répartis aléatoirement et ce en utilisant un incrément.
+// pour la gestion des ports, on considï¿½re qu'ils seront gï¿½rï¿½s sur une Array list indï¿½pendante et qu'ils seront rï¿½partis alï¿½atoirement et ce en utilisant un incrï¿½ment.
 String init ="		";
-String porttop = "~~~/¨¨¨¨¨¨¨¨¨\\~~" ;
-String portgauche = "~~~~/¨¨¨¨¨¨¨¨¨¨¨" ;
-String portdroit = "¨¨¨¨¨¨¨¨¨¨¨¨¨/~~~~	" ;	
+String porttop = "~~~/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\\~~" ;
+String portgauche = "~~~~/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" ;
+String portdroit = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/~~~~	" ;	
 String portbottom = "~~~\\__________/~";
 String mer = "~~~~~~~~~~~~~~~~";
 
-// Ce code est compliqué mais il pourra permettre plus facilement une extension du plateau
+// Ce code est compliquï¿½ mais il pourra permettre plus facilement une extension du plateau
 int index_port = 0 ;
 LinkedList<Integer> porttab = new LinkedList<Integer>() ;
 porttab.add(1);
@@ -271,16 +272,16 @@ for (int i = 0 ; i<4 ; i++ ) {
 			while (sint.length() < 15 )  {
 				sint += " " ;}
 			
-			sc += this.routesVerticales[i+2][j+2] + sint ;
-			sstandard += this.routesVerticales[i+2][j+2]+"  		" ;
-			ss += this.plateauS[i+1][j+1].toString() +  this.routesHorizontales[i+2][j+2] ;
+			sc += this.routesVerticales[i+1][j+1] + sint ;
+			sstandard += this.routesVerticales[i+1][j+1]+"  		" ;
+			ss += this.plateauS[i][j].toString() +  this.routesHorizontales[i+1][j+1] ;
 			
 			
 			
 		}
 		sstandard += this.routesVerticales[i+1][4+1] ;
-		ss += this.plateauS[i+1][5] ;
-		sc += this.routesVerticales[i+2][3+2]	;	
+		ss += this.plateauS[i][4] ;
+		sc += this.routesVerticales[i+1][3+1]	;	
 		
 		
 		if (!alter) {
@@ -312,9 +313,9 @@ for (int i = 0 ; i<4 ; i++ ) {
 
 String ss = mer ;
 for (int j = 0 ; j<4 ; j++ ) {
-	ss +=  this.plateauS[5][j+1].toString() +  this.routesHorizontales[4+2][j+2] ;
+	ss +=  this.plateauS[4][j].toString() +  this.routesHorizontales[4+1][j+1] ;
 		}
-	ss += this.plateauS[5][5]+mer ;
+	ss += this.plateauS[4][4]+mer ;
 System.out.println(ss);
 
 System.out.println(bottom1);
@@ -364,17 +365,6 @@ public void setRouteVerticale(int i, int j) {
 
 public void printBoolean () { for (Sommet[] s : this.plateauS ) { for (Sommet so : s) {System.out.println(so.colonie) ; }}}
 
-LinkedList<Case> getCase(int de) {
-	LinkedList<Case> elues = new LinkedList<Case> () ;
-	for (Case[] tc : this.plateauC) {
-		for (Case c : tc) {
-			if (c.getNumero() == de) { elues.add(c) ; 
-			System.out.println( " la case " + c.toString() + " produit !") ;}
-	}
-	
-}
-return elues ;
-}
 
 
 
@@ -385,31 +375,9 @@ return elues ;
 
 
 
-public void debug() {
-	for (Sommet[] st : this.plateauS) {
-		String string = "" ;
-	
-		for (Sommet s : st) { string += s.AfficherCoord() ; }
-		System.out.println(string) ;
-		
-		
-	
-	}
-	
-	for (Case[] st : this.plateauC) {
-		String string = "" ;
-	
-		for (Case s : st) { 
-			s.debug() ; }
-			//string += s.NO.AfficherCoord() ; }
-		//System.out.println(string) ;
-		
-		
-		
-	
-	}
-	
-}
+
+
+
 
 
 
