@@ -286,7 +286,9 @@ public void afficherCartes() {
 	}
 }
 
-
+public void  incrementeVictoire() {
+	this.pts_victoire ++ ;
+}
 public Joueur nextJoueur() {
 	int rang = this.partie.joueurs.indexOf(this);
 	if  (rang == this.partie.getN_joueur()-1)  {return this.partie.joueurs.get(0);}

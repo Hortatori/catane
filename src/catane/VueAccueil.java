@@ -67,7 +67,7 @@ public class VueAccueil extends JPanel {
 	
 	public void setJoueurs(int nbj ) {
 		this.nbj = nbj ;
-		
+		this.p.setN_joueur(nbj);
 		System.out.println(nbj);
 		for (int i = 0 ; i<nbj; i++) {
 		System.out.println("ariv");
@@ -137,11 +137,13 @@ public class VueAccueil extends JPanel {
 
 		
 		public void finAccueil() {
+			
 			if(iaset == nbj) {
 				//VueAccueil.this.p.setCouleurJoueurs();
 				VueAccueil.this.setVisible(false);
-				VueAccueil.this.p.initialiser();
+				//VueAccueil.this.p.initialiser();
 				System.out.println("lets gooo");
+				p.view.getContentPane().remove(VueAccueil.this);
 				p.Jouer();
 			}
 			else {   System.out.println( iaset + "est diff de " + i) ;}
@@ -175,8 +177,21 @@ public class VueAccueil extends JPanel {
 		co.fill = GridBagConstraints.HORIZONTAL;
 		this.add(oui, co);
 		
+		
+		
+		
+		
+		
+		
+		
 		JButton non = new JButton("non") ;
-		non.addActionListener( e -> close() );
+		non.addActionListener( e -> { 
+		VueJoueur vj = new VueJoueur(j, VueAccueil.this,NameBox.this );
+		VueAccueil.this.setVisible(false);
+		j.partie.view.add(vj);
+		close() ;
+		}
+				);
 		GridBagConstraints cn = new GridBagConstraints();
 		cn.gridx = 0 ;
 		cn.gridy = 2 ;
@@ -194,12 +209,13 @@ public class VueAccueil extends JPanel {
 		void close() {
 		IAset() ;
 		this.setVisible(false);
-		finAccueil();
+		//finAccueil();
 		
 		}
 		}
 	
 	}
+	
 	
 	
 	

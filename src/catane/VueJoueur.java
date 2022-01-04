@@ -14,6 +14,8 @@ import java.awt.* ;
 import javax.swing.JLabel ;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.FlowLayout ;
+import catane.VueAccueil.NameBox;
 
 public class VueJoueur extends JPanel {
 	
@@ -22,6 +24,7 @@ int x ;
 int xbuffer ;
 int y ;
 int ybuffer ;
+static int init = 0 ;
 ActionPanel ap;
 public Paysage paysage;
 public Paysage paysage2;
@@ -32,7 +35,8 @@ public Paysage paysage2;
 		super();
 		this.setBackground(new Color(050, 000, 000));
 		this.setBounds(700,200, 300, 500);
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		//this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setLayout(new FlowLayout());
 //		GridBagConstraints c = new GridBagConstraints();
 //		c.gridx = 0;
 //		c.gridy = 0;
@@ -48,7 +52,8 @@ public Paysage paysage2;
 		
 		}
 	// il reste à gérer les tests de légalité de l opération, se servir des fonctions deja la
-	VueJoueur(Joueur j){
+	VueJoueur(Joueur j, VueAccueil va, NameBox nameBox){
+		
 		this() ;
 		this.joueur = j ;
 		j.vj = this;
@@ -74,6 +79,21 @@ public Paysage paysage2;
 					 j.partie.view.vp.drawRoute(j, r);
 					 pc.setVisible(false);
 					 
+					 
+					 // si succès
+					 nameBox.setVisible(true);
+					 incrementeInit();
+					 if (this.init == (j.partie.getN_joueur() ) ) {
+						 nameBox.finAccueil();
+						 System.out.println("initialisation terminée");
+					 }
+					 va.setVisible(true);
+					 
+					
+					 
+					 
+					 
+					 
 					 } );
 				 VueJoueur.this.add(pc);
 			 
@@ -96,10 +116,15 @@ public Paysage paysage2;
 		
 	}
 	
+	private void incrementeInit() {
+		this.init ++ ;
+		
+	}
 	VueJoueur(Joueur j, int de) {
 		
 		this();
 		this.joueur = j ;
+		
 		
 		this.joueur.partie.view.ResetCommunicator();
 		this.joueur.partie.view.Communicate("C'est le tour de "+ this.joueur.getNom());
@@ -128,7 +153,7 @@ Joueur j = VueJoueur.this.joueur ;
 	public ActionPanel() {
 		super();
 		this.setSize(300, 400) ;
-		this.setLayout ( new GridLayout (6, 1)) ;
+		this.setLayout ( new GridLayout (8, 1)) ;
 		this.setOpaque(false);
 		j.partie.view.Communicate("Choisissez une action ");
 		
@@ -136,14 +161,17 @@ Joueur j = VueJoueur.this.joueur ;
 		JButton colonie = new JButton("Placer une nouvelle colonie") ;
 		
 		colonie . addActionListener( e -> { this.setVisible(false) ;
+										j.partie.view.ResetCommunicator();
+										j.partie.view.Communicate(j.getNom());
 		 								CoordPanel p= new CoordPanel("Cliquez sur le bouton correspondant à l 'endroit ou vous voulez installer une colonie" , true);
 		 								p.addCoordListener( event -> {
 		 								j.placerColonieInit(j.partie.plateau.plateauS[y][x]);
-			 p.drawColonie(x,y) ;
-			 
-			 p.setVisible(false) ;  }) ;
+		 								p.drawColonie(x,y) ;
+		 								p.setVisible(false);
+		 								this.setVisible(true) ;  }) ;
 			
 		 	VueJoueur.this.add (p);
+		 	repaint();
 			});
 		 	this.add(colonie);
 //			
@@ -153,13 +181,15 @@ Joueur j = VueJoueur.this.joueur ;
 		JButton ville = new JButton("Placer une nouvelle villee") ;
 		ville . addActionListener( e2 -> { 
 				this.setVisible(false) ;
-		
-			CoordPanel panel= new CoordPanel("Cliquez sur le bouton correspondant à l 'endroit ou vous voulez installer une ville" );
-			panel.addCoordListener( event -> {
+				j.partie.view.ResetCommunicator();
+				j.partie.view.Communicate(j.getNom());
+				CoordPanel panel= new CoordPanel("Cliquez sur le bouton correspondant à l 'endroit ou vous voulez installer une ville" );
+				panel.addCoordListener( event -> {
 					j.placerColonieInit(j.partie.plateau.plateauS[y][x]);
-					panel.drawColonie(x,y) ;
-					panel.setVisible(false) ;  }) ;
-			VueJoueur.this.add (panel); 
+					panel.drawVille(x,y) ;
+					panel.setVisible(false);
+					this.setVisible(true) ;  }) ;
+				VueJoueur.this.add (panel); 
 		});
 		this.add(ville);
 		
@@ -178,16 +208,31 @@ Joueur j = VueJoueur.this.joueur ;
 		this.j.partie.view.Communicate("carte achetée avec succès") ;
 		Carte c = this.j.partie.pioche.pioche.getFirst() ;
     	joueur.cartes.add(c);
-    	this.j.partie.pioche.pioche.removeFirst() ;    	
+        c.setPossesseur(joueur);
+    	this.j.partie.pioche.pioche.removeFirst() ; 
+    	// on désactive le bouton pour empêcher tout achat frauduleux
+    	if (( this.j.getR().getPierre() == 0) || ( this.j.getR().getMouton() == 0)||( this.j.getR().getBle() == 0))
+		{acheterCarte.setEnabled(false);}
+    	
 			;} ) ;
-
-//		this.add(acheterCarte);
+		this.add(acheterCarte);
 		
 		JButton utiliserCarte = new JButton("Utiliser une carte développement") ;
 		utiliserCarte.addActionListener( e ->  {
 			CartePanel cp = new CartePanel ("Quelle carte souhaitez - vous jouer ?");
-			this.setVisible(false);
+			cp.addOptionListener( event ->  
+			{ cp.setVisible(false);
+			VueJoueur.this.setVisible(true);
+			utiliserCarte.setEnabled(false); // on ne peut jouer qu'une carte par tour 
+			}
+					);
+			
+			
+			
+			
+			
 			VueJoueur.this.add(cp);
+			
 				
 				
 			});
@@ -209,11 +254,12 @@ Joueur j = VueJoueur.this.joueur ;
 		JButton finir = new JButton("Finir votre tour") ;
 		finir.addActionListener( e ->  {
 			this.setVisible(false);
+			
 			VueJoueur.this.setVisible(false);
 			// lancer le tour suivant
 			int de = j.partie.LanceDe();
 			j.partie.view.updateJoueur(j.nextJoueur(), de);
-			
+			j.partie.plateau.afficherPlateau() ;
 			
 			});
 		this.add(finir);
@@ -287,6 +333,16 @@ public class CoordPanel extends JPanel {
 		this.add(grille);
 	}
 	
+	public void drawVille(int x, int y) {
+		Plateau p = joueur.partie.plateau ;
+		Sommet s = p.plateauS[y][x] ;
+		if ((joueur.colonies.contains(s))||(s.ville == false)) {
+		p.vp.drawVille(joueur, p.plateauS[y][x]);}
+		else {joueur.partie.view.ResetCommunicator();
+		joueur.partie.view.Communicate("Vous ne pouvez pas construire de colonie ici");
+		}
+	}
+
 	CoordPanel(String q, boolean b) {
 		this(q);
 		this.desactiverColonies = b ;
@@ -305,7 +361,12 @@ public class CoordPanel extends JPanel {
 public void drawColonie ( int x, int y) 
 {
 	Plateau p = joueur.partie.plateau ;
-	p.vp.drawColonie(joueur, p.plateauS[y][x]);
+	Sommet s = p.plateauS[y][x] ;
+	if (s.colonie) {
+	p.vp.drawColonie(joueur,s );}
+	else {joueur.partie.view.ResetCommunicator();
+	joueur.partie.view.Communicate("Vous ne pouvez pas construire de colonie ici");
+	}
 	
 }
 

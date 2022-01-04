@@ -12,7 +12,9 @@ public class Ressources {
     private int compteurVilles = 4;
     private int compteurRoutes = 15;
 
+	private int nb_chevaliers ;
 	
+	public void incrementeChevalier () {this.nb_chevaliers++ ;}
 	
 	public int getCompteurColonies() {
 		return compteurColonies;

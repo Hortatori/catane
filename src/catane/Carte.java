@@ -4,6 +4,7 @@ public  abstract class Carte {
     private int numero;
     private boolean jouee  = false ;
     private String effet ;
+    private Joueur possesseur ;
     
   
     
@@ -13,10 +14,21 @@ public  abstract class Carte {
     	
     	
     }
+    
+
+    
+    
+    }
+    
+    public void jouerCarte() {
+    	this.jouee = true ;
     }
 
 	protected abstract void actionCarte();
     
+    public void setPossesseur(Joueur p) {this.possesseur = p ; }
+    public Joueur getPossesseur() {return this.possesseur  ; }
+	
 	public void setNumero ( int i ) 
 	{this.numero = i ;}
 

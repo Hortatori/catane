@@ -20,13 +20,13 @@ public class Partie {
 	private int n_joueur = -1;
 
 	ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
-	Pioche pioche = new Pioche();
+	Pioche pioche = new Pioche () ;
 	Vue view;
 
 	public Partie() {
 
 		System.out.println("Bienvenue pour une nouvelle partie des Colons de Catane !");
-		System.out.println("Voulez vous jouer avec notre merveilleuse interface graphique ? (oui / non) !");
+		System.out.println("Voulez vous jouer avec notre merveilleuse interface graphique ? (yes / no) !");
 		String reponse = ij.sc.next();
 		if (!ij.answerYesNo(reponse)) {
 			AccueilTexte();
@@ -94,8 +94,10 @@ public class Partie {
 		// int n_joueur;
 		if (scan.equals("3")) {
 			this.n_joueur = 3;
+			this.setN_joueur(3);
 		} else {
 			this.n_joueur = 4;
+			this.setN_joueur(4);
 		}
 
 		System.out.println("Vous serez donc " + this.n_joueur + " joueurs a jouer !");
@@ -106,12 +108,14 @@ public class Partie {
 			scan = ij.sc.next();
 			for (Joueur former : this.joueurs) {
 				if (former.getNom().equals(scan)) {
-					System.out.println("nom dï¿½jï¿½ pris");
+					System.out.println("nom déjà pris");
 					scan = ij.sc.next();
 				}
 			}
 			Joueur j = new Joueur(scan, this);
 			bienvenue += scan + ", ";
+			this.joueurs.add(j);
+			
 
 		}
 
@@ -123,15 +127,17 @@ public class Partie {
 
 	public void initialiser() {
 		if (this.plateau.graphique) {
-			for (Joueur j : this.joueurs) {
-
-				VueJoueur vj = new VueJoueur(j);
-				this.view.add(vj);
-
-				// PROBLEME ICI : COMMENT GERER LE FAIT QUE LE PROGRAMME ATTENDE LA REPONSE DU
-				// JOUEUR AVANT DE PASSER A LA SUITE ?
-
-			}
+			System.out.println("graph");
+			
+//			for (Joueur j : this.joueurs) {
+//				
+//				VueJoueur vj = new VueJoueur(j);
+//				this.view.add(vj);
+//
+//				// PROBLEME ICI : COMMENT GERER LE FAIT QUE LE PROGRAMME ATTENDE LA REPONSE DU
+//				// JOUEUR AVANT DE PASSER A LA SUITE ?
+//			
+	//		}
 		}
 
 		else {
@@ -177,9 +183,7 @@ public class Partie {
 		// }
 
 		System.out.println("Debut de la partie !");
-		if (this.plateau.graphique) {
-			this.view.Communicate("Dï¿½but de la partie !");
-		}
+		if (this.plateau.graphique) { this.view.Communicate("Début de la partie !"); }
 
 	}
 
@@ -214,6 +218,8 @@ public class Partie {
 		System.out.println("voilï¿½ le cavalier ! ");
 	}
 
+	
+
 	public void printTables() {
 		for (String[] ts : this.plateau.routesHorizontales) {
 			String r = "";
@@ -243,9 +249,8 @@ public class Partie {
 
 	public void Tour(Joueur leader) {
 		int de = LanceDe();
-		if (de == 7) { // il vaudra mieux crï¿½er une fonction voleur dans voleur qui fasse tout ï¿½a
-			System.out.println(
-					"le voleur arrive! personne ne profite des ressources \ntous les joueur.euses qui ont plus de 6 ressources doivent defausser la moitie de leur main");
+		if (de==7){ // il vaudra mieux créer une fonction voleur dans voleur qui fasse tout ça 
+			System.out.println("le voleur arrive! personne ne profite des ressources \ntous les joueur.euses qui ont plus de 6 ressources doivent defausser la moitie de leur main");
 			System.out.println(leader + "vous choisissez le lieu ou le voleur atteri");
 		}
 		// on update les ressources selon le lance du de
@@ -268,38 +273,42 @@ public class Partie {
 		}
 
 	}
-
-	// public void setCouleurJoueurs() {
-	// for (int i ; i< this.n_joueur ; i++) {
-	// Joueur jou = this.joueurs.get(i);
-	// Color c = new RandomColor().c;
-	//
-	// for (int j = 0 ; j< i, j++) {
-	// Joueur former = this.joueurs.get(j);
-	// while (c.equals(former.getCouleur())) {
-	// c = new RandomColor().c;
-	// }
-	// }
-	// jou.setCouleur(c);
-	//
-	// }
-
-	// }
-
-	public Joueur nextJoueur(Joueur j) {
-		int i = this.joueurs.indexOf(j);
-		if (i == this.n_joueur - 1) {
-			return this.joueurs.get(0);
-		}
-		return this.joueurs.get(i + 1);
+	
+	//public void setCouleurJoueurs() {
+//		for (int i ; i< this.n_joueur ; i++) {
+//			Joueur jou = this.joueurs.get(i);
+//			Color c = new RandomColor().c;
+//
+//			for (int j = 0 ; j< i, j++)  {
+//				Joueur former = this.joueurs.get(j);
+//				while (c.equals(former.getCouleur())) {
+//					c = new RandomColor().c;
+//				}
+//			}
+//			jou.setCouleur(c);
+//			
+//		}
+		
+	//}
+	
+	
+public Joueur nextJoueur(Joueur j) {
+	int i = this.joueurs.indexOf(j) ;
+	if (i == this.n_joueur-1 ) {  return this.joueurs.get(0) ;
+	}
+	return this.joueurs.get(i+1) ;
 	}
 
-	public int getN_joueur() {
-		return n_joueur;
-	}
+public int getN_joueur() {
+	return n_joueur;
+}
 
-	public void setN_joueur(int n_joueur) {
-		this.n_joueur = n_joueur;
-	}
+public void setN_joueur(int n_joueur) {
+	this.n_joueur = n_joueur;
+}
+
+
+	
+	
 
 }
