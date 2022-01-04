@@ -24,6 +24,6 @@ public  abstract class Carte {
 		return this.jouee;
 		
 	}
-    
+    protected int getNumero() {return this.numero;}
     
 }

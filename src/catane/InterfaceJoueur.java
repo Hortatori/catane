@@ -64,7 +64,7 @@ public class InterfaceJoueur {
 
             case 4:
                 OperationCommerciale tc = new OperationCommerciale(joueur);
-                tc.effectuer(false);
+                tc.effectuer();
                 break;
             case 5:
                 if (this.partie.pioche.pioche.isEmpty()) {
@@ -189,8 +189,7 @@ public class InterfaceJoueur {
 
     // ************construction route***************
     public void construireRoute(Joueur joueur, int[] tabd, int[] tabf) {
-        System.out.println(
-                joueur.getNom() + ", pour placer une Route, donnez les coordonnées de debut et de fin de la route")
+        System.out.println(joueur.getNom() + ", pour placer une Route, donnez les coordonnées de debut et de fin de la route");
         int debutX = tabd[0] + 1;
         int debutY = tabd[1] + 1;
         int finX = tabf[0] + 1;

@@ -1,5 +1,7 @@
 package catane;
 import java.awt.Color ;
+
+import javax.swing.JFrame;
 public class Sandbox {
 
 public static void main ( String [] args )	 {
@@ -28,10 +30,24 @@ javax.swing.SwingUtilities.invokeLater(
 //		J.setCouleur(Color.BLUE);
 //		v.updateJoueur(J);
 		Partie p = new Partie();
-//		Plateau p = new Plateau(); 
+//		Joueur j  = new Joueur ();
+//		j.setCouleur(Color.BLUE) ;
+//		Plateau plateau = new Plateau();
+//		VuePlateau vp = new VuePlateau(plateau) ;
+//		JFrame f = new JFrame();
+//		f.setSize(700,700);
+//		f.add(vp);
+//		f.setVisible(true);
+//		vp.drawColonie(j, plateau.plateauS[0][0]);
+//		vp.drawColonie(j, plateau.plateauS[0][1]);
+//		vp.drawColonie(j, plateau.plateauS[0][2]);
+//		vp.drawColonie(j, plateau.plateauS[0][4]);
+//		f.setVisible(true);
 //		p.debug();
-		System.out.println("voo") ;
-		
+//		Joueur J = new Joueur ("edfr",p) ;
+//		System.out.println("voo") ;
+//		p.view.drawColonie(J, 0, 0) ;
+//		//Vue v = new Vue(); 
 //		Sommet s = new Sommet (3, 2) ;
 //		Sommet s2 = new Sommet (0, 3) ;
 //		Route r = new Route (s, s2);

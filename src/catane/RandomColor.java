@@ -6,7 +6,7 @@ public class RandomColor{
 	Color c ;
 	public RandomColor() {
 		
-		Random  rd = new Random(2);
+		Random  rd = new Random();
         int r = rd.nextInt(3);
         int g = rd.nextInt(3);
         int b = rd.nextInt(3);

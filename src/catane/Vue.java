@@ -23,6 +23,7 @@ public Vue(Partie p) {
 	super();
 	this.p = p ;
 	this.vp = p.plateau.vp ;
+	this.vp = vp ;
 	this.setResizable(false);
 	this.getContentPane().setLayout(null) ;
 	this.setSize(1010,722);
@@ -31,7 +32,7 @@ public Vue(Partie p) {
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	//CentralPanel = new JPanel() ;
 	//VuePlateau vp = new VuePlateau();
-	this.vp = vp ;
+	
 	this.getContentPane().add(vp ) ;
 	
 //	VueAccueil vj = new VueAccueil(p);
@@ -57,7 +58,9 @@ public void drawRoute(Joueur j, Route r) {
 
 public void drawColonie (Joueur j, int x, int y) 
 {
-	this.add(new ColoniePanel(j, this.p.plateau.plateauS[y][x]) ) ;
+	ColoniePanel cp = new ColoniePanel(j, this.p.plateau.plateauS[y][x]) ;
+	cp.setVisible(true);
+	this.add(cp ) ;
 	this.repaint();
 	
 }

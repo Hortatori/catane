@@ -101,6 +101,9 @@ public class VueAccueil extends JPanel {
 		this.setVisible(true);
 		repaint();
 		tf.addActionListener(e -> {String nom = getNom(); 
+		for (Joueur jou : p.joueurs) {
+			if (jou.getNom().equals(nom)) { nom+="2";}
+		}
 		Joueur j = new Joueur(nom, p);
 		
 		p.joueurs.add(j);
@@ -135,6 +138,7 @@ public class VueAccueil extends JPanel {
 		
 		public void finAccueil() {
 			if(iaset == nbj) {
+				//VueAccueil.this.p.setCouleurJoueurs();
 				VueAccueil.this.setVisible(false);
 				VueAccueil.this.p.initialiser();
 				System.out.println("lets gooo");

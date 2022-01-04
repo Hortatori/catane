@@ -18,8 +18,8 @@ public class VillePanel extends ColoniePanel {
 		   
 		 int width ;
 		 int height ;
-		 int  x = 140 + 100 * this.s.largeur ;
-			int  y = 140 + 100 * this.s.hauteur ;
+		 int  x = 240 + 100 * this.s.largeur ;
+			int  y = 240 + 100 * this.s.hauteur ;
 		
 		 g.setColor(Color.BLACK);
 		 g.fillOval(x,y,20 ,20);

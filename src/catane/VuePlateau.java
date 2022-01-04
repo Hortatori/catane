@@ -81,18 +81,21 @@ public void drawRoute(Joueur j, Route r) {
 	RoutePanel rp = new  RoutePanel(j, r) ;
 	this.add(rp) ;
 	this.add(this.ile);
+	this.ile.repaint() ;
 }
 
 public void drawColonie(Joueur j, Sommet s) {
 	ColoniePanel cp= new  ColoniePanel(j, s) ;
 	this.add(cp) ;
 	this.add(this.ile);
+	this.ile.repaint() ;
 }
 
 public void drawVille(Joueur j, Sommet s) {
 	VillePanel vp = new  VillePanel(j, s) ;
 	this.add(vp) ;
 	this.add(this.ile);
+	this.ile.repaint() ;
 }
 
 

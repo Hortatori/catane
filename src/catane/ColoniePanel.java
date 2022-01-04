@@ -27,8 +27,8 @@ public class ColoniePanel extends JPanel {
 		 g.setColor(this.j.getCouleur());  
 		 int width ;
 		 int height ;
-		 int  x = 130 + 100 * this.s.largeur ;
-			int  y = 130 + 100 * this.s.hauteur ;
+		 int  x = 230 + 100 * this.s.largeur ;
+			int  y = 230 + 100 * this.s.hauteur ;
 		
 		
 		 g.fillOval(x,y,40 ,40);

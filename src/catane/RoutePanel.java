@@ -26,8 +26,8 @@ public class RoutePanel extends JPanel {
 		 g.setColor(this.j.getCouleur());  
 		 int width ;
 		 int height ;
-		 int  x = 150 + 100 * this.r.depart.largeur ;
-			int  y = 150 + 100 * this.r.depart.hauteur ;
+		 int  x = 250 + 100 * this.r.depart.largeur ;
+			int  y = 250 + 100 * this.r.depart.hauteur ;
 			
 		 if (this.r.horizontale) {
 			  width = 100 ;

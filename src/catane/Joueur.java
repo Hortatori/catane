@@ -13,15 +13,18 @@ private boolean ia ;
 private Ressources ressources ;
 private Color couleur ;
 public static int totalj  = 0;
-
+public VueJoueur vj ;
 ArrayList<Sommet> colonies  = new ArrayList<Sommet> () ;
 ArrayList<Port> ports = new ArrayList <Port>() ;
 
 ArrayList<Route> routes  = new ArrayList<Route>() ;
 ArrayList<Carte> cartes = new ArrayList<Carte>() ;
 
-public void setCouleur (Color c ) {
-	this.couleur = c ;}
+public void setCouleur () {
+	Color coul = new RandomColor().c;
+	System.out.println(this.getNom());
+	System.out.println(coul);
+	this.couleur = coul ;}
 
 
 public Ressources getR() {
@@ -78,9 +81,11 @@ private int pts_victoire = 0 ;
 public Partie partie;
 private int longueurRoute;
 
+Joueur() { super() ; }
 
  Joueur(String nom, Partie p) {
 	super();
+	this.setCouleur();
 	this.partie = p ;
 	this.nom = nom;
 	this.ressources = new Ressources();
@@ -169,7 +174,7 @@ public void placerVilleInit(Sommet s) {
 
 }
 
-public void placerRoute(Sommet s1, Sommet s2, Plateau plateau) {
+public Route placerRoute(Sommet s1, Sommet s2, Plateau plateau) {
     
     this.afficherColonies();
     this.afficherRoutes();
@@ -193,7 +198,8 @@ public void placerRoute(Sommet s1, Sommet s2, Plateau plateau) {
         }
         // TODO plateau maj routes
         System.out.println("route créée!");
-    
+        
+        return routeTouteNeuve ;
     
     
 
@@ -202,58 +208,7 @@ public void placerRoute(Sommet s1, Sommet s2, Plateau plateau) {
 
 
 
-//public void PossedeCase (Case elue) {
-//	
-//	for (Sommet c : this.colonies) {
-//		
-//		
-//		
-//		
-//		for (Sommet som : elue.Sommets) {
-//		if (som == c) {
-//			System.out.println (" Le joueur "+ this.nom + "touche des  ressources");
-//			int coef = 1 ;
-//			if (c.ville == true) { coef = 2 ; }
-//			switch (elue.type) {
-//			
-//		
-//			case MONTAGNE :
-//				this.ressources.addPierre(coef);
-//				
-//				
-//			case PRE :
-//				this.ressources.addMouton(coef);
-//			
-//				
-//			case FORET :
-//				this.ressources.addBois(coef);
-//				
-//				
-//			case COLLINE :
-//				this.ressources.addArgile(coef);
-//				
-//				
-//			case CHAMP :
-//				this.ressources.addBle(coef);
-//				
-//				
-//			default :
-//				return ;
-//			
-//				
-//			}
-//		}
-//		}
-////		else { System.out.println ( " voici les sommets" );
-////		elue.afficheSommets();
-////		this.afficherColonies() ;
-////		}
-//		
-//		
-//	}
-//}
-//
-//
+
 
 public void afficherColonies() {
 	
@@ -332,6 +287,12 @@ public void afficherCartes() {
 }
 
 
+public Joueur nextJoueur() {
+	int rang = this.partie.joueurs.indexOf(this);
+	if  (rang == this.partie.getN_joueur()-1)  {return this.partie.joueurs.get(0);}
+	else { 
+		return this.partie.joueurs.get(rang);}
+	}
 
 
 

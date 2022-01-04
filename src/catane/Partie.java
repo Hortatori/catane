@@ -3,6 +3,7 @@ package catane;
 
 import java.io.InputStream;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
@@ -18,8 +19,8 @@ public class Partie {
 
 	private int n_joueur = -1;
 
-	LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
-	Pioche pioche = new Pioche () ;
+	ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+	Pioche pioche = new Pioche();
 	Vue view;
 
 	public Partie() {
@@ -28,7 +29,6 @@ public class Partie {
 		System.out.println("Voulez vous jouer avec notre merveilleuse interface graphique ? (oui / non) !");
 		String reponse = ij.sc.next();
 		if (!ij.answerYesNo(reponse)) {
-
 			AccueilTexte();
 			Jouer();
 		} else {
@@ -106,21 +106,12 @@ public class Partie {
 			scan = ij.sc.next();
 			for (Joueur former : this.joueurs) {
 				if (former.getNom().equals(scan)) {
-					System.out.println("nom deja pris");
+					System.out.println("nom d�j� pris");
 					scan = ij.sc.next();
 				}
 			}
 			Joueur j = new Joueur(scan, this);
 			bienvenue += scan + ", ";
-			Color c = new RandomColor().c;
-
-			for (Joueur former : this.joueurs) {
-				while (c.equals(former.getCouleur())) {
-					c = new RandomColor().c;
-				}
-			}
-
-			this.joueurs.add(j);
 
 		}
 
@@ -133,18 +124,19 @@ public class Partie {
 	public void initialiser() {
 		if (this.plateau.graphique) {
 			for (Joueur j : this.joueurs) {
+
 				VueJoueur vj = new VueJoueur(j);
 				this.view.add(vj);
 
 				// PROBLEME ICI : COMMENT GERER LE FAIT QUE LE PROGRAMME ATTENDE LA REPONSE DU
 				// JOUEUR AVANT DE PASSER A LA SUITE ?
-			
+
 			}
 		}
 
 		else {
 			System.out.println(
-					"Chaque joueur peut placer une route et une colonie avant la partie! (elles genereront des ressources nulles jusqu'au début de la partie");
+					"Chaque joueur peut placer une route et une colonie en debut de partie! (elles genereront des ressources nulles jusqu'au début de la partie");
 			for (Joueur joueur : joueurs) {
 
 				// String j = joueur.getNom();
@@ -166,7 +158,7 @@ public class Partie {
 				}
 				ij.construireRoute(joueur,
 						ij.getCoord(joueur.getNom() + ", pour placer une route , donnez les coordonnees du depart"),
-						ij.getCoord("et celle de l'arrivee"));
+						ij.getCoord("et celle de l'arriv�e"));
 				System.out.println(etoile.AfficherCoord());
 			}
 
@@ -185,7 +177,9 @@ public class Partie {
 		// }
 
 		System.out.println("Debut de la partie !");
-		if (this.plateau.graphique) { this.view.Communicate("D�but de la partie !"); }
+		if (this.plateau.graphique) {
+			this.view.Communicate("D�but de la partie !");
+		}
 
 	}
 
@@ -220,8 +214,6 @@ public class Partie {
 		System.out.println("voil� le cavalier ! ");
 	}
 
-	
-
 	public void printTables() {
 		for (String[] ts : this.plateau.routesHorizontales) {
 			String r = "";
@@ -251,7 +243,11 @@ public class Partie {
 
 	public void Tour(Joueur leader) {
 		int de = LanceDe();
-
+		if (de == 7) { // il vaudra mieux cr�er une fonction voleur dans voleur qui fasse tout �a
+			System.out.println(
+					"le voleur arrive! personne ne profite des ressources \ntous les joueur.euses qui ont plus de 6 ressources doivent defausser la moitie de leur main");
+			System.out.println(leader + "vous choisissez le lieu ou le voleur atteri");
+		}
 		// on update les ressources selon le lance du de
 
 		LinkedList<Case> elues = plateau.getCase(de);
@@ -272,12 +268,38 @@ public class Partie {
 		}
 
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	// public void setCouleurJoueurs() {
+	// for (int i ; i< this.n_joueur ; i++) {
+	// Joueur jou = this.joueurs.get(i);
+	// Color c = new RandomColor().c;
+	//
+	// for (int j = 0 ; j< i, j++) {
+	// Joueur former = this.joueurs.get(j);
+	// while (c.equals(former.getCouleur())) {
+	// c = new RandomColor().c;
+	// }
+	// }
+	// jou.setCouleur(c);
+	//
+	// }
+
+	// }
+
+	public Joueur nextJoueur(Joueur j) {
+		int i = this.joueurs.indexOf(j);
+		if (i == this.n_joueur - 1) {
+			return this.joueurs.get(0);
+		}
+		return this.joueurs.get(i + 1);
+	}
+
+	public int getN_joueur() {
+		return n_joueur;
+	}
+
+	public void setN_joueur(int n_joueur) {
+		this.n_joueur = n_joueur;
+	}
 
 }

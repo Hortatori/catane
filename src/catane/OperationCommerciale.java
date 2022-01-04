@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Scanner;
 
 public class OperationCommerciale  {
-
+boolean graphique = this.j.partie.plateau.graphique;
 int taux = 4 ;
 Joueur j  ;
 
@@ -17,20 +17,25 @@ public OperationCommerciale (Joueur j) {
 	}
 }
 
-public void effectuer (boolean graphique) {
-	// ruse pour éviter de demander un accès au plateau.
-	if (!graphique) {
-		System.out.println ("Quelle ressource voulez vous obtenir ?") ;
-		Paysage p = demanderRessource() ;
-		System.out.println("Le taux de base est de "+taux+ " contre 1 .");
+public boolean effectuer () {
+	
+	
+		System.out.println("Sélectionnez d'abord la ressource que vous voulez obtenir ") ;
+		Paysage p ;
+		if (graphique) {p = demanderRessource() ; }
+		else {p = this.j.vj.paysage  ;
+		diviserAction("Le taux de base est de "+taux+ " contre 1 .");
 		for (Port port : j.ports) {
 			if (port instanceof PortSpecial) {
 				System.out.println(" Grâce au port, vous bénéficiez d'un taux de 2 contre 1 en échangeant du "+ ((PortSpecial) port).Ressource.name() ) ;
 			}
 		}
 		
-		System.out.println ("Quelle ressource voulez vous obtenir ?") ;
-		Paysage p2 = demanderRessource() ;
+		diviserAction ("Et ensuite celle que vous voulez céder") ;
+		Paysage p2 ;
+		if (graphique) {p2 = demanderRessource() ; }
+		else {p2 = this.j.vj.paysage2 ;}
+		
 		for (Port port : j.ports) {
 			if (port instanceof PortSpecial) {
 				if ( ((PortSpecial) port).Ressource == p2 ) {
@@ -98,7 +103,7 @@ switch (p2) {
 // et si c est légal on verse la ressource achetée
 	
 if (legal ) { 
-System.out.println("la transaction peut avoir lieu") ;
+diviserAction("la transaction peut avoir lieu") ;
 	
 	
 	switch (p) {
@@ -136,16 +141,19 @@ case CHAMP :
 	
 	
 default :
-	return ;
+	return false;
 	
 
 		
 	}
 }
-else { System.out.println("transaction illégale") ; }
+else { diviserAction("transaction illégale") ; } 
 
-}
-	
+return legal;	
+		}
+
+
+return false;
 	
 }
 
@@ -185,7 +193,11 @@ public Paysage demanderRessource() {
 
 }
 
-
+public void  diviserAction(String s) {
+	if (graphique) {this.j.partie.view.Communicate(s);}
+	else {System.out.println(s);}
+	
+}
 
 
 }

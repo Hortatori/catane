@@ -50,9 +50,9 @@ public class Plateau {
 
 		setPorts(4, 4);
 		setPositionPorts();
-		this.affichePorts();
 
 		this.setile();
+		this.affichePorts();
 
 		String[][] routesHorizontales = new String[7][7];
 
@@ -359,7 +359,6 @@ public class Plateau {
 					System.out.println(" la case " + c.toString() + " produit !");
 				}
 			}
-
 		}
 		return elues;
 	}
@@ -383,9 +382,6 @@ public class Plateau {
 			}
 			// string += s.NO.AfficherCoord() ; }
 			// System.out.println(string) ;
-
 		}
-
 	}
-
 }
