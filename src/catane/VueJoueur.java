@@ -18,56 +18,70 @@ Joueur joueur ;
 	VueJoueur() {
 		super();
 		this.setBackground(new Color(050, 000, 000));
-		this.setBounds(700,0, 300, 700);
-		this.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.anchor = GridBagConstraints.NORTH ;
-		//c.weighty = 0.2 ;
-		JPanel tour = new JPanel ();
-	
-		tour.add(new JLabel ("TOUR "));
-		
-		tour.setOpaque(false);
-		//tour.setMaximumSize(new Dimension(400, 100));
-		this.add(tour, c);
+		this.setBounds(700,200, 300, 500);
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+//		GridBagConstraints c = new GridBagConstraints();
+//		c.gridx = 0;
+//		c.gridy = 0;
+//		c.anchor = GridBagConstraints.NORTH ;
+//		//c.weighty = 0.2 ;
+//		JPanel tour = new JPanel ();
+//	
+//		tour.add(new JLabel ("TOUR "));
+//		
+//		tour.setOpaque(false);
+//		//tour.setMaximumSize(new Dimension(400, 100));
+//		this.add(tour, c);
 		
 		}
 	
-//	VueJoueur(Joueur j){
-//		this() ;
+	VueJoueur(Joueur j){
+		this() ;
+		this.joueur = j ;
+		CoordPanel pa = new CoordPanel("Placez une première colonie gratuitement ! ") ;
+		this.add(pa);
+		
+		// problème, j'ai besoin ici de la coordonnée renvoyée par le coord Panel, mais je ne vois pas comment dire à l'ordinateur d'attendre 
+		// qu'on me renvoie la coordonnée avant de passer à la suite 
+//		int[] result = pa.getResult();
+//		Sommet s = j.partie.plateau.plateauS[result[0]][result[1]] ;
+//		j.placerColonieInit(s);
+//		j.partie.view.drawColonie(j, result[0], result[1]);
 //		
-//		this.add (new JLabel ("placez votre colonie de dï¿½part")) ; 
-//		
-//	}
+		
+		
+		
+	}
 	
 	VueJoueur(Joueur j, int de) {
 		
 		this();
 		this.joueur = j ;
-		if (de != 42) {
-		this.add (new JLabel ( " Le dï¿½ a donnï¿½"+ de)) ; }
+		
+		this.joueur.partie.view.ResetCommunicator();
+		this.joueur.partie.view.Communicate("C'est le tour de "+ this.joueur.getNom());
+		
+		this.joueur.partie.view.Communicate("Les dés ont donné " + de);
+		
+//		if (de != 42) {
+//		this.add (new JLabel ( " Le dï¿½ a donnï¿½"+ de)) ; }
 		
 		VueRessources r = new VueRessources(j);
 		
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 1;
-		c.anchor = GridBagConstraints.CENTER ;
+//		GridBagConstraints c = new GridBagConstraints();
+//		c.gridx = 0;
+//		c.gridy = 1;
+//		c.anchor = GridBagConstraints.CENTER ;
+		
+		this.add(r);
+		
+		ActionPanel ap = new ActionPanel()  ;
+		this.add(ap);
+		}
 		
 		
-		this.add(r, c);
 		
-		CoordPanel pa = new CoordPanel("wtf ?") ;
-		GridBagConstraints c2 = new GridBagConstraints();
-		c2.gridx = 0;
-		c2.gridy = 2;
-		c2.anchor = GridBagConstraints.SOUTH ;
-		
-		this.add(pa, c2);
-		
-	}
+	
 	
 	
 	
@@ -77,7 +91,8 @@ public class ActionPanel extends JPanel {
 		this.setSize(300, 400) ;
 		this.setLayout ( new GridLayout (6, 1)) ;
 		this.setOpaque(false);
-		this.add(new JLabel ( " Choisissez une action :")) ;
+		VueJoueur.this.joueur.partie.view.Communicate("Choisissez une action ");
+		
 		
 		JButton colonie = new JButton("Placer une nouvelle colonie") ;
 		// colonie . addActionListener( e -> { this.setVisible(false) ;
@@ -91,13 +106,22 @@ public class ActionPanel extends JPanel {
 		
 		
 		
-		JButton ville = new JButton("Placer une nouvelle colonie") ;
+		JButton ville = new JButton("Placer une nouvelle villee") ;
 		// colonie . addActionListener( e -> {    ;} ) ;
 		this.add(ville);
 		
 		
 		
-		JButton route = new JButton("Placer une nouvelle colonie") ;
+		JButton route = new JButton("Placer une nouvelle route") ;
+		// colonie . addActionListener( e -> {    ;} ) ;
+		this.add(route);
+		
+		
+		JButton acheterCarte = new JButton("Acheter une carte développement") ;
+		// colonie . addActionListener( e -> {    ;} ) ;
+		this.add(route);
+		
+		JButton utiliserCarte = new JButton("Utiliser une carte développement") ;
 		// colonie . addActionListener( e -> {    ;} ) ;
 		this.add(route);
 		
@@ -139,7 +163,7 @@ public class CoordPanel extends JPanel {
 		super() ;
 		this.setSize(300 , 400);
 		this.setLayout(new FlowLayout()) ;
-		this.add(new JLabel(question)  );
+		VueJoueur.this.joueur.partie.view.Communicate (question) ;
 		JPanel grille = new JPanel();
 		grille.setLayout(new GridLayout(5,5));
 		

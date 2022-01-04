@@ -1,6 +1,8 @@
 package catane;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 import java.awt.Color ;
 
@@ -73,7 +75,8 @@ public void afficherRoutes() {
 
 
 private int pts_victoire = 0 ;
-private Partie partie;
+public Partie partie;
+private int longueurRoute;
 
 
  Joueur(String nom, Partie p) {
@@ -199,58 +202,58 @@ public void placerRoute(Sommet s1, Sommet s2, Plateau plateau) {
 
 
 
-public void PossedeCase (Case elue) {
-	
-	for (Sommet c : this.colonies) {
-		
-		
-		
-		
-		for (Sommet som : elue.Sommets) {
-		if (som == c) {
-			System.out.println (" Le joueur "+ this.nom + "touche des  ressources");
-			int coef = 1 ;
-			if (c.ville == true) { coef = 2 ; }
-			switch (elue.type) {
-			
-		
-			case MONTAGNE :
-				this.ressources.addPierre(coef);
-				
-				
-			case PRE :
-				this.ressources.addMouton(coef);
-			
-				
-			case FORET :
-				this.ressources.addBois(coef);
-				
-				
-			case COLLINE :
-				this.ressources.addArgile(coef);
-				
-				
-			case CHAMP :
-				this.ressources.addBle(coef);
-				
-				
-			default :
-				return ;
-			
-				
-			}
-		}
-		}
-//		else { System.out.println ( " voici les sommets" );
-//		elue.afficheSommets();
-//		this.afficherColonies() ;
+//public void PossedeCase (Case elue) {
+//	
+//	for (Sommet c : this.colonies) {
+//		
+//		
+//		
+//		
+//		for (Sommet som : elue.Sommets) {
+//		if (som == c) {
+//			System.out.println (" Le joueur "+ this.nom + "touche des  ressources");
+//			int coef = 1 ;
+//			if (c.ville == true) { coef = 2 ; }
+//			switch (elue.type) {
+//			
+//		
+//			case MONTAGNE :
+//				this.ressources.addPierre(coef);
+//				
+//				
+//			case PRE :
+//				this.ressources.addMouton(coef);
+//			
+//				
+//			case FORET :
+//				this.ressources.addBois(coef);
+//				
+//				
+//			case COLLINE :
+//				this.ressources.addArgile(coef);
+//				
+//				
+//			case CHAMP :
+//				this.ressources.addBle(coef);
+//				
+//				
+//			default :
+//				return ;
+//			
+//				
+//			}
 //		}
-		
-		
-	}
-}
-
-
+//		}
+////		else { System.out.println ( " voici les sommets" );
+////		elue.afficheSommets();
+////		this.afficherColonies() ;
+////		}
+//		
+//		
+//	}
+//}
+//
+//
 
 public void afficherColonies() {
 	
@@ -268,6 +271,65 @@ public void afficherPort () {
 	}
 }
 
+
+
+// méthode ne fonctionne pas très bien pour l'instant , il faudrait la faire récursive avec comme entrée un sommet et une liste de routes
+public void longueurRoute() {
+	int nbRoute = this.routes.size();
+	
+	ArrayList<Integer> result = new ArrayList<Integer> () ;
+	
+	for (Route depart : this.routes) {
+		// on parcourt toutes les routes dans tous les sens et ce en partant des deux bouts. 
+		
+		int lenR = 1 ;
+		ArrayList<Route> routesencours = new ArrayList<Route>() ;
+		routesencours.addAll(this.routes) ;
+		routesencours.remove(depart) ;
+		
+		String s = depart.toString() ;
+		boolean encore = true ;
+		while (encore) {
+			encore = false ;
+			for (int i = 0 ; i < routesencours.size() ; i++) {
+				Route route = routesencours.get(i) ;
+				if ( ( route.depart == depart.arrivee) ||( route.depart == depart.depart) || ( route.arrivee == depart.arrivee) || ( route.arrivee == depart.arrivee)) {
+				lenR ++ ;
+				routesencours.remove(route) ;
+				depart = route ;
+				s+= depart.toString();
+				encore = true ;
+				break ;
+				}
+			}
+		
+		}
+		result.add(lenR) ;
+		System.out.println(s) ;
+		System.out.println (Arrays.toString(result.toArray())) ;
+		
+		
+	}
+	int max = Collections.max(result) ;
+	System.out.println( " La route la plus longue de "+ this.nom + " est longue de "+max ) ;
+	this.longueurRoute = max;
+}
+
+
+public void afficherCartes() {
+	if (this.partie.plateau.graphique == false ) {
+	System.out.println(" Voici les cartes que vous pouvez jouer :" );
+	int i = 0 ;
+	for (Carte c : this.cartes  ) {
+		if (c.getJouee() == false ) {
+			i ++ ;
+			System.out.println ( i + " : " + c.toString() ) ;
+		}
+		
+		
+	}
+	}
+}
 
 
 

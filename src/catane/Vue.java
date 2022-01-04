@@ -1,7 +1,14 @@
 package catane;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import java.awt.Color ;
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 public class Vue extends JFrame{
 
@@ -9,7 +16,7 @@ public class Vue extends JFrame{
 Partie p ;
 VuePlateau vp ;
 JPanel leftpanel ;
-
+CommunicatorPanel cp = new CommunicatorPanel() ;
 
 
 public Vue(Partie p) {
@@ -61,6 +68,49 @@ public void drawVille(Joueur j, int x, int y)
 	this.repaint();
 	
 }
+public void ResetCommunicator () {
+	this.cp.message = "" ;
+	this.cp.texte.setText("");
+}
+public void Communicate (String s) {
+	this.cp.message  +=System.lineSeparator() + s; 
+	this.cp.texte.append(System.lineSeparator()+ s);
+}
 
+
+
+
+
+public class CommunicatorPanel extends JPanel {
 	
+	private String message  = "Je suis le Communicateur, lisez mes insctructions très attentivement car je donne la clé de tout ce que vous pouvez, devez et ne devez pas faire dans ce jeu ! ";
+	private JTextArea texte = new JTextArea(message, 5, 5) ;
+	
+	
+	CommunicatorPanel() {
+		super() ;
+		//this.setLayout (null);
+		JLabel catane = new JLabel ("CATANE") ;
+		catane.setPreferredSize(new Dimension(150, 50));
+		catane.setBackground(new Color (200, 50, 50));
+		catane.setOpaque(true);
+		catane.setAlignmentX(SwingConstants.CENTER); 
+		this.add(catane);
+		this.setBounds(700,000, 300, 200);
+		this.texte.setPreferredSize(new Dimension (290, 130));
+		this.texte.setMaximumSize(new Dimension (290, 130));
+		texte.setEditable(false);
+		texte.setLineWrap(true);
+		this.add(texte);
+		
+		this.setBackground (   new Color (150, 200, 150)) ;
+		Vue.this.add(this);
+		
+	}
+	
+	
+	
+}
+
+
 }

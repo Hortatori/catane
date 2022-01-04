@@ -1,5 +1,11 @@
 package catane;
 
-public class CarteInvention extends CarteProgres {
+public class CarteInvention extends Carte {
+
+	@Override
+	protected void actionCarte() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

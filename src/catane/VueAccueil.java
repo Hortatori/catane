@@ -20,37 +20,40 @@ public class VueAccueil extends JPanel {
 		super();
 		this.p = p ;
 		this.setBackground(new Color(050, 000, 000));
-		this.setBounds(700,0, 300, 700);
+		this.setBounds(700,200, 300, 500);
 		this.setLayout(new GridLayout(3,1));
 		
-		JPanel bienvenue = new JPanel ();
+		this.p.view.Communicate("Bienvenue Dans les Colons de Catabe ! ");
+		this.p.view.Communicate("Choisissez le nombre de Joueurs");
+//		JPanel bienvenue = new JPanel ();
 	
-		bienvenue.add(new JLabel ("Bienvenue Dans les Colons de Catabe ! "));
-		bienvenue.add(new JLabel( " ! " ));
-		bienvenue.add(new JLabel( "Choisissez le nombre de Joueurs" ));
-		bienvenue.setForeground(Color.WHITE);
-		bienvenue.setOpaque(false);
-		this.add(bienvenue);
+//		bienvenue.add(new JLabel ("Bienvenue Dans les Colons de Catabe ! "));
+//		bienvenue.add(new JLabel( " ! " ));
+//		bienvenue.add(new JLabel( "Choisissez le nombre de Joueurs" ));
+//		bienvenue.setForeground(Color.WHITE);
+//		bienvenue.setOpaque(false);
+//		this.add(bienvenue);
 		
 		JButton b3 	=  new JButton ("3") ;
 		JButton b4 	=  new JButton ("4") ;
 		b3.addActionListener(e  -> {
 		b3.setVisible(false);
 		b4.setVisible(false);
-		bienvenue.setVisible(false);
+	//bienvenue.setVisible(false);
 		this.setLayout(new GridLayout(3, 1));
-		this.remove(bienvenue);
+	//	this.remove(bienvenue);
 		this.remove(b4);
 		this.remove(b3);
 		setJoueurs(3) ;
 		}       ); 
 		
-		b4.addActionListener(e  -> {setJoueurs(4) ;
-		bienvenue.setVisible(false);
+		b4.addActionListener(e  -> {
+		//bienvenue.setVisible(false);
 		b3.setVisible(false);
 		b4.setVisible(false);
 		this.setLayout(new GridLayout(4, 1));
-		this.removeAll();}       );
+		this.removeAll();
+		setJoueurs(4) ;}       );
 		this.add(b3);
 		this.add(b4);
 		

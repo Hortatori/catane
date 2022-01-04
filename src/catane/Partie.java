@@ -19,15 +19,16 @@ public class Partie {
 	private int n_joueur = -1;
 
 	LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
-
+	Pioche pioche = new Pioche () ;
 	Vue view;
 
 	public Partie() {
 
 		System.out.println("Bienvenue pour une nouvelle partie des Colons de Catane !");
-		System.out.println("Voulez vous jouer avec notre merveilleuse interface graphique ? (yes / no) !");
+		System.out.println("Voulez vous jouer avec notre merveilleuse interface graphique ? (oui / non) !");
 		String reponse = ij.sc.next();
 		if (!ij.answerYesNo(reponse)) {
+
 			AccueilTexte();
 			Jouer();
 		} else {
@@ -105,7 +106,7 @@ public class Partie {
 			scan = ij.sc.next();
 			for (Joueur former : this.joueurs) {
 				if (former.getNom().equals(scan)) {
-					System.out.println("nom d�j� pris");
+					System.out.println("nom deja pris");
 					scan = ij.sc.next();
 				}
 			}
@@ -132,28 +133,18 @@ public class Partie {
 	public void initialiser() {
 		if (this.plateau.graphique) {
 			for (Joueur j : this.joueurs) {
-				VueJoueur vj = new VueJoueur();
-				CoordPanel p = vj.new CoordPanel(
-						"Cliquez sur le bouton correspondant a l 'endroit ou vous voulez installer une colonie");
-
-				vj.add(new JLabel("Vous pouvez placer une premiere colonie gratuitement "));
+				VueJoueur vj = new VueJoueur(j);
 				this.view.add(vj);
 
 				// PROBLEME ICI : COMMENT GERER LE FAIT QUE LE PROGRAMME ATTENDE LA REPONSE DU
 				// JOUEUR AVANT DE PASSER A LA SUITE ?
-				int[] result = p.getResult();
-
-				// while ( result [0] == 42 ) {
-				// // System.out.println("booo") ;
-				// }
-				// ij.construireColonie(j, result [0] , result [1]);
-				//
+			
 			}
 		}
 
 		else {
 			System.out.println(
-					"Chaque joueur peut placer une route et une colonie en debut de partie! (elles genereront des ressources nulles jusqu'au début de la partie");
+					"Chaque joueur peut placer une route et une colonie avant la partie! (elles genereront des ressources nulles jusqu'au début de la partie");
 			for (Joueur joueur : joueurs) {
 
 				// String j = joueur.getNom();
@@ -175,7 +166,7 @@ public class Partie {
 				}
 				ij.construireRoute(joueur,
 						ij.getCoord(joueur.getNom() + ", pour placer une route , donnez les coordonnees du depart"),
-						ij.getCoord("et celle de l'arriv�e"));
+						ij.getCoord("et celle de l'arrivee"));
 				System.out.println(etoile.AfficherCoord());
 			}
 
@@ -194,6 +185,7 @@ public class Partie {
 		// }
 
 		System.out.println("Debut de la partie !");
+		if (this.plateau.graphique) { this.view.Communicate("D�but de la partie !"); }
 
 	}
 
@@ -228,28 +220,7 @@ public class Partie {
 		System.out.println("voil� le cavalier ! ");
 	}
 
-	// **************** commerce ********************
-	public void Commerce(Scanner sc, Joueur joueur) {
-		System.out.println(joueur.getNom() + ", souhaitez-vous faire du commerce?");
-		String scan = sc.next();
-
-		if (ij.answerYesNo(scan)) {
-
-			System.out.println("commerce maritime?");
-			scan = sc.next();
-			if (ij.answerYesNo(scan)) {
-				System.out.println("le commerce n'est pas encore implementé");
-			}
-
-			System.out.println("commerce interieur?");
-			scan = sc.next();
-			if (ij.answerYesNo(scan)) {
-				System.out.println("le commerce n'est pas encore implementé");
-			}
-		} else {
-			return;
-		}
-	}
+	
 
 	public void printTables() {
 		for (String[] ts : this.plateau.routesHorizontales) {
@@ -280,10 +251,7 @@ public class Partie {
 
 	public void Tour(Joueur leader) {
 		int de = LanceDe();
-		if (de==7){
-			System.out.println("le voleur arrive! personne ne profite des ressources \ntous les joueur.euses qui ont plus de 6 ressources doivent defausser la moitie de leur main");
-			System.out.println(leader + "vous choisissez le lieu ou le voleur atteri");
-		}
+
 		// on update les ressources selon le lance du de
 
 		LinkedList<Case> elues = plateau.getCase(de);
@@ -304,5 +272,12 @@ public class Partie {
 		}
 
 	}
+	
+	
+	
+	
+	
+	
+	
 
 }
