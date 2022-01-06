@@ -187,10 +187,7 @@ public class Partie {
 					String message = "Grace a sa colonie situee en " + etoile.AfficherCoord() + " , " + joueur.getNom()
 							+ " touche une ressource";
 					System.out.println(message);
-					// joueur.getR().incrementRessource(c.type, 1);
-					joueur.getR().incrementRessource(c.type, 7);
-					// WARNING !!!! corriger debug
-
+					joueur.getR().incrementRessource(c.type, 1);
 				}
 			}
 
@@ -235,13 +232,7 @@ public class Partie {
 	}
 
 	public void Tour(Joueur leader) {
-		// int de = LanceDe();
-
-		// WARNING!!!! debug
-		System.out.println("give dés");
-		int de = ij.sc.nextInt();
-		// WARNNG!! debug
-
+		int de = LanceDe();
 		leader.cartetour = false;
 		if (de == 7) {
 			vo.VoleurArrive(joueurs, leader);

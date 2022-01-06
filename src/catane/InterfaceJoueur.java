@@ -18,7 +18,7 @@ public class InterfaceJoueur {
 	public boolean answerYesNo(String scan) {
 
 		while (!scan.equals("oui") && !scan.equals("non")) {
-			System.out.println("r�pondez � la question pos�e. ");
+			System.out.println("répondez à la question posée. ");
 			scan = this.sc.next();
 		}
 		if (scan.equals("oui")) {
@@ -31,7 +31,7 @@ public class InterfaceJoueur {
 	// �vite un INdexoutof bounds...
 	public int answerInPlateau(int scan, int dimension) {
 		while (scan > 4 || scan < 0) {
-			System.out.println("cette coordonnee n'est pas valide");
+			System.out.println("cette coordonnée n'est pas valide");
 			scan = this.sc.nextInt();
 		}
 		return scan;
@@ -40,25 +40,25 @@ public class InterfaceJoueur {
 	public void actions(Joueur joueur) {
 
 		System.out.println(joueur.getNom()
-				+ ", souhaitez-vous :\n 1 : Construire une colonie? \n 2 : Construire une ville?  \n 3 : Construire une route? \n 4 : Faire du commerce? \n 5 Acheter une carte \n 6 : Jouer une carte ? \n 7 : Finir votre tour");
+				+ ", souhaitez-vous :\n 1 : Construire une colonie? \n 2 : Construire une ville?  \n 3 : Construire une route? \n 4 : Faire du commerce? \n 5 : Acheter une carte \n 6 : Jouer une carte ? \n 7 : Finir votre tour");
 
 		int scan = this.sc.nextInt();
 		switch (scan) {
 			case 1:
 
 				construireColonie(joueur,
-						getCoord(joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�es"));
+						getCoord(joueur.getNom() + ", pour placer une colonie , donnez ses coordonnées"));
 
 				break;
 			case 2:
 
-				construireVille(joueur, getCoord(joueur.getNom() + ", pour placer une ville , donnez ses coordonn�es"));
+				construireVille(joueur, getCoord(joueur.getNom() + ", pour placer une ville , donnez ses coordonnées"));
 				break;
 
 			case 3:
 				construireRoute(joueur,
-						getCoord(joueur.getNom() + ", pour placer une route , donnez les coordonn�es du d�part"),
-						getCoord("et celle de l'arriv�e"));
+						getCoord(joueur.getNom() + ", pour placer une route , donnez les coordonnées du départ"),
+						getCoord("et celle de l'arrivée"));
 				break;
 
 			case 4:
@@ -83,13 +83,13 @@ public class InterfaceJoueur {
 					break;
 				}
 				joueur.afficherCartes();
-				System.out.println("Donnez nous le num�ro de la carte que vous voulez jouer (0 = annuler) ");
+				System.out.println("Donnez nous le numéro de la carte que vous voulez jouer (0 = annuler) ");
 				int rep = sc.nextInt();
 				if (rep == 0) {
 					break;
 				}
 				if (rep > joueur.cartes.size() + 1) {
-					System.out.println("votre indice d�passe le nombre de carte");
+					System.out.println("votre indice dépasse le nombre de carte");
 					rep = sc.nextInt();
 				}
 
@@ -133,28 +133,28 @@ public class InterfaceJoueur {
 		boolean flag = true;
 
 		if (plateau.plateauS[Y][X].colonie) {
-			System.out.println("Conditions non respect�es ");
-			System.out.println("il y a d�j� une colonie ici ! ");
+			System.out.println("Conditions non respectées ");
+			System.out.println("il y a déjà une colonie ici ! ");
 			flag = false;
 
 		}
 		if (X > 0) {
 			if (plateau.plateauS[Y - 1][X].colonie) {
-				System.out.println("Conditions non respect�es ");
+				System.out.println("Conditions non respectées ");
 				System.out.println("Il ne peut pas y avoir deux colonies voisines, voyons ! ");
 				flag = false;
 			}
 		}
 		if (Y > 0) {
 			if ((plateau.plateauS[Y][X - 1].colonie)) {
-				System.out.println("Conditions non respect�es ");
+				System.out.println("Conditions non respectées ");
 				System.out.println("Il ne peut pas y avoir deux colonies voisines, voyons ! ");
 				flag = false;
 			}
 		}
 
 		if ((plateau.plateauS[Y + 1][X].colonie) || (plateau.plateauS[Y][X + 1].colonie)) {
-			System.out.println("Conditions non respect��es ");
+			System.out.println("Conditions non respectées ");
 			System.out.println("Il ne peut pas y avoir deux colonies voisines, voyons ! ");
 			flag = false;
 
@@ -178,7 +178,7 @@ public class InterfaceJoueur {
 					construireColonie(joueur, joueur.matrix4.getCoord());
 				} else {
 					construireColonie(joueur,
-							getCoord(joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�es"));
+							getCoord(joueur.getNom() + ", pour placer une colonie , donnez ses coordonnées"));
 				}
 			}
 		}
@@ -203,20 +203,20 @@ public class InterfaceJoueur {
 
 			plateau.afficherPlateau();
 		} else {
-			System.out.println("Vous devez poss�der une colonie pour l am�liorer en ville");
+			System.out.println("Vous devez posséder une colonie pour l améliorer en ville");
 			if (joueur.isIa()) {
 				construireVille(joueur, joueur.matrix4.getCoord());
 			} else {
 
 				construireVille(joueur,
-						getCoord(joueur.getNom() + ", pour placer une colonie , donnez ses coordonn�ees"));
+						getCoord(joueur.getNom() + ", pour placer une colonie , donnez ses coordonnées"));
 			}
 		}
 	}
 
 	public void construireRoute(Joueur joueur, int[] tabd, int[] tabf) {
 		System.out.println(
-				joueur.getNom() + ", pour placer une Route, donnez les coordonn�es de d�but et de fin de la route");
+				joueur.getNom() + ", pour placer une Route, donnez les coordonnées de début et de fin de la route");
 
 		int debutX = tabd[0] + 1;
 		int debutY = tabd[1] + 1;
@@ -242,16 +242,16 @@ public class InterfaceJoueur {
 
 		if (s1.routeLegale(s2) == false) {
 			flag = false;
-			System.out.println("une route doit �tre de longueur 1 et relier deux sommets adjacents");
+			System.out.println("une route doit être de longueur 1 et relier deux sommets adjacents");
 		}
 
 		for (Route r : this.plateau.routes) {
 			if ((s1 == r.depart) && (s2 == r.arrivee)) {
-				System.out.println("La route existe d�j�");
+				System.out.println("La route existe déjà");
 				flag = false;
 			}
 			if ((s2 == r.depart) && (s1 == r.arrivee)) {
-				System.out.println("La route existe d�j�");
+				System.out.println("La route existe déjà");
 				flag = false;
 			}
 		}
@@ -268,14 +268,14 @@ public class InterfaceJoueur {
 
 		else {
 
-			System.out.println("les conditions ne sont pas r�unies");
+			System.out.println("les conditions ne sont pas réunies");
 
 			if (joueur.isIa()) {
 				construireRoute(joueur, joueur.matrix4.getCoord(), joueur.matrix4.getCoord());
 			} else {
 				construireRoute(joueur,
-						getCoord(joueur.getNom() + ", pour placer une route , donnez les coordonn�es du d�part"),
-						getCoord("et celle de l'arriv�e"));
+						getCoord(joueur.getNom() + ", pour placer une route , donnez les coordonnées du départ"),
+						getCoord("et celle de l'arrivée"));
 			}
 		}
 
@@ -283,7 +283,7 @@ public class InterfaceJoueur {
 
 	public Paysage demandeRessource() {
 		System.out.println(
-				" S�lectionnez une ressource :\n 1 : Bois\n 2 : Pierre \n 3 : Argile \n 4 : Mouton \n 5 :bl�");
+				" Sélectionnez une ressource :\n 1 : Bois\n 2 : Pierre \n 3 : Argile \n 4 : Mouton \n 5 :blé");
 
 		int scan = this.sc.nextInt();
 		switch (scan) {

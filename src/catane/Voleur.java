@@ -43,7 +43,7 @@ public class Voleur {
 
 	}
 
-	// si dï¿½ == 7 dans Partie /
+	// si dé == 7 dans Partie /
 	public void VoleurArrive(ArrayList<Joueur> joueurs, Joueur leader) {
 
 		leader.partie.Communicate(
@@ -52,14 +52,14 @@ public class Voleur {
 			if (joueur.getR().total() >= 7) {
 				int aDefausser = joueur.getR().total() / 2;
 				leader.partie.Communicate(
-						joueur.getNom() + ", vous ï¿½tes trop riche, vous avez " + joueur.getR().total() + " ressources",
+						joueur.getNom() + ", vous êtes trop riche, vous avez " + joueur.getR().total() + " ressources",
 						false);
 
 				while (aDefausser > 0) {
 					leader.partie.Communicate(
 							"vous devez defausser " + aDefausser + " parmi vos ressources : " + joueur.toString());
 
-					if (!leader.partie.plateau.graphique) {
+					if (!partie.plateau.graphique) {
 						demanderRessource(joueur);
 						aDefausser--;
 					}
@@ -67,7 +67,7 @@ public class Voleur {
 					else {
 						joueur.vj.removeAll();
 						VueJoueur.RessourcePanel rp = joueur.vj.new RessourcePanel(
-								"Choisissez une ressource ï¿½ dï¿½fausser", this);
+								"Choisissez une ressource à défosser", this);
 						joueur.vj.add(rp);
 						aDefausser--;
 
@@ -77,7 +77,7 @@ public class Voleur {
 
 			} else {
 				leader.partie
-						.Communicate(joueur.getNom() + " vous n'ï¿½tes pas assez riche pour que le voleur vous frappe");
+						.Communicate(joueur.getNom() + " vous n'êtes pas assez riche pour que le voleur vous frappe");
 			}
 
 		}
@@ -107,10 +107,10 @@ public class Voleur {
 
 			if (!partie.plateau.graphique) {
 				coord = this.partie.ij.getCoord("Joueur " + leader.getNom()
-						+ ", vous decidez quelle sera la prochaine place du Voleur! Donnez des coordonnï¿½es (entre 0 et 3)");
+						+ ", vous decidez quelle sera la prochaine place du Voleur! Donnez des coordonnées (entre 0 et 3)");
 				VoleurPart(coord);
 			} else {
-				VueJoueur.FuiteVoleurPanel cp = leader.vj.new FuiteVoleurPanel("Dï¿½placez le voleur oï¿½ bon vous semble");
+				VueJoueur.FuiteVoleurPanel cp = leader.vj.new FuiteVoleurPanel("Déplacez le voleur où bon vous semble");
 				leader.vj.add(cp);
 				cp.addCoordListener(e -> {
 					VueJoueur vj = leader.vj;
@@ -146,10 +146,10 @@ public class Voleur {
 			ressource = joueur.matrix4.rd.nextInt(5);
 		} else {
 			partie.Communicate(
-					" Sï¿½lectionnez une ressource :\n 0 : Bois\n 1 : Pierre \n 2 : Argile \n 3 : Mouton \n 4 : Ble");
+					" Sélectionnez une ressource :\n 0 : Bois\n 1 : Pierre \n 2 : Argile \n 3 : Mouton \n 4 : Ble");
 			Scanner sc = partie.ij.sc;
 			ressource = sc.nextInt();
-			// sc.close();
+
 		}
 
 		if (joueur.getR().prelevable(joueur.getR().Convertir(ressource))) {
@@ -184,7 +184,7 @@ public class Voleur {
 				break;
 
 			default:
-				System.out.println("Payï¿½");
+				System.out.println("Payé");
 				// demanderRessource(joueur);
 
 		}
