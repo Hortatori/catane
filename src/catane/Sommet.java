@@ -29,12 +29,12 @@ public class Sommet {
 
 	public boolean routeLegale(Sommet s) {
 		if ((Math.abs(this.hauteur - s.hauteur) == 1) && (Math.abs(this.largeur - s.largeur) == 0)) {
-			System.out.println("route l�gale");
+			System.out.println("route l?gale");
 			return true;
 		}
 		if ((Math.abs(this.hauteur - s.hauteur) == 0) && (Math.abs(this.largeur - s.largeur) == 1)) {
 
-			System.out.println("route l�gale");
+			System.out.println("route l?gale");
 			return true;
 		}
 		System.out.println("Toute route ne doit avoir qu'une longueur de 1");

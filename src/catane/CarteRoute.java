@@ -1,6 +1,8 @@
 package catane;
 
 import catane.VueJoueur.CoordPanel;
+import catane.VueJoueur.RouteAPanel;
+import catane.VueJoueur.RouteDPanel;
 
 public class CarteRoute extends Carte {
 
@@ -21,28 +23,39 @@ public class CarteRoute extends Carte {
 		else {
 		if (this.getPossesseur().partie.plateau.graphique) {
 			
-			j.vj.setVisible(true); ;
+			
 			j.partie.view.ResetCommunicator();
 			j.partie.view.Communicate(j.getNom());
-			j.partie.view.Communicate("On vous offre deux colonies gratuites");
-			CoordPanel cp= j.vj.new CoordPanel("Cliquez sur le bouton correspondant à l 'endroit ou vous voulez installer une colonie" , true);
-//			j.partie.view.add(cp);
-//			cp.setBounds(700, 200, 300, 380);
-			j.vj.add(cp);
-			cp.setVisible(true);
-			cp.addCoordListener( event -> {
-				 j.placerColonieInit(j.partie.plateau.plateauS[j.vj.y][j.vj.x]);
-				cp.drawColonie(j.vj.x,j.vj.y) ;
-				cp.setVisible(false);
-												
-				CoordPanel cp2= j.vj.new CoordPanel("Cliquez sur le bouton correspondant à l 'endroit ou vous voulez installer une colonie" , true);
-				j.vj.add(cp2);
-				cp2.addCoordListener( event2 -> {
-					 j.placerColonieInit(j.partie.plateau.plateauS[j.vj.y][j.vj.x]);
-					cp2.drawColonie(j.vj.x,j.vj.y) ;
-					cp2.setVisible(false);
-					j.vj.ap.setVisible(true);
+			j.partie.view.Communicate("On vous offre deux routes gratuites");
+			VueJoueur.RouteDPanel pb = j.vj.new RouteDPanel(" Donnez la coordonnée du départ ");
+			
+			j.vj.add(pb);
+			j.vj.repaint();
+			pb.addCoordListener(event2 -> {
+
+				j.vj.xbuffer = j.vj.x;
+				j.vj.ybuffer = j.vj.y;
+				int stox = j.vj.x;
+				int stoy = j.vj.y;
+				pb.setVisible(false);
+				j.vj.repaint();
+
+				RouteAPanel pc = j.vj.new RouteAPanel(" Donnez la coordonnée de l'arrivée ", stox, stoy);
+				j.vj.add(pc);
+				j.vj.repaint();
+				pc.addCoordListener(event3 -> {
+					Plateau pl = j.partie.plateau;
+					j.vj.joueur.partie.view.Communicate(stox + "buffer" + stoy);
+					Route r = j.placerRoute(pl.plateauS[j.vj.ybuffer + 1][j.vj.xbuffer + 1],
+							pl.plateauS[j.vj.y + 1][j.vj.x + 1], pl);
+					j.partie.view.vp.drawRoute(j, r);
+					pc.setVisible(false);
+					j.vj.add(j.vj.new ActionPanel());
+					j.vj.repaint();
+
 				});
+				
+				
 				
 				
 				
@@ -54,6 +67,22 @@ public class CarteRoute extends Carte {
 				
 				///// fin du listerner  englobant
 							;});
+			//j.vj.ap.setVisible(false);
+			// je ne comprends pas pourquoi il ne veut pas s afficher
+			j.vj.setVisible(true); ;
+			j.vj.removeAll();
+			j.vj.add(pb);
+			j.vj.repaint();
+			
+			j.partie.view.vj.setVisible(true);
+			j.partie.view.vj.add(pb);
+			j.partie.view.repaint();
+			j.partie.view.vj.setVisible(false);
+			VueJoueur vjlasthope = new VueJoueur (j, 0);
+			vjlasthope.removeAll() ;  // on enleve le ap 
+			vjlasthope.add (pb);
+			j.partie.view.add (vjlasthope);
+			vjlasthope.repaint();
 				
 			   
 			

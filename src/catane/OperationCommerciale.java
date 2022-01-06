@@ -29,9 +29,13 @@ public class OperationCommerciale {
 	public boolean effectuer() {
 
 		System.out.println("Sélectionnez d'abord la ressource que vous voulez obtenir ");
+		if (graphique) { CommerceGraphique() ; return false;}
+		
 		
 		Paysage p = selectP();
-		if (p == null) { return false ;}
+		if (p == null) {
+			return false;
+		}
 
 		j.partie.Communicate("Le taux de base est de " + taux + " contre 1 .");
 		for (Port port : j.ports) {
@@ -47,11 +51,9 @@ public class OperationCommerciale {
 		if (j.isIa()) {
 			p2 = j.matrix4.demandeRessource();
 		} else {
-			if (!graphique) {
+			
 				p2 = demanderRessource();
-			} else {
-				p2 = this.j.vj.paysage2;
-			}
+			
 		}
 		for (Port port : j.ports) {
 			if (port instanceof PortSpecial) {
@@ -80,49 +82,59 @@ public class OperationCommerciale {
 
 	}
 
-	private  Paysage selectP() {
-		
+	private Paysage selectP() {
 
 		if (j.isIa()) {
 			return j.matrix4.demandeRessource();
 		} else {
 			if (!graphique) {
-				return  demanderRessource();
+				return demanderRessource();
 			} else {
-
-				VueJoueur vj = this.j.vj;
-				VueJoueur.RessourcePanel rp = vj.new RessourcePanel("Quelle ressource voulez- vous acquérrir ? ");
-				rp.addOptionListener( e -> 
-				
-				{ rp.setVisible (false);
-				
-				VueJoueur.RessourcePanel rp1 = vj.new RessourcePanel("Quelle ressource voulez- vous acquérrir ? ");
-				rp1.addOptionListener( e2 -> {rp1.setVisible (false);
-											Paysage p1 = rp.paysage;
-											Paysage p2 = rp.paysage;
-											boolean legal = Echancelegal(p2);
-
-											// et si c est légal on verse la ressource achetée
-
-													if (legal) {
-														j.partie.Communicate("la transaction peut avoir lieu");
-
-														Verser(p1);
-													} else {
-														j.partie.Communicate("transaction illégale");
-													}
-
-										} );
-				vj.add(rp1);
-				
-				
-					
-				} );
-				vj.add(rp);
-				return null ;
-				
+				CommerceGraphique();
+				return null;
 			}
 		}
+	}
+
+	public void CommerceGraphique() {
+
+		VueJoueur vj = this.j.vj;
+		VueJoueur.RessourcePanel rp = vj.new RessourcePanel("Quelle ressource voulez- vous acquérrir ? ");
+		rp.addOptionListener(e ->
+
+		{
+			rp.setVisible(false);
+
+			VueJoueur.RessourcePanel rp1 = vj.new RessourcePanel("Quelle ressource voulez- vous échanger contre celle là ? ");
+			rp1.addOptionListener(e2 -> {
+				rp1.setVisible(false);
+				Paysage p1 = rp.paysage;
+				Paysage p2 = rp.paysage;
+				boolean legal = Echancelegal(p2);
+
+				// et si c est légal on verse la ressource achetée
+
+				if (legal) {
+					j.partie.Communicate("la transaction peut avoir lieu");
+
+					Verser(p1);
+				} else {
+					j.partie.Communicate("transaction illégale");
+				}
+				if (vj.ap == null) { 
+					VueJoueur.ActionPanel ap = vj.new ActionPanel();
+					vj.add(  ap ) ; 
+					vj.ap = ap ;}
+				
+				vj.ap.setVisible(true);
+
+			});
+			vj.add(rp1);
+
+		});
+		vj.add(rp);
+		
+
 	}
 
 	private void Verser(Paysage p) {
@@ -148,56 +160,56 @@ public class OperationCommerciale {
 			j.getR().addBle(1);
 
 		default:
-			return ;
+			return;
 
 		}
-		
+
 	}
 
 	private boolean Echancelegal(Paysage p2) {
 		boolean legal = false;
 		// conversion paysage ressource
-				switch (p2) {
+		switch (p2) {
 
-				case MONTAGNE:
-					if (j.getR().getPierre() >= taux) {
+		case MONTAGNE:
+			if (j.getR().getPierre() >= taux) {
 
-						j.getR().payPierre(taux);
-						legal = true;
-					}
+				j.getR().payPierre(taux);
+				legal = true;
+			}
 
-				case PRE:
-					if (j.getR().getMouton() >= taux) {
+		case PRE:
+			if (j.getR().getMouton() >= taux) {
 
-						j.getR().payMouton(taux);
-						legal = true;
-					}
+				j.getR().payMouton(taux);
+				legal = true;
+			}
 
-				case FORET:
-					if (j.getR().getBois() >= taux) {
+		case FORET:
+			if (j.getR().getBois() >= taux) {
 
-						j.getR().payBois(taux);
-						legal = true;
-					}
+				j.getR().payBois(taux);
+				legal = true;
+			}
 
-				case COLLINE:
-					if (j.getR().getArgile() >= taux) {
+		case COLLINE:
+			if (j.getR().getArgile() >= taux) {
 
-						j.getR().payArgile(taux);
-						legal = true;
-					}
+				j.getR().payArgile(taux);
+				legal = true;
+			}
 
-				case CHAMP:
-					if (j.getR().getBle() >= taux) {
+		case CHAMP:
+			if (j.getR().getBle() >= taux) {
 
-						j.getR().payBle(taux);
-						legal = true;
-					}
+				j.getR().payBle(taux);
+				legal = true;
+			}
 
-				default:
-					break;
+		default:
+			break;
 
-				}
+		}
 		return false;
 	}
 

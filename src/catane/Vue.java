@@ -18,6 +18,7 @@ VuePlateau vp ;
 JPanel leftpanel ;
 CommunicatorPanel cp = new CommunicatorPanel() ;
 VueRessources vr ;
+VueJoueur vj ;
 
 
 public Vue(Partie p) {
@@ -46,6 +47,7 @@ public Vue(Partie p) {
 	
 public void updateJoueur(Joueur j, int de ) {
 	VueJoueur v = new VueJoueur(j, de) ;
+	this.vj = v;
 		this.leftpanel = v;
 		this.getContentPane().add(v);
 		VueRessources r = new VueRessources(j);

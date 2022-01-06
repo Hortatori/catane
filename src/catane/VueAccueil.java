@@ -23,25 +23,18 @@ public class VueAccueil extends JPanel {
 		this.setBounds(700,200, 300, 500);
 		this.setLayout(new GridLayout(3,1));
 		
-		this.p.view.Communicate("Bienvenue Dans les Colons de Catabe ! ");
+		this.p.view.Communicate("Bienvenue Dans les Colons de Catane ! ");
 		this.p.view.Communicate("Choisissez le nombre de Joueurs");
-//		JPanel bienvenue = new JPanel ();
-	
-//		bienvenue.add(new JLabel ("Bienvenue Dans les Colons de Catabe ! "));
-//		bienvenue.add(new JLabel( " ! " ));
-//		bienvenue.add(new JLabel( "Choisissez le nombre de Joueurs" ));
-//		bienvenue.setForeground(Color.WHITE);
-//		bienvenue.setOpaque(false);
-//		this.add(bienvenue);
+
 		
 		JButton b3 	=  new JButton ("3") ;
 		JButton b4 	=  new JButton ("4") ;
 		b3.addActionListener(e  -> {
 		b3.setVisible(false);
 		b4.setVisible(false);
-	//bienvenue.setVisible(false);
+	
 		this.setLayout(new GridLayout(3, 1));
-	//	this.remove(bienvenue);
+	
 		this.remove(b4);
 		this.remove(b3);
 		setJoueurs(3) ;
@@ -139,11 +132,12 @@ public class VueAccueil extends JPanel {
 		public void finAccueil() {
 			
 			if(iaset == nbj) {
-				//VueAccueil.this.p.setCouleurJoueurs();
+				
 				VueAccueil.this.setVisible(false);
-				//VueAccueil.this.p.initialiser();
+				
 				System.out.println("lets gooo");
 				p.view.getContentPane().remove(VueAccueil.this);
+				p.Communicate("tous les joueurs sont prêts ! lets go !", true);
 				p.Jouer();
 			}
 			else {   System.out.println( iaset + "est diff de " + i) ;}
@@ -172,6 +166,13 @@ public class VueAccueil extends JPanel {
 		oui.addActionListener( e -> {turnIntoIA();
 			j.matrix4.ij.construireColonie(j,j.matrix4.getCoord()) ;
 			j.matrix4.ij.construireRoute(j,j.matrix4.getCoord(),j.matrix4.getCoord()    ) ;
+			VueJoueur vj = new VueJoueur ();
+			vj.init ++;
+			if (vj.init == (j.partie.getN_joueur())) {
+				NameBox.this.finAccueil();
+				System.out.println("initialisation terminée");
+				p.Jouer();
+			}
 		
 		
 			close();} );
@@ -193,6 +194,7 @@ public class VueAccueil extends JPanel {
 		VueJoueur vj = new VueJoueur(j, VueAccueil.this,NameBox.this );
 		VueAccueil.this.setVisible(false);
 		j.partie.view.add(vj);
+		j.partie.view.repaint();
 		close() ;
 		}
 				);

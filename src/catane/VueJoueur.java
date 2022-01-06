@@ -11,6 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import catane.VueAccueil.NameBox;
+import catane.VueJoueur.RessourcePanel;
 
 public class VueJoueur extends JPanel {
 
@@ -28,8 +29,7 @@ public class VueJoueur extends JPanel {
 		super();
 		this.setBackground(new Color(050, 000, 000));
 		this.setBounds(700, 200, 300, 380);
-		// this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		// this.setLayout(new FlowLayout());
+		
 		this.setLayout(null);
 
 	}
@@ -84,11 +84,14 @@ public class VueJoueur extends JPanel {
 
 				});
 				VueJoueur.this.add(pc);
+				VueJoueur.this.repaint();
 
 			});
 			VueJoueur.this.add(pb);
+			VueJoueur.this.repaint();
 		});
 		this.add(pa);
+		this.repaint();
 
 	}
 
@@ -112,6 +115,7 @@ public class VueJoueur extends JPanel {
 		ActionPanel ap = new ActionPanel();
 		this.add(ap);
 		this.ap = ap;
+		this.repaint();
 	}
 
 	public class ActionPanel extends JPanel {
@@ -139,15 +143,17 @@ public class VueJoueur extends JPanel {
 					p.drawColonie(x + 1, y + 1);
 					p.setVisible(false);
 					this.setVisible(true);
+					VueJoueur.this.repaint();
 				});
 
 				VueJoueur.this.add(p);
 				repaint();
 			});
 			this.add(colonie);
+			this.repaint();
 //			
 
-			JButton ville = new JButton("Placer une nouvelle villee");
+			JButton ville = new JButton("Placer une nouvelle ville");
 			ville.addActionListener(e2 -> {
 				this.setVisible(false);
 				j.partie.view.ResetCommunicator();
@@ -159,6 +165,7 @@ public class VueJoueur extends JPanel {
 					panel.drawVille(x + 1, y + 1);
 					panel.setVisible(false);
 					this.setVisible(true);
+					VueJoueur.this.repaint();
 				});
 				VueJoueur.this.add(panel);
 			});
@@ -168,7 +175,7 @@ public class VueJoueur extends JPanel {
 			route.addActionListener(e -> {
 				this.setVisible(false);
 				RouteDPanel pb = new RouteDPanel(" Donnez la coordonnée du départ ");
-
+				VueJoueur.this.repaint();
 				VueJoueur.this.add(pb);
 				pb.addCoordListener(event2 -> {
 
@@ -177,6 +184,7 @@ public class VueJoueur extends JPanel {
 					int stox = x;
 					int stoy = y;
 					pb.setVisible(false);
+					VueJoueur.this.repaint();
 
 					RouteAPanel pc = new RouteAPanel(" Donnez la coordonnée de l'arrivée ", stox, stoy);
 					VueJoueur.this.add(pc);
@@ -188,6 +196,7 @@ public class VueJoueur extends JPanel {
 						j.partie.view.vp.drawRoute(j, r);
 						pc.setVisible(false);
 						VueJoueur.this.ap.setVisible(true);
+						VueJoueur.this.repaint();
 
 					});
 					/// fin listener imbriqué1
@@ -230,6 +239,7 @@ public class VueJoueur extends JPanel {
 					
 					//VueJoueur.this.setVisible(true);
 					utiliserCarte.setEnabled(false); // on ne peut jouer qu'une carte par tour
+					VueJoueur.this.repaint();
 				});
 
 			});
@@ -242,6 +252,7 @@ public class VueJoueur extends JPanel {
 				VueJoueur.this.remove(this);
 				OperationCommerciale op = new OperationCommerciale(joueur);
 				op.effectuer();
+				VueJoueur.this.repaint();
 				//VueJoueur.this.add(cp);
 			});
 			this.add(commerce);
@@ -273,6 +284,11 @@ public class VueJoueur extends JPanel {
 	
 	public class FuiteVoleurPanel extends CoordPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	FuiteVoleurPanel(String question) {
 		super(question);
 		
@@ -282,7 +298,7 @@ public class VueJoueur extends JPanel {
 		JPanel grille = new JPanel();
 		grille.setLayout(new GridLayout(4, 4));
 
-		int nbbuttondesactive = 0;
+		
 		for (int h = 0; h < 4; h++) {
 			for (int w = 0; w < 4; w++) {
 
@@ -324,10 +340,11 @@ public class VueJoueur extends JPanel {
 		CoordPanel(String question, boolean nogrid) {
 
 			super();
-			this.setBackground( new Color (200,200, 250 ));
+			this.setBackground(new Color(050, 000, 000));
 			this.setSize(300, 400);
 			this.setLayout(new FlowLayout());
 			VueJoueur.this.joueur.partie.view.Communicate(question);
+			this.setOpaque(false);
 
 		}
 
@@ -339,6 +356,7 @@ public class VueJoueur extends JPanel {
 			this.setLayout(new FlowLayout());
 			VueJoueur.this.joueur.partie.view.Communicate(question);
 			this.setGrille();
+			this.repaint();
 		}
 
 		void setGrille() {
@@ -463,6 +481,7 @@ public class VueJoueur extends JPanel {
 			super();
 			this.setSize(300, 400);
 			this.setBackground( new Color (200,200, 250 ));
+			this.j.partie.Communicate(question, true);
 
 		}
 
@@ -506,6 +525,7 @@ public class VueJoueur extends JPanel {
 
 		public RessourcePanel(String s) {
 			super(s);
+			
 			ArrayList<Paysage> ressources = new ArrayList<Paysage>();
 			for (Paysage r : Paysage.values()) {
 				if ( r != Paysage.DESERT ) {
@@ -532,7 +552,8 @@ public class VueJoueur extends JPanel {
 			this.setLayout (new GridLayout (len, 1)) ;
 			for (Object o : this.liste) {
 				Paysage p = ((Paysage) o);
-				JButton b = new JButton(p.name());
+				String nom = j.getR().paysagetoString(p);
+				JButton b = new JButton(nom);
 
 				// sans cette variable, rang n'était pas effectively final et ne permettait pas
 				// de récupérer l'indice dans le tableau de l'élément recherché
@@ -550,23 +571,31 @@ public class VueJoueur extends JPanel {
 //					if (this.cm != null) {
 //						cm.Piller(p, joueur);
 //					}
-					if (this.vo != null) {
-						joueur.getR().incrementRessource(p, -1);
-					}
+					
 
 				});
+				if (this.vo != null) {
+					if (!joueur.getR().prelevable(p)) 
+					{
+					b.setEnabled(false);
+					}
+				}
 				this.add(b);
 				rang++;
 			}
 	JButton retour = new JButton ("annuler l'action") ;
 	retour.addActionListener ( e -> { 
+		
+		this.paysage = Paysage.DESERT ;
 		ChangeEvent event = new ChangeEvent(this);
+		
 		listener.stateChanged(event);
 		this.setVisible(false);
 		VueJoueur.this.ap.setVisible(true);
 		
 	});
-	this.add(retour);
+	if (this.vo != null) { //on force le joueur à se défausser 
+	this.add(retour); }
 
 		}
 
@@ -600,7 +629,7 @@ public class VueJoueur extends JPanel {
 					b.addActionListener(e -> {
 					ChangeEvent event = new ChangeEvent(this);
 					listener.stateChanged(event);
-
+					
 					OptionPanelAction(rangruse);
 					this.setVisible(false);
 					//VueJoueur.this.ap.setVisible(true);
@@ -628,7 +657,6 @@ public class VueJoueur extends JPanel {
 			Carte carte = j.cartes.get(rang);
 			if (carte instanceof CarteVictoire || carte instanceof CarteInvention ) {VueJoueur.this.ap.setVisible(true);}
 			else {VueJoueur.this.ap.setVisible(false);}
-			
 			carte.actionCarte();
 		}
 
@@ -787,6 +815,42 @@ public class VueJoueur extends JPanel {
 		}
 	}
 
+VueJoueur (Joueur j , Voleur v) {
+	
+	
+	super();
+	this.joueur = j ;
+	this.setBackground(new Color(050, 000, 000));
+	this.setBounds(700, 200, 300, 380);
+	
+	this.setLayout(null);
+	int nressource = j.getR().total() ;
+	int ndef = j.getR().total()- nressource /2  ;
+	for ( int i = 0 ; i< ndef ; i++ ) {
+		RessourcePanel rp = this.new RessourcePanel(
+				"Choisissez une ressource à défausser", v);
+		rp.addOptionListener( e -> {
+		if ( j.getR().prelevable(rp.paysage )) {j.partie.Communicate("vous défaussez :  "+ j.getR().paysagetoString( rp.paysage));
+		j.getR().incrementRessource(rp.paysage, -1) ;
+		}
+		if (j.getR().total()  > nressource /2) {
+			VueJoueur.this.setVisible(false);
+			
+		}
+		boolean flag = true; 
+		for (Joueur joueur2 : j.partie.joueurs ) {
+			if (joueur2.getR().total()>7 ) {flag = false ; }
+		}
+		if (flag) {j.partie.view.vj.setVisible(true);
+		}
+		
+		
+		});
+		this.add(rp);
+		this.repaint();
+	}
+	
+}
 // probleme d affichage avec les layout, finir par régler ça avec un null layout et ça sera plus simple...
 
 }

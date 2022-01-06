@@ -1,4 +1,7 @@
-
+/**
+ * Partie initialise le plateau, les joueurs, les choix d'ia, les ressources, le choix du type de vue
+ * puis ensuite les phase de jeu : les lancers de dés, les tours des joueurs
+ */
 package catane;
 
 import java.io.InputStream;
@@ -65,10 +68,13 @@ public class Partie {
 					j = 0;
 				}
 			}
-		} else { // le programme graphique se charge lui mï¿½me de lancer le tour suivant quand le
+		} else { // le programme graphique se charge lui même de lancer le tour suivant quand le
 					// joueur clique sur fin de tour
-			int de = LanceDe();
-			this.view.updateJoueur(joueurs.get(0), de);
+			Joueur beginner = this.joueurs.get(0);
+			Tour(beginner);
+			// int de = LanceDe();
+			//
+			// this.view.updateJoueur(joueurs.get(0), de);
 		}
 	}
 
@@ -81,11 +87,11 @@ public class Partie {
 	public void AccueilTexte() {
 		// this.sc = new Scanner(System.in);
 
-		System.out.println("Veuillez indiquer si vous preferez jouer Ã  trois ou quatre joueur");
+		System.out.println("Veuillez indiquer si vous preferez jouer à trois ou quatre joueur");
 		String scan = ij.sc.next();
 
 		while (((scan.equals("3")) || (scan.equals("4"))) == false) {
-			System.out.println("rï¿½pondez ï¿½ la question posï¿½e. ");
+			System.out.println("répondez à la question posée. ");
 			scan = ij.sc.next();
 		}
 		// int n_joueur;
@@ -105,7 +111,7 @@ public class Partie {
 			scan = ij.sc.next();
 			for (Joueur former : this.joueurs) {
 				if (former.getNom().equals(scan)) {
-					System.out.println("nom dï¿½jï¿½ pris");
+					System.out.println("nom déjà pris");
 					scan = ij.sc.next();
 				}
 			}
@@ -116,7 +122,7 @@ public class Partie {
 			System.out.println(j.getNom() + " sera-t-il une IA?   (oui/non)");
 			String rep = ij.sc.next();
 			while ((!rep.equals("oui") && !rep.equals("non"))) {
-				System.out.println("Rï¿½pondez oui ou non !");
+				System.out.println("Répondez oui ou non !");
 				rep = ij.sc.next();
 			}
 			if (rep.equals("oui")) {
@@ -166,7 +172,7 @@ public class Partie {
 					//
 					ij.construireRoute(joueur,
 							ij.getCoord(joueur.getNom() + ", pour placer une route , donnez les coordonnees du depart"),
-							ij.getCoord("et celle de l'arrivï¿½ee"));
+							ij.getCoord("et celle de l'arrivéee"));
 				}
 				System.out.println(etoile.AfficherCoord());
 			}
@@ -175,7 +181,7 @@ public class Partie {
 
 		System.out.println("Debut de la partie !");
 		if (this.plateau.graphique) {
-			this.view.Communicate("Dï¿½but de la partie !");
+			this.view.Communicate("Début de la partie !");
 		}
 
 	}
@@ -196,12 +202,33 @@ public class Partie {
 
 	public boolean Victoire() {
 		for (Joueur j : this.joueurs) {
-			if (j.getPts() > 9) {
+			int nbaatteindre = 10;
+			if (j.routelongue) {
+				nbaatteindre -= 2;
+			}
+			if (j.maxcavalier) {
+				nbaatteindre -= 2;
+			}
+
+			if (j.getPts() > nbaatteindre) {
+				CelebrerVictoire(j);
 				return true;
 
 			}
 		}
+
 		return false;
+	}
+
+	private void CelebrerVictoire(Joueur j) {
+		if (plateau.graphique) {
+			Communicate("bravo " + j.getNom(), true);
+			Communicate("Vous avez gagné ! ");
+			this.view.vp.setVisible(false);
+		} else {
+			System.out.println("you did great !");
+		}
+
 	}
 
 	public void printTables() {
@@ -233,6 +260,8 @@ public class Partie {
 
 	public void Tour(Joueur leader) {
 		int de = LanceDe();
+		System.out.println("c est le tour de " + leader.getNom() + leader.isIa());
+
 		leader.cartetour = false;
 		if (de == 7) {
 			vo.VoleurArrive(joueurs, leader);
@@ -242,12 +271,13 @@ public class Partie {
 		for (Case c : elues) {
 			for (Joueur j : this.joueurs)
 				if (c.getStatutVoleur()) {
-					Communicate("La case " + c.toString() + " est occupï¿½e par le voleur et n'a rien produit");
+					Communicate("La case " + c.toString() + " est occupée par le voleur et n'a rien produit");
 				} else {
 					c.checkCornerIncrement(j);
 				}
 		}
 		if (leader.isIa()) {
+			System.out.println("Trinity on her way");
 			leader.matrix4.takeDecision();
 		} else {
 			if (this.plateau.graphique == false) {

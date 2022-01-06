@@ -1,3 +1,10 @@
+/**Voleur contient les méthodes d'actions du voleur dans le jeu :
+ * le déplacement du voleur, 
+ * l'arrivée du voleur : les echanges avec les joueurs pour le choix des défausses de ressources
+ * la fuite du voleur : l'échange avec le joueur leader pour changer le placement du voleur
+ * le vol par le joueur leader d'un joueur sur la case d'arrivée du voleur si c'est possible
+ */
+
 package catane;
 
 import java.util.ArrayList;
@@ -47,34 +54,44 @@ public class Voleur {
 	public void VoleurArrive(ArrayList<Joueur> joueurs, Joueur leader) {
 
 		leader.partie.Communicate(
-				"le voleur arrive! personne ne profite des ressources \ntous les joueur.euses qui ont plus de 6 ressources doivent defausser la moitie de leur main");
+				"le voleur arrive! personne ne profite des ressources \ntous les joueurs qui ont plus de 6 ressources doivent defausser la moitie de leur main");
 		for (Joueur joueur : joueurs) {
 			if (joueur.getR().total() >= 7) {
 				int aDefausser = joueur.getR().total() / 2;
 				leader.partie.Communicate(
-						joueur.getNom() + ", vous êtes trop riche, vous avez " + joueur.getR().total() + " ressources",
+						joueur.getNom() + ", vous êtes trop riche, vous avez "
+								+ joueur.getR().total() + " ressources",
 						false);
-
+				
+				if (partie.plateau.graphique) {voleurGraphique(leader);}
+				else {
 				while (aDefausser > 0) {
 					leader.partie.Communicate(
 							"vous devez defausser " + aDefausser + " parmi vos ressources : " + joueur.toString());
 
-					if (!partie.plateau.graphique) {
+					
 						demanderRessource(joueur);
 						aDefausser--;
-					}
+					
 
-					else {
-						joueur.vj.removeAll();
-						VueJoueur.RessourcePanel rp = joueur.vj.new RessourcePanel(
-								"Choisissez une ressource à défosser", this);
-						joueur.vj.add(rp);
-						aDefausser--;
+					
+						
+//						joueur.vj.removeAll();
+//						VueJoueur.RessourcePanel rp = joueur.vj.new RessourcePanel(
+//								"Choisissez une ressource à défausser", this);
+//						rp.addOptionListener( e -> {
+//						if ( joueur.getR().prelevable(rp.paysage )) {partie.Communicate("vous défaussez :  "+ joueur.getR().paysagetoString( rp.paysage));
+//						joueur.getR().incrementRessource(rp.paysage, -1) ;
+//						}
+//						
+//						});
+//						joueur.vj.add(rp);
+//						aDefausser--;
 
-					}
+					
 
 				}
-
+				}
 			} else {
 				leader.partie
 						.Communicate(joueur.getNom() + " vous n'êtes pas assez riche pour que le voleur vous frappe");
@@ -97,6 +114,31 @@ public class Voleur {
 
 	}
 
+	public void voleurGraphique(Joueur j) {
+		System.out.println("on tente ça");
+		this.partie.view.vj.setVisible(false);
+		for (Joueur joueur : this.partie.joueurs ) {
+			
+		
+		if (joueur.getR().total() >7)
+		{
+		VueJoueur vvo = new VueJoueur(joueur, this);
+		this.partie.view.add(vvo);
+		this.partie.view.repaint();
+		this.partie.Communicate("vue voleur lancée");
+		
+		
+		}
+		else {
+			System.out.println ("lui est pas trop roche");
+		}	
+		}
+		
+		
+
+		
+	}
+
 	void Voleurfuite(Joueur leader) {
 		int[] coord;
 
@@ -112,6 +154,7 @@ public class Voleur {
 			} else {
 				VueJoueur.FuiteVoleurPanel cp = leader.vj.new FuiteVoleurPanel("Déplacez le voleur où bon vous semble");
 				leader.vj.add(cp);
+				leader.vj.repaint();
 				cp.addCoordListener(e -> {
 					VueJoueur vj = leader.vj;
 					int wid = vj.x;
@@ -125,6 +168,7 @@ public class Voleur {
 						vj.add(vj.new ActionPanel());
 					} else {
 						vj.ap.setVisible(true);
+						vj.repaint();
 					}
 
 				});
@@ -137,7 +181,7 @@ public class Voleur {
 		int x = coord[0];
 		int y = coord[1];
 
-		this.deplaceVoleur(partie.plateau.plateauC[x][y]);
+		this.deplaceVoleur(partie.plateau.plateauC[y][x]);
 	}
 
 	public void demanderRessource(Joueur joueur) {
@@ -149,7 +193,6 @@ public class Voleur {
 					" Sélectionnez une ressource :\n 0 : Bois\n 1 : Pierre \n 2 : Argile \n 3 : Mouton \n 4 : Ble");
 			Scanner sc = partie.ij.sc;
 			ressource = sc.nextInt();
-
 		}
 
 		if (joueur.getR().prelevable(joueur.getR().Convertir(ressource))) {

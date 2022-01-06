@@ -10,6 +10,10 @@ public class IA {
 
 	public IA(Joueur j) {
 		this.joueur = j;
+		VueJoueur vj = new VueJoueur();
+		vj.joueur = j ;
+		this.joueur.vj = vj ; // au cas ou besoin
+		
 		graphique = j.partie.plateau.graphique;
 		ij = j.partie.ij;
 	}
@@ -17,6 +21,8 @@ public class IA {
 	public void takeDecision() {
 		Ressources r = this.joueur.getR();
 		int decision = rd.nextInt(8);
+		System.out.println("l'IA joue");
+		int ncoups = 0 ; // on limite à 3 les actions des ia
 		switch (decision) {
 
 		case 1:
@@ -26,7 +32,7 @@ public class IA {
 			r.payBle(1);
 			r.payBois(1);
 			r.payMouton(1); }
-			
+			takeDecision();
 			break;
 
 		case 2:
@@ -34,6 +40,7 @@ public class IA {
 			ij.construireVille(joueur, getCoord());
 			r.payPierre(3);
 			r.payBle(2); }
+			takeDecision();
 			break;
 
 		case 3:
@@ -41,17 +48,21 @@ public class IA {
 			ij.construireRoute(joueur, getCoord(), getCoord());
 			r.payArgile(1);
 			r.payBois(1);}
+			takeDecision();
 			break;
 
 		case 4:
 			OperationCommerciale tc = new OperationCommerciale(joueur);
 			tc.effectuer();
+			takeDecision();
 			break;
 			
 		case 5:
 			if (joueur.partie.pioche.pioche.isEmpty()) {
 				joueur.partie.Communicate("la pioche est vide ! ");
+				takeDecision();
 				break;
+				
 			}
 			
 			
@@ -60,7 +71,7 @@ public class IA {
 			c.setPossesseur(joueur);
 			joueur.partie.pioche.pioche.removeFirst();
 			joueur.afficherCartes();
-			
+			takeDecision();
 			break;
 
 		case 6:
@@ -77,12 +88,18 @@ public class IA {
 			else {
 				joueur.cartes.get(ncarte - 1).Jouer();
 			}
+			takeDecision();
 			break;
 
 		case 7:
+			if (this.graphique ) { this.joueur.partie.Tour(joueur.nextJoueur());
+			System.out.println("au suivant");}
 			return;
 
 		}
+		if (this.graphique ) { this.joueur.partie.Tour(joueur.nextJoueur());
+		System.out.println("au suivant");}
+		
 	}
 	
 	

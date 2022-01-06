@@ -1,3 +1,10 @@
+/**  Joueur 
+ * 1/ la création des routes, colonies, villes du joueur
+ * 2/ le statut des ressources du joueur 
+ * 3/ l'affichage des colonies, villes et routes qui lui appartiennent 
+ * 4/ le passage aux joueurs suivant, l'incrémentation des points de victoire
+ * */
+
 package catane;
 
 import java.util.ArrayList;
@@ -22,6 +29,8 @@ public class Joueur {
 	private int pts_victoire = 0;
 	public Partie partie;
 	private int longueurRoute;
+	public boolean routelongue;
+	public boolean maxcavalier;
 
 	public void setCouleur() {
 		Color coul = new RandomColor().c;
@@ -96,7 +105,7 @@ public class Joueur {
 	public String toString() {
 		String st = "JOUEUR : " + this.nom + " RESSOURCES : " + " Bois : " + this.ressources.getBois() + " ||  Pierre :"
 				+ this.ressources.getPierre() + " || Argile : " + this.ressources.getArgile() + " || Mouton :"
-				+ this.ressources.getMouton() + " ||  Blï¿½ : " + this.ressources.getBle() + "\n";
+				+ this.ressources.getMouton() + " ||  Blé : " + this.ressources.getBle() + "\n";
 
 		return st;
 
@@ -105,19 +114,19 @@ public class Joueur {
 	public void placerColonieInit(Sommet s) {
 
 		if (this.ressources.getCompteurColonies() == 0) {
-			System.out.println("vous n'avez plus de colonies ï¿½ poser!");
+			System.out.println("vous n'avez plus de colonies à poser!");
 			return;
 		}
 		if (s.colonie == true) { /// redondant ?
 
-			System.out.println("Il y a dï¿½jï¿½ une colonie ici");
+			System.out.println("Il y a déjà une colonie ici");
 			return;
 		}
 		s.colonie = true;
 		this.colonies.add(s);
 
-		// on stocke l'info si une colonie est associï¿½e ï¿½ un port pour faciliter l
-		// implï¿½mentation du commerce.
+		// on stocke l'info si une colonie est associée à un port pour faciliter l
+		// implémentation du commerce.
 		for (Port p : this.partie.plateau.ports) {
 			if ((p.getS1() == s) || (p.getS2() == s)) {
 				this.ports.add(p);
@@ -126,12 +135,12 @@ public class Joueur {
 
 		this.ressources.placeColonie();
 		this.pts_victoire++;
-		System.out.println("colonie crï¿½ï¿½e !");
+		System.out.println("colonie créée !");
 	}
 
 	public void placerVilleInit(Sommet s) {
 		if (this.ressources.getCompteurVilles() == 0) {
-			System.out.println("Vous n'avez plus de ville ï¿½ poser !");
+			System.out.println("Vous n'avez plus de ville à poser !");
 			return;
 		}
 		if ((this.colonies.contains(s)) && (!s.ville)) {
@@ -139,10 +148,10 @@ public class Joueur {
 
 			this.ressources.placeVille();
 			this.pts_victoire++;
-			System.out.println("ville crï¿½ï¿½e !");
+			System.out.println("ville créée !");
 
 		} else {
-			System.out.println("Il vous faut dï¿½jï¿½ avoir une colonie ï¿½ cet endroit pour la faire ï¿½voluer en ville !");
+			System.out.println("Il vous faut déjà  avoir une colonie à cet endroit pour la faire évoluer en ville !");
 			return;
 		}
 
@@ -170,7 +179,7 @@ public class Joueur {
 			plateau.setRouteVerticale(d.hauteur, d.largeur);
 		}
 
-		System.out.println("route crï¿½ï¿½e!");
+		System.out.println("route créée!");
 
 		return routeTouteNeuve;
 
@@ -178,7 +187,7 @@ public class Joueur {
 
 	public void afficherColonies() {
 
-		System.out.println(this.nom + " possï¿½de les colonies suivantes : ");
+		System.out.println(this.nom + " possède les colonies suivantes : ");
 
 		for (Sommet s : this.colonies) {
 
@@ -192,8 +201,8 @@ public class Joueur {
 		}
 	}
 
-	// mï¿½thode ne fonctionne pas trï¿½s bien pour l'instant , il faudrait la faire
-	// rï¿½cursive avec comme entrï¿½e un sommet et une liste de routes
+	// méthode ne fonctionne pas très bien pour l'instant , il faudrait la faire
+	// récursive avec comme entrée un sommet et une liste de routes
 	public void longueurRoute() {
 
 		ArrayList<Integer> result = new ArrayList<Integer>();
