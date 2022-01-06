@@ -1,3 +1,8 @@
+/**contient les deux sommets des routes et une construction
+ * qui vérifie que les routes soient toujours 
+ * orientée dans le même sens.
+ */
+
 package catane;
 
 public class Route {

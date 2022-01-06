@@ -1,3 +1,9 @@
+/** les ressources qui servent d'argent dans le jeu
+ *  des methodes d'acces,
+ *  de modification,
+ * 	de conversion Paysage <--> Ressource
+ */
+
 package catane;
 
 public class Ressources {

@@ -2,16 +2,11 @@ package catane;
 
 import javax.swing.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.awt.*;
-import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 import catane.VueAccueil.NameBox;
-import catane.VueJoueur.RessourcePanel;
 
 public class VueJoueur extends JPanel {
 
@@ -21,7 +16,7 @@ public class VueJoueur extends JPanel {
 	int y;
 	int ybuffer;
 	static int init = 0;
-	ActionPanel ap ;
+	ActionPanel ap;
 	public Paysage paysage;
 	public Paysage paysage2;
 
@@ -29,7 +24,7 @@ public class VueJoueur extends JPanel {
 		super();
 		this.setBackground(new Color(050, 000, 000));
 		this.setBounds(700, 200, 300, 380);
-		
+
 		this.setLayout(null);
 
 	}
@@ -110,8 +105,6 @@ public class VueJoueur extends JPanel {
 
 		this.joueur.partie.view.Communicate("Les dés ont donné " + de);
 
-		
-
 		ActionPanel ap = new ActionPanel();
 		this.add(ap);
 		this.ap = ap;
@@ -124,7 +117,7 @@ public class VueJoueur extends JPanel {
 
 		public ActionPanel() {
 			super();
-			VueJoueur.this.ap = this ;
+			VueJoueur.this.ap = this;
 			this.setSize(300, 400);
 			this.setLayout(new GridLayout(8, 1));
 			this.setOpaque(false);
@@ -151,7 +144,7 @@ public class VueJoueur extends JPanel {
 			});
 			this.add(colonie);
 			this.repaint();
-//			
+			//
 
 			JButton ville = new JButton("Placer une nouvelle ville");
 			ville.addActionListener(e2 -> {
@@ -209,8 +202,9 @@ public class VueJoueur extends JPanel {
 			this.add(route);
 
 			JButton acheterCarte = new JButton("Acheter une carte développement");
-//		if (( this.j.getR().getPierre() == 0) || ( this.j.getR().getMouton() == 0)||( this.j.getR().getBle() == 0))
-//		{acheterCarte.setEnabled(false);}
+			// if (( this.j.getR().getPierre() == 0) || ( this.j.getR().getMouton() == 0)||(
+			// this.j.getR().getBle() == 0))
+			// {acheterCarte.setEnabled(false);}
 			acheterCarte.addActionListener(e -> {
 				this.j.getR().payBle(1);
 				this.j.getR().payMouton(1);
@@ -235,9 +229,7 @@ public class VueJoueur extends JPanel {
 
 				cp.addOptionListener(event -> {
 					cp.setVisible(false);
-					//VueJoueur.this.removeAll();
-					
-					//VueJoueur.this.setVisible(true);
+
 					utiliserCarte.setEnabled(false); // on ne peut jouer qu'une carte par tour
 					VueJoueur.this.repaint();
 				});
@@ -247,13 +239,11 @@ public class VueJoueur extends JPanel {
 
 			JButton commerce = new JButton("Faire du commerce");
 			commerce.addActionListener(e -> {
-				//CommercePanel cp = new CommercePanel();
 				this.setVisible(false);
 				VueJoueur.this.remove(this);
 				OperationCommerciale op = new OperationCommerciale(joueur);
 				op.effectuer();
 				VueJoueur.this.repaint();
-				//VueJoueur.this.add(cp);
 			});
 			this.add(commerce);
 
@@ -279,59 +269,53 @@ public class VueJoueur extends JPanel {
 
 	}
 
-////////////////////////////////////FIN ACTION PANEL ///////////////////////////////////////////////////////////
+	//////////////////////////////////// FIN ACTION PANEL
+	//////////////////////////////////// ///////////////////////////////////////////////////////////
 
-	
 	public class FuiteVoleurPanel extends CoordPanel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
-	FuiteVoleurPanel(String question) {
-		super(question);
-		
-	}
-		
-	void setGrille() {
-		JPanel grille = new JPanel();
-		grille.setLayout(new GridLayout(4, 4));
+		FuiteVoleurPanel(String question) {
+			super(question);
 
-		
-		for (int h = 0; h < 4; h++) {
-			for (int w = 0; w < 4; w++) {
-
-				String nom = "[" + w + ";" + h + "]";
-				RadioCoord radio = new RadioCoord(nom, h, w);
-					int storex = w;
-					int storey = h ;
-				radio.addActionListener(e -> {
-					VueJoueur.this.x = storex;
-					VueJoueur.this.y = storey ;
-				
-					ChangeEvent event = new ChangeEvent(this);
-					listener.stateChanged(event);
-					
-					
-				});
-				
-				
-				grille.add(radio);
-
-			}
 		}
 
-		this.add(grille);
-		
+		void setGrille() {
+			JPanel grille = new JPanel();
+			grille.setLayout(new GridLayout(4, 4));
+
+			for (int h = 0; h < 4; h++) {
+				for (int w = 0; w < 4; w++) {
+
+					String nom = "[" + w + ";" + h + "]";
+					RadioCoord radio = new RadioCoord(nom, h, w);
+					int storex = w;
+					int storey = h;
+					radio.addActionListener(e -> {
+						VueJoueur.this.x = storex;
+						VueJoueur.this.y = storey;
+
+						ChangeEvent event = new ChangeEvent(this);
+						listener.stateChanged(event);
+
+					});
+
+					grille.add(radio);
+
+				}
+			}
+
+			this.add(grille);
+
+		}
 
 	}
-
-	
-		
-		
-	}
-///////////////////////////////////DEBUT CHOIX PANEL////////////////////////////////////////////////////////////
+	/////////////////////////////////// DEBUT CHOIX
+	/////////////////////////////////// PANEL////////////////////////////////////////////////////////////
 
 	public class CoordPanel extends JPanel {
 
@@ -448,7 +432,7 @@ public class VueJoueur extends JPanel {
 			}
 		}
 
-//	
+		//
 		public void addCoordListener(ChangeListener cl) {
 			this.listener = cl;
 		}
@@ -467,9 +451,11 @@ public class VueJoueur extends JPanel {
 
 	}
 
-///////////////////////////////////FIN COORDPANEL ////////////////////////////////////////////////////////////////
+	/////////////////////////////////// FIN COORDPANEL
+	/////////////////////////////////// ////////////////////////////////////////////////////////////////
 
-///////////////////////////////////DEBUT OPTIONSPANEL/////////////////////////////////////////////////////////////
+	/////////////////////////////////// DEBUT
+	/////////////////////////////////// OPTIONSPANEL/////////////////////////////////////////////////////////////
 
 	public abstract class OptionPanel extends JPanel {
 
@@ -480,14 +466,14 @@ public class VueJoueur extends JPanel {
 		OptionPanel(String question) {
 			super();
 			this.setSize(300, 400);
-			this.setBackground( new Color (200,200, 250 ));
+			this.setBackground(new Color(200, 200, 250));
 			this.j.partie.Communicate(question, true);
 
 		}
 
 		public void form() {
 			int rang = 0;
-			int len = ((ArrayList<?>) this.liste).size() +1;
+			int len = ((ArrayList<?>) this.liste).size() + 1;
 			this.setLayout(new GridLayout(len, 1));
 			for (Object o : this.liste) {
 				JButton b = new JButton(o.toString());
@@ -504,7 +490,6 @@ public class VueJoueur extends JPanel {
 				this.add(b);
 				rang++;
 			}
-			
 
 		}
 
@@ -516,7 +501,8 @@ public class VueJoueur extends JPanel {
 
 	}
 
-////////////////////////////////def des deux sous classes ///////////////////////////////////
+	//////////////////////////////// def des deux sous classes
+	//////////////////////////////// ///////////////////////////////////
 	public class RessourcePanel extends OptionPanel {
 
 		Paysage paysage;
@@ -525,11 +511,12 @@ public class VueJoueur extends JPanel {
 
 		public RessourcePanel(String s) {
 			super(s);
-			
+
 			ArrayList<Paysage> ressources = new ArrayList<Paysage>();
 			for (Paysage r : Paysage.values()) {
-				if ( r != Paysage.DESERT ) {
-				ressources.add(r);}
+				if (r != Paysage.DESERT) {
+					ressources.add(r);
+				}
 			}
 			this.liste = ressources;
 			form();
@@ -548,8 +535,8 @@ public class VueJoueur extends JPanel {
 		@Override
 		public void form() {
 			int rang = 0;
-			int len = ((ArrayList<Carte>) this.liste).size() +1;
-			this.setLayout (new GridLayout (len, 1)) ;
+			int len = ((ArrayList<Carte>) this.liste).size() + 1;
+			this.setLayout(new GridLayout(len, 1));
 			for (Object o : this.liste) {
 				Paysage p = ((Paysage) o);
 				String nom = j.getR().paysagetoString(p);
@@ -563,39 +550,37 @@ public class VueJoueur extends JPanel {
 					listener.stateChanged(event);
 					this.paysage = p;
 					this.setVisible(false);
-					if (VueJoueur.this.ap != null ) {
-					VueJoueur.this.ap.setVisible(true);}
-					else {VueJoueur.this. add ( VueJoueur.this.new ActionPanel()) ;
-						
+					if (VueJoueur.this.ap != null) {
+						VueJoueur.this.ap.setVisible(true);
+					} else {
+						VueJoueur.this.add(VueJoueur.this.new ActionPanel());
+
 					}
-//					if (this.cm != null) {
-//						cm.Piller(p, joueur);
-//					}
-					
+
 
 				});
 				if (this.vo != null) {
-					if (!joueur.getR().prelevable(p)) 
-					{
-					b.setEnabled(false);
+					if (!joueur.getR().prelevable(p)) {
+						b.setEnabled(false);
 					}
 				}
 				this.add(b);
 				rang++;
 			}
-	JButton retour = new JButton ("annuler l'action") ;
-	retour.addActionListener ( e -> { 
-		
-		this.paysage = Paysage.DESERT ;
-		ChangeEvent event = new ChangeEvent(this);
-		
-		listener.stateChanged(event);
-		this.setVisible(false);
-		VueJoueur.this.ap.setVisible(true);
-		
-	});
-	if (this.vo != null) { //on force le joueur à se défausser 
-	this.add(retour); }
+			JButton retour = new JButton("annuler l'action");
+			retour.addActionListener(e -> {
+
+				this.paysage = Paysage.DESERT;
+				ChangeEvent event = new ChangeEvent(this);
+
+				listener.stateChanged(event);
+				this.setVisible(false);
+				VueJoueur.this.ap.setVisible(true);
+
+			});
+			if (this.vo != null) { // on force le joueur à se défausser
+				this.add(retour);
+			}
 
 		}
 
@@ -616,23 +601,23 @@ public class VueJoueur extends JPanel {
 
 		@Override
 		public void form() {
-			
+
 			int rang = 0;
-			int len = ((ArrayList<Carte>) this.liste).size() +1;
-			this.setLayout (new GridLayout (len, 1)) ;
+			int len = ((ArrayList<Carte>) this.liste).size() + 1;
+			this.setLayout(new GridLayout(len, 1));
 			for (Object o : this.liste) {
 				JButton b = new JButton(o.toString());
 				Carte c = (Carte) o;
-				int rangruse = rang ;
+				int rangruse = rang;
 				// sans cette variable, rang n'était pas effectively final et ne permettait pas
 				// de récupérer l'indice dans le tableau de l'élément recherché
-					b.addActionListener(e -> {
+				b.addActionListener(e -> {
 					ChangeEvent event = new ChangeEvent(this);
 					listener.stateChanged(event);
-					
+
 					OptionPanelAction(rangruse);
 					this.setVisible(false);
-					//VueJoueur.this.ap.setVisible(true);
+					// VueJoueur.this.ap.setVisible(true);
 
 				});
 				this.add(b);
@@ -655,16 +640,19 @@ public class VueJoueur extends JPanel {
 		@Override
 		protected void OptionPanelAction(int rang) {
 			Carte carte = j.cartes.get(rang);
-			if (carte instanceof CarteVictoire || carte instanceof CarteInvention ) {VueJoueur.this.ap.setVisible(true);}
-			else {VueJoueur.this.ap.setVisible(false);}
+			if (carte instanceof CarteVictoire || carte instanceof CarteInvention) {
+				VueJoueur.this.ap.setVisible(true);
+			} else {
+				VueJoueur.this.ap.setVisible(false);
+			}
 			carte.actionCarte();
 		}
 
 	}
 
-////////////////////////////Commerce Panel //////////////////////////////////
+	//////////////////////////// Commerce Panel //////////////////////////////////
 
-// on va tenter d'avoir un panel qui indisue toutes les informations
+	// on va tenter d'avoir un panel qui indisue toutes les informations
 
 	public class CommercePanel extends JPanel {
 		ChangeListener listener;
@@ -695,9 +683,9 @@ public class VueJoueur extends JPanel {
 
 		}
 
-//	public void addCommerceListener(ChangeListener cl) {
-//		this.listener = cl ;
-//	}
+		// public void addCommerceListener(ChangeListener cl) {
+		// this.listener = cl ;
+		// }
 
 	}
 
@@ -705,7 +693,7 @@ public class VueJoueur extends JPanel {
 
 		int xs;
 		int ys;
-// les coordonneés du point de départ ;
+		// les coordonneés du point de départ ;
 
 		RouteAPanel(String q, int xbuffer, int ybuffer) {
 
@@ -721,7 +709,6 @@ public class VueJoueur extends JPanel {
 		}
 
 		boolean Activer(int h, int w) {
-			// System.out.println("activer de RA") ;
 			VueJoueur.this.joueur.partie.plateau.afficherPlateau();
 			Sommet s = VueJoueur.this.joueur.partie.plateau.plateauS[ys + 1][xs + 1];
 			Sommet s2 = VueJoueur.this.joueur.partie.plateau.plateauS[h + 1][w + 1];
@@ -796,7 +783,6 @@ public class VueJoueur extends JPanel {
 		}
 
 		boolean Activer(int h, int w) {
-			// System.out.println("activer de V") ;
 
 			for (Sommet s : VueJoueur.this.joueur.colonies) {
 
@@ -815,42 +801,45 @@ public class VueJoueur extends JPanel {
 		}
 	}
 
-VueJoueur (Joueur j , Voleur v) {
-	
-	
-	super();
-	this.joueur = j ;
-	this.setBackground(new Color(050, 000, 000));
-	this.setBounds(700, 200, 300, 380);
-	
-	this.setLayout(null);
-	int nressource = j.getR().total() ;
-	int ndef = j.getR().total()- nressource /2  ;
-	for ( int i = 0 ; i< ndef ; i++ ) {
-		RessourcePanel rp = this.new RessourcePanel(
-				"Choisissez une ressource à défausser", v);
-		rp.addOptionListener( e -> {
-		if ( j.getR().prelevable(rp.paysage )) {j.partie.Communicate("vous défaussez :  "+ j.getR().paysagetoString( rp.paysage));
-		j.getR().incrementRessource(rp.paysage, -1) ;
+	VueJoueur(Joueur j, Voleur v) {
+
+		super();
+		this.joueur = j;
+		this.setBackground(new Color(050, 000, 000));
+		this.setBounds(700, 200, 300, 380);
+
+		this.setLayout(null);
+		int nressource = j.getR().total();
+		int ndef = j.getR().total() - nressource / 2;
+		for (int i = 0; i < ndef; i++) {
+			RessourcePanel rp = this.new RessourcePanel(
+					"Choisissez une ressource à défausser", v);
+			rp.addOptionListener(e -> {
+				if (j.getR().prelevable(rp.paysage)) {
+					j.partie.Communicate("vous défaussez :  " + j.getR().paysagetoString(rp.paysage));
+					j.getR().incrementRessource(rp.paysage, -1);
+				}
+				if (j.getR().total() > nressource / 2) {
+					VueJoueur.this.setVisible(false);
+
+				}
+				boolean flag = true;
+				for (Joueur joueur2 : j.partie.joueurs) {
+					if (joueur2.getR().total() > 7) {
+						flag = false;
+					}
+				}
+				if (flag) {
+					j.partie.view.vj.setVisible(true);
+				}
+
+			});
+			this.add(rp);
+			this.repaint();
 		}
-		if (j.getR().total()  > nressource /2) {
-			VueJoueur.this.setVisible(false);
-			
-		}
-		boolean flag = true; 
-		for (Joueur joueur2 : j.partie.joueurs ) {
-			if (joueur2.getR().total()>7 ) {flag = false ; }
-		}
-		if (flag) {j.partie.view.vj.setVisible(true);
-		}
-		
-		
-		});
-		this.add(rp);
-		this.repaint();
+
 	}
-	
-}
-// probleme d affichage avec les layout, finir par régler ça avec un null layout et ça sera plus simple...
+	// probleme d affichage avec les layout, finir par régler ça avec un null layout
+	// et ça sera plus simple...
 
 }

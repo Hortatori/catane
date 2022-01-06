@@ -1,3 +1,10 @@
+/**contient un tableau de sommets, un tableau de Case, des listes de sommets selon
+ * l'orientation horizontale ou verticale (pour les routes). initialise les Cases,
+ * les paysage et les numéros qui leur correspondent
+ * initialise les ports et ou ils se trouvent.
+ * ainsi que tous les accesseurs
+ */
+
 package catane;
 
 import java.util.Arrays;
@@ -19,11 +26,11 @@ public class Plateau {
 	public boolean graphique = false;
 
 	public Plateau() {
-// version basique du constructeur de plateau pour un 4 cases sur 4
+		// version basique du constructeur de plateau pour un 4 cases sur 4
 		Sommet[][] plateaus = new Sommet[7][7];
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 7; j++) {
-				plateaus[i][j] = new Sommet(i - 1, j - 1); // 
+				plateaus[i][j] = new Sommet(i - 1, j - 1); //
 				// System.out.println(plateauS [i][j])
 			}
 		}
@@ -107,7 +114,7 @@ public class Plateau {
 		}
 	}
 
-// on paramétrise la fonction pour pouvoir la généraliser plus facilement
+	// on paramétrise la fonction pour pouvoir la généraliser plus facilement
 	public void setPorts(int largeur, int longueur) {
 		int nb_ports = largeur + longueur;
 		LinkedList<Port> ports = new LinkedList<Port>();
@@ -171,7 +178,9 @@ public class Plateau {
 
 	public void afficherPlateau() {
 
-// pour la gestion des ports, on considère qu'ils seront gérées sur une Array list indépendante et qu'ils seront répartis alï¿½atoirement et ce en utilisant un  incrément.
+		// pour la gestion des ports, on considère qu'ils seront gérées sur une Array
+		// list indépendante et qu'ils seront répartis alï¿½atoirement et ce en
+		// utilisant un incrément.
 		String init = "		";
 		String porttop = "~~~/__________\\~~";
 		String portgauche = "~~~~/____" + "______/";
@@ -179,7 +188,8 @@ public class Plateau {
 		String portbottom = "~~~\\__________/~";
 		String mer = "~~~~~~~~~~~~~~~~";
 
-// Ce code est compliqué mais il pourra permettre plus facilement une extension du plateau
+		// Ce code est compliqué mais il pourra permettre plus facilement une extension
+		// du plateau
 		int index_port = 0;
 		LinkedList<Integer> porttab = new LinkedList<Integer>();
 		porttab.add(1);
@@ -252,7 +262,6 @@ public class Plateau {
 			sstandard += this.routesVerticales[i][4];
 			ss += this.plateauS[i + 1][5];
 			sc += this.routesVerticales[i][4];
-			
 
 			if (!alter) {
 				sc += mer;
@@ -278,7 +287,6 @@ public class Plateau {
 			ss += this.plateauS[5][j + 1].toString() + this.routesHorizontales[4][j];
 		}
 		ss += this.plateauS[5][5] + mer;
-		
 
 		System.out.println(ss);
 		System.out.println(bottom1);

@@ -1,6 +1,8 @@
 /**
  * Partie initialise le plateau, les joueurs, les choix d'ia, les ressources, le choix du type de vue
- * puis ensuite les phase de jeu : les lancers de dés, les tours des joueurs
+ * puis ensuite les phases de jeu : les lancers de dés, les tours des joueurs, les conditions de victoire
+ * les conditions d'apparitions du voleur.
+ * Fait l'initialisation de tous les objets utilisés par la suite.
  */
 package catane;
 

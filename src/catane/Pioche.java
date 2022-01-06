@@ -1,3 +1,5 @@
+/** simule une piche de cartes */
+
 package catane;
 
 import java.util.Collections;

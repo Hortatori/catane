@@ -181,8 +181,14 @@ public class Joueur {
 
 		System.out.println("route créée!");
 
-		return routeTouteNeuve;
+		// this.longueurRoute = this.partie.longueurRoute(routes);
+		// for (Joueur j : this.partie.joueurs) {
+		// if (longueurRoute > j.longueurRoute) {
+		// this.routelongue = true;
+		// }
 
+		// }
+		return routeTouteNeuve;
 	}
 
 	public void afficherColonies() {
@@ -268,6 +274,98 @@ public class Joueur {
 		} else {
 			return this.partie.joueurs.get(rang + 1);
 		}
+	}
+
+	// public static int longueurRoute(ArrayList<Route> routes) {
+	// // en fait on veut faire le chemin du chemin le plus long dans un graphe
+	// acyclique
+	// ArrayList<Integer> result = new ArrayList<Integer>();
+
+	// for (Route depart : routes) {
+
+	// ArrayList<Route> routesencours = new ArrayList<Route>();
+	// routesencours.addAll(routes);
+	// routesencours.remove(depart);
+
+	// for (Route restante : routesencours) {
+	// if ((restante.depart == depart.depart) (restante.arrivee ==
+	// depart.depart)(restante.depart == depart.arrivee) ||(restante.arrivee ==
+	// depart.arrivee)){
+	// result.add(1+ longueurRoute(routesencours));
+	// }
+	// else {result.add(1) ; }
+	// }
+	// }
+	// if (result.size() > 0 ) {
+	// return Collections.max(result); } else {return 0 ;}
+	// }
+
+	//
+	// for (Route restante : routesencours) {
+	// if ((restante.depart == depart.depart) || (restante.arrivee ==
+	// depart.depart)||(restante.depart == depart.arrivee) ||(restante.arrivee ==
+	// depart.arrivee)){
+	// result.add(1+ longueurRoute(routesencours));
+	// }
+	// else {result.add(1) ; }
+	// }
+	// }
+	// if (result.size() > 0 ) {
+	// return Collections.max(result); } else {return 0 ;}
+	// }
+	//
+	// public static int longueurRoute(ArrayList<Route> routes) {
+	// ArrayList<Integer> result = new ArrayList<Integer>();
+	// ArrayList<Sommet> sommets = new ArrayList<Sommet>();
+	// for (Route r : routes) {
+	// sommets.add(r.depart);
+	// sommets.add(r.arrivee);
+	// }
+	// for (Sommet s : sommets) {
+	// result.add(longueurRoute(s, routes));
+	// }
+
+	// return Collections.max(result);
+	// }
+
+	public static int longueurRoute(Sommet s, ArrayList<Route> routes) {
+		// on veut faire le chemin du chemin le plus long dans un graphe
+		// acyclique
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		if (s == null) {
+			return 0;
+		}
+		for (Route depart : routes) {
+
+			if ((s == depart.depart) || (s == depart.arrivee)) {
+				ArrayList<Route> routesencours = new ArrayList<Route>();
+				Sommet newd = null;
+				for (Route r : routesencours) {
+
+					if (r.depart == s) {
+						routesencours.add(r);
+						newd = r.arrivee;
+					}
+					if (r.arrivee == s) {
+						routesencours.add(r);
+						newd = r.depart;
+					}
+					routesencours.remove(depart);
+					System.out.print(depart.toString());
+					result.add(1 + longueurRoute(newd, routesencours));
+
+				}
+
+			}
+
+		}
+		if (result.size() > 0) {
+			int res = Collections.max(result);
+			return res;
+		} else {
+			return 1;
+		}
+
 	}
 
 }
