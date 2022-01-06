@@ -9,6 +9,10 @@ import java.awt.Color ;
 
 class PortPanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Port p;
 	
 	   public PortPanel(Port p) {
@@ -16,7 +20,7 @@ class PortPanel extends JPanel {
 		   int x = 100* p.getS1().largeur ;
 		   int y = 100* p.getS1().hauteur ;
 		   this.setOpaque(false);
-		 
+		 // on oriente le cercle différement selon l orientation du port
 		   if ((p.getOrientation() == Cardinal.S)|| (p.getOrientation() == Cardinal.N)) {
 			   x += 100;
 		   }
@@ -25,9 +29,6 @@ class PortPanel extends JPanel {
 			   y-=100;
 		   }
 		   
-		   
-		   // Attention, bidouillage et incohérences sur la gestion des positions des ports, il faudra vérifier que les 
-		   // joueurs installés sur la côté peuvent bien utlisier le port correspondant
 		   if (p.getOrientation() == Cardinal.O) {
 			   x+=00;
 		   }

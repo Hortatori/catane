@@ -30,6 +30,7 @@ javax.swing.SwingUtilities.invokeLater(
 //		J.setCouleur(Color.BLUE);
 //		v.updateJoueur(J);
 		Partie p = new Partie();
+		System.out.println("bouc");
 //		Joueur j  = new Joueur ();
 //		j.setCouleur(Color.BLUE) ;
 //		Plateau plateau = new Plateau();

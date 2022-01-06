@@ -16,17 +16,16 @@ public class Partie {
 
 	Plateau plateau = new Plateau();
 	InterfaceJoueur ij = new InterfaceJoueur(new Scanner(System.in), plateau, this);
-
 	private int n_joueur = -1;
-
 	ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
-	Pioche pioche = new Pioche () ;
+	Pioche pioche = new Pioche();
 	Vue view;
+	Voleur vo = new Voleur(this);
 
 	public Partie() {
 
 		System.out.println("Bienvenue pour une nouvelle partie des Colons de Catane !");
-		System.out.println("Voulez vous jouer avec notre merveilleuse interface graphique ? (yes / no) !");
+		System.out.println("Voulez vous jouer avec notre merveilleuse interface graphique ? (oui / non) !");
 		String reponse = ij.sc.next();
 		if (!ij.answerYesNo(reponse)) {
 			AccueilTexte();
@@ -34,16 +33,15 @@ public class Partie {
 		} else {
 			this.plateau.graphique = true;
 
-			javax.swing.SwingUtilities.invokeLater(
-					new Runnable() {
-						public void run() {
+			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
 
-							Vue vue = new Vue(Partie.this);
-							Partie.this.view = vue;
-							AcceuilGraphique();
+					Vue vue = new Vue(Partie.this);
+					Partie.this.view = vue;
+					AcceuilGraphique();
 
-						}
-					});
+				}
+			});
 
 		}
 
@@ -61,11 +59,11 @@ public class Partie {
 				}
 				;
 				Tour(this.joueurs.get(j));
+				plateau.afficherPlateau();
 				j++;
 				if (j == this.n_joueur) {
 					j = 0;
 				}
-				;
 			}
 		} else { // le programme graphique se charge lui mï¿½me de lancer le tour suivant quand le
 					// joueur clique sur fin de tour
@@ -78,7 +76,6 @@ public class Partie {
 		VueAccueil vj = new VueAccueil(this);
 		this.view.leftpanel = vj;
 		this.view.getContentPane().add(vj);
-
 	}
 
 	public void AccueilTexte() {
@@ -88,7 +85,7 @@ public class Partie {
 		String scan = ij.sc.next();
 
 		while (((scan.equals("3")) || (scan.equals("4"))) == false) {
-			System.out.println("repondez Ã  la question posee. ");
+			System.out.println("rï¿½pondez ï¿½ la question posï¿½e. ");
 			scan = ij.sc.next();
 		}
 		// int n_joueur;
@@ -108,14 +105,23 @@ public class Partie {
 			scan = ij.sc.next();
 			for (Joueur former : this.joueurs) {
 				if (former.getNom().equals(scan)) {
-					System.out.println("nom déjà pris");
+					System.out.println("nom dï¿½jï¿½ pris");
 					scan = ij.sc.next();
 				}
 			}
 			Joueur j = new Joueur(scan, this);
 			bienvenue += scan + ", ";
 			this.joueurs.add(j);
-			
+
+			System.out.println(j.getNom() + " sera-t-il une IA?   (oui/non)");
+			String rep = ij.sc.next();
+			while ((!rep.equals("oui") && !rep.equals("non"))) {
+				System.out.println("Rï¿½pondez oui ou non !");
+				rep = ij.sc.next();
+			}
+			if (rep.equals("oui")) {
+				j.setIA();
+			}
 
 		}
 
@@ -128,16 +134,7 @@ public class Partie {
 	public void initialiser() {
 		if (this.plateau.graphique) {
 			System.out.println("graph");
-			
-//			for (Joueur j : this.joueurs) {
-//				
-//				VueJoueur vj = new VueJoueur(j);
-//				this.view.add(vj);
-//
-//				// PROBLEME ICI : COMMENT GERER LE FAIT QUE LE PROGRAMME ATTENDE LA REPONSE DU
-//				// JOUEUR AVANT DE PASSER A LA SUITE ?
-//			
-	//		}
+
 		}
 
 		else {
@@ -145,64 +142,60 @@ public class Partie {
 					"Chaque joueur peut placer une route et une colonie en debut de partie! (elles genereront des ressources nulles jusqu'au dÃ©but de la partie");
 			for (Joueur joueur : joueurs) {
 
-				// String j = joueur.getNom();
+				int[] tab;
+				if (joueur.isIa()) {
+					tab = joueur.matrix4.getCoord();
+				}
 
-				int[] tab = ij.getCoord(joueur.getNom() + ", pour placer une colonie , donnez ses coordonnees");
-				ij.construireColonie(joueur, tab);
+				else {
+					tab = ij.getCoord(joueur.getNom() + ", pour placer une colonie , donnez ses coordonnees");
+				}
+				while (joueur.colonies.size() == 0) {
+					ij.construireColonie(joueur, tab);
+					if (joueur.isIa()) {
+						tab = joueur.matrix4.getCoord();
+					}
+				}
+
 				// on attribue une ressource initiale
 				Sommet etoile = joueur.colonies.get(0);
-				for (Case[] tc : this.plateau.plateauC) {
-					for (Case c : tc) {
-						if ((c.NE == etoile) || (c.SE == etoile) || (c.NO == etoile) || (c.SO == etoile)) {
-							String message = "Grace a sa colonie situee en " + etoile.AfficherCoord() + " , "
-									+ joueur.getNom() + " touche une ressource";
-							System.out.println(message);
-							joueur.getR().incrementRessource(c.type, 1);
-						}
-					}
-
+				AttribuerRessourceInitiale(joueur, etoile);
+				if (joueur.isIa()) {
+					ij.construireRoute(joueur, joueur.matrix4.getCoord(), joueur.matrix4.getCoord());
+				} else {
+					//
+					ij.construireRoute(joueur,
+							ij.getCoord(joueur.getNom() + ", pour placer une route , donnez les coordonnees du depart"),
+							ij.getCoord("et celle de l'arrivï¿½ee"));
 				}
-				ij.construireRoute(joueur,
-						ij.getCoord(joueur.getNom() + ", pour placer une route , donnez les coordonnees du depart"),
-						ij.getCoord("et celle de l'arrivï¿½e"));
 				System.out.println(etoile.AfficherCoord());
 			}
 
 		}
-		// System.out.println("Et on recommence dans l ordre inverse");
-		//
-		// for (int i = 0 ; i< this.n_joueur ; i++) {
-		// Joueur joueur = this.joueurs.get(i) ;
-		//
-		// ij.construireColonie(joueur, ij.getCoord (joueur.getNom() + ", pour placer
-		// une colonie , donnez ses coordonnï¿½es"));
-		// ij.construireRoute(joueur, ij.getCoord (joueur.getNom() + ", pour placer une
-		// route , donnez les coordonnï¿½es du dï¿½part"), ij.getCoord ("et celle de
-		// l'arrivï¿½e"));
-
-		// }
 
 		System.out.println("Debut de la partie !");
-		if (this.plateau.graphique) { this.view.Communicate("Début de la partie !"); }
+		if (this.plateau.graphique) {
+			this.view.Communicate("Dï¿½but de la partie !");
+		}
 
 	}
 
-	// public void Jouer() {
-	// int ind_joueur = 0;
-	//
-	// while (Victoire() == false) {
-	// Joueur joueur = this.joueurs.get(ind_joueur);
-	// LanceDe();
-	// ij.actions(joueur);
-	// this.plateau.afficherPlateau();
-	// ind_joueur++;
-	// if (ind_joueur == this.n_joueur) {
-	// ind_joueur = 0;
-	// }
-	//
-	// }
-	//
-	// }
+	public void AttribuerRessourceInitiale(Joueur joueur, Sommet etoile) {
+		for (Case[] tc : this.plateau.plateauC) {
+			for (Case c : tc) {
+				if ((c.NE == etoile) || (c.SE == etoile) || (c.NO == etoile) || (c.SO == etoile)) {
+					String message = "Grace a sa colonie situee en " + etoile.AfficherCoord() + " , " + joueur.getNom()
+							+ " touche une ressource";
+					System.out.println(message);
+					// joueur.getR().incrementRessource(c.type, 1);
+					joueur.getR().incrementRessource(c.type, 7);
+					// WARNING !!!! corriger debug
+
+				}
+			}
+
+		}
+	}
 
 	public boolean Victoire() {
 		for (Joueur j : this.joueurs) {
@@ -213,12 +206,6 @@ public class Partie {
 		}
 		return false;
 	}
-
-	public void Cavalier() {
-		System.out.println("voilï¿½ le cavalier ! ");
-	}
-
-	
 
 	public void printTables() {
 		for (String[] ts : this.plateau.routesHorizontales) {
@@ -248,67 +235,65 @@ public class Partie {
 	}
 
 	public void Tour(Joueur leader) {
-		int de = LanceDe();
-		if (de==7){ // il vaudra mieux créer une fonction voleur dans voleur qui fasse tout ça 
-			System.out.println("le voleur arrive! personne ne profite des ressources \ntous les joueur.euses qui ont plus de 6 ressources doivent defausser la moitie de leur main");
-			System.out.println(leader + "vous choisissez le lieu ou le voleur atteri");
+		// int de = LanceDe();
+
+		// WARNING!!!! debug
+		System.out.println("give dÃ©s");
+		int de = ij.sc.nextInt();
+		// WARNNG!! debug
+
+		leader.cartetour = false;
+		if (de == 7) {
+			vo.VoleurArrive(joueurs, leader);
 		}
-		// on update les ressources selon le lance du de
 
 		LinkedList<Case> elues = plateau.getCase(de);
 		for (Case c : elues) {
 			for (Joueur j : this.joueurs)
-				c.checkCornerIncrement(j);
+				if (c.getStatutVoleur()) {
+					Communicate("La case " + c.toString() + " est occupï¿½e par le voleur et n'a rien produit");
+				} else {
+					c.checkCornerIncrement(j);
+				}
 		}
-
-		if (this.plateau.graphique == false) {
-			System.out.println("C'est a " + leader.getNom() + " de jouer");
-			System.out.println(leader.getR());
-
-			leader.afficherColonies();
-			leader.afficherPort();
-			this.ij.actions(leader);
+		if (leader.isIa()) {
+			leader.matrix4.takeDecision();
 		} else {
-			this.view.updateJoueur(leader, de);
+			if (this.plateau.graphique == false) {
+				System.out.println("C'est a " + leader.getNom() + " de jouer");
+				System.out.println(leader.getR());
+
+				leader.afficherColonies();
+				leader.afficherPort();
+				this.ij.actions(leader);
+			} else {
+				this.view.updateJoueur(leader, de);
+
+			}
 		}
-
-	}
-	
-	//public void setCouleurJoueurs() {
-//		for (int i ; i< this.n_joueur ; i++) {
-//			Joueur jou = this.joueurs.get(i);
-//			Color c = new RandomColor().c;
-//
-//			for (int j = 0 ; j< i, j++)  {
-//				Joueur former = this.joueurs.get(j);
-//				while (c.equals(former.getCouleur())) {
-//					c = new RandomColor().c;
-//				}
-//			}
-//			jou.setCouleur(c);
-//			
-//		}
-		
-	//}
-	
-	
-public Joueur nextJoueur(Joueur j) {
-	int i = this.joueurs.indexOf(j) ;
-	if (i == this.n_joueur-1 ) {  return this.joueurs.get(0) ;
-	}
-	return this.joueurs.get(i+1) ;
 	}
 
-public int getN_joueur() {
-	return n_joueur;
-}
+	public int getN_joueur() {
+		return n_joueur;
+	}
 
-public void setN_joueur(int n_joueur) {
-	this.n_joueur = n_joueur;
-}
+	public void setN_joueur(int n_joueur) {
+		this.n_joueur = n_joueur;
+	}
 
+	public void Communicate(String s) {
+		if (this.plateau.graphique) {
+			this.view.Communicate(s);
+		} else {
+			System.out.println(s);
+		}
+	}
 
-	
-	
+	public void Communicate(String s, boolean efface) {
+		if (efface) {
+			this.view.ResetCommunicator();
+		}
+		Communicate(s);
+	}
 
 }

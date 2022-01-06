@@ -17,7 +17,7 @@ public class VueRessources  extends JPanel{
 	public VueRessources(Joueur j) {
 		super() ;
 		this.j = j ;
-		this.setSize(400, 200);
+		this.setBounds(700, 580, 300, 100);
 		this.setOpaque(true);
 		this.setBackground( new Color (200,200, 250 ));
 		
@@ -45,8 +45,7 @@ public class VueRessources  extends JPanel{
 			((JLabel) lab).setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		}
 		
-		//this.add(Ressource);
-		//repaint(); 
+		
 		
 	}
 	

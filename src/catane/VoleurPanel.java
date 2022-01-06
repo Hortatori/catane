@@ -7,6 +7,10 @@ import javax.swing.JPanel;
 
 
 public class VoleurPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Case caseVoleur;
 	private Plateau p ;
 	private int x ;
@@ -46,9 +50,10 @@ public class VoleurPanel extends JPanel {
 	public void moveVoleur(Case c) {
 		x = 190 + 100 * c.NO.largeur ;
 		y = 230 + 100 * c.NO.hauteur ;
-		this.caseVoleur.setStatutVoleur(false);
+		
         c.setStatutVoleur(true);
         this.caseVoleur = c;
+        
 	}
 	
 

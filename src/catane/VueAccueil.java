@@ -170,6 +170,10 @@ public class VueAccueil extends JPanel {
 		
 		JButton oui = new JButton("oui") ;
 		oui.addActionListener( e -> {turnIntoIA();
+			j.matrix4.ij.construireColonie(j,j.matrix4.getCoord()) ;
+			j.matrix4.ij.construireRoute(j,j.matrix4.getCoord(),j.matrix4.getCoord()    ) ;
+		
+		
 			close();} );
 		GridBagConstraints co = new GridBagConstraints();
 		co.gridx =0 ;

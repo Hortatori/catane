@@ -5,6 +5,13 @@ import java.awt.Color ;
 
 public class VillePanel extends ColoniePanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+
 	public VillePanel(Joueur j, Sommet s) {
 		super(j, s);
 	}
@@ -13,16 +20,14 @@ public class VillePanel extends ColoniePanel {
 	
 	protected void paintComponent(Graphics g) {
 		 
-		 super.paintComponent(g); // n'enlève pas la gestion standard du dessin du composant
+		 super.paintComponent(g); 
 	 
 		   
-		 int width ;
-		 int height ;
-		 int  x = 240 + 100 * this.s.largeur ;
-			int  y = 240 + 100 * this.s.hauteur ;
+		 int  x = 125 + 100 * this.s.largeur ;
+			int  y = 125 + 100 * this.s.hauteur ;
 		
 		 g.setColor(Color.BLACK);
-		 g.fillOval(x,y,20 ,20);
+		 g.fillOval(x,y,50, 50);
 		 
 	   }
 	

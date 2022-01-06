@@ -11,6 +11,8 @@ Paysage type ;
 int numero ;
 private boolean voleur;
 LinkedList<Sommet> Sommets  = new LinkedList<Sommet>() ;
+// pas utile conceptuellement mais permet un parcourt rapide de chaque sommet pour l'attribution des ressources
+// faire une simple liste des sommets sans NO, SO... aurait faire perdre l'information géographique 
 
 
 
@@ -21,12 +23,6 @@ public void setNumber(int i) {this.numero = i;}
 
 public int getNumero() { return this.numero ;}
 
-public boolean getStatutVoleur(){
-	return voleur;
-}
-public void setStatutVoleur(boolean vol){
-	this.voleur=vol;
-}
 
 
 
@@ -56,31 +52,44 @@ public void debug() {
 
 public void afficheSommets() {
 	for (Sommet s : this.Sommets ) {
-		System.out.println (s.largeur + "  "+ s.hauteur );
+		System.out.println (" x : " + s.largeur + "  y :  "+ s.hauteur );
 	}
 }
 
 
 public void checkCornerIncrement(Joueur joueur) {
-    if (joueur.getColonies().contains(this.NE)) {
-
-        joueur.getR().incrementRessource(this.type, 1);
-    }
-    if (joueur.getColonies().contains(this.NO)) {
-
-        joueur.getR().incrementRessource(this.type, 1);
-    }
-    if (joueur.getColonies().contains(this.SO)) {
-
-        joueur.getR().incrementRessource(this.type, 1);
-    }
-    if (joueur.getColonies().contains(this.SE)) {
-
-        joueur.getR().incrementRessource(this.type, 1);
-    }
+//    if (joueur.getColonies().contains(this.NE)) {
+//
+//        joueur.getR().incrementRessource(this.type, 1);
+//    }
+//    if (joueur.getColonies().contains(this.NO)) {
+//
+//        joueur.getR().incrementRessource(this.type, 1);
+//    }
+//    if (joueur.getColonies().contains(this.SO)) {
+//
+//        joueur.getR().incrementRessource(this.type, 1);
+//    }
+//    if (joueur.getColonies().contains(this.SE)) {
+//
+//        joueur.getR().incrementRessource(this.type, 1);
+//    }
+// VERSION COMPACTE 
+for (Sommet s : this.Sommets ) {
+	if (joueur.getColonies().contains(s)) {
+		
+		        joueur.getR().incrementRessource(this.type, 1);
+		    }
+}
 }
 
+public boolean getStatutVoleur() {
+	return voleur;
+}
 
+public void setStatutVoleur(boolean vol) {
+	this.voleur = vol;
+}
 
 
 

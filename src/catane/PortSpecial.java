@@ -1,6 +1,4 @@
-package catane;
-
-import catane.Paysage;
+package catane ;
 
 public class PortSpecial extends Port {
 
@@ -25,7 +23,7 @@ public class PortSpecial extends Port {
     }
 
     public String toString() {
-        return super.toString() + " vous pourrez ici ï¿½changer du " + this.Ressource;
+        return super.toString() + " vous pourrez ici échanger : " + this.Ressource;
     }
 
     public String afficherTaux() {

@@ -75,32 +75,6 @@ public class Ressources {
 		 pierre  -= i;
 	}
 	
-	public void incrementInventaire(Paysage paysage ) {
-        switch (paysage) {
-            case FORET:
-                this.bois++;
-                break;
-            case MONTAGNE:
-                this.pierre++;
-                break;
-
-            case COLLINE:
-                this.argile++;
-                break;
-
-            case PRE:
-                this.mouton++;
-                break;
-
-            case CHAMP:
-                this.ble++;
-                break;
-                
-            default :
-            	break; }
-           
-        }
-	
 
 	
 	@Override
@@ -114,12 +88,7 @@ public class Ressources {
 	this.compteurColonies ++ ; }
 	
 	public void placeRoute() {this.compteurRoutes --; }
-	public String getFer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
+	
 
 
 
@@ -149,5 +118,64 @@ public class Ressources {
         }
 
     }
+	
+
+	public int total() {
+		return ble + mouton + argile + bois + pierre;
+	}
+
+	public boolean prelevable (Paysage  paysage) {
+		
+		
+		 switch (paysage) {
+         case FORET:
+             return this.bois > 0 ;
+             
+         case MONTAGNE:
+        	 return this.pierre > 0 ;
+
+         case COLLINE:
+        	 return this.argile > 0 ;
+
+         case PRE:
+        	 return this.mouton > 0 ;
+
+         case CHAMP:
+        	 return this.ble > 0 ;
+        	 
+        	 default : return false;
+		 }
+		
+		
+		
+	}
+	
+	
+	
+	public Paysage Convertir (int i) {
+		
+		
+		 switch (i) {
+        case 0:
+            return Paysage.FORET ;
+            
+        case 1:
+       	 return Paysage.MONTAGNE  ;
+
+        case 2:
+       	 return Paysage.COLLINE ;
+
+        case 3:
+       	 return Paysage.PRE ;
+
+        case 4:
+       	 return Paysage.CHAMP ;
+       	 
+       	default : return Paysage.DESERT ;
+		 }
+		
+		
+		
+	}
 	
 }

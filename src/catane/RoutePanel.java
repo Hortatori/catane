@@ -6,6 +6,10 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 public class RoutePanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Joueur j ;
 	Route r;
 	
@@ -21,13 +25,13 @@ public class RoutePanel extends JPanel {
 	
 	protected void paintComponent(Graphics g) {
 		 
-		 super.paintComponent(g); // n'enl�ve pas la gestion standard du dessin du composant
+		 super.paintComponent(g); 
 	 
 		 g.setColor(this.j.getCouleur());  
 		 int width ;
 		 int height ;
-		 int  x = 250 + 100 * this.r.depart.largeur ;
-			int  y = 250 + 100 * this.r.depart.hauteur ;
+		 int  x = 150 + 100 * this.r.depart.largeur ;
+			int  y = 150 + 100 * this.r.depart.hauteur ;
 			
 		 if (this.r.horizontale) {
 			  width = 100 ;
