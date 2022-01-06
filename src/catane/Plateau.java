@@ -316,7 +316,7 @@ public class Plateau {
 
 	public void setRouteVerticale(int i, int j) {
 		routesVerticales[i][j] = "H";
-		System.out.println("barbulie");
+
 	}
 
 	public void printBoolean() {

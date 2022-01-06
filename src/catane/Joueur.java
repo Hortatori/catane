@@ -122,6 +122,18 @@ public class Joueur {
 			System.out.println("Il y a déjà une colonie ici");
 			return;
 		}
+		boolean flg = false;
+		for (Route route : this.routes) {
+			if ((route.arrivee.hauteur == s.hauteur && route.arrivee.largeur == s.largeur)
+					|| (route.depart.hauteur == s.hauteur && route.depart.largeur == s.largeur)) {
+				flg = true;
+				break;
+			}
+		}
+		if (!flg && !this.colonies.isEmpty()) {
+			System.out.println("il n'y a pas de route pour mener à cette colonie");
+			return;
+		}
 		s.colonie = true;
 		this.colonies.add(s);
 
@@ -151,7 +163,7 @@ public class Joueur {
 			System.out.println("ville créée !");
 
 		} else {
-			System.out.println("Il vous faut déjà  avoir une colonie à cet endroit pour la faire évoluer en ville !");
+			System.out.println("Il vous faut déjà avoir une colonie à cet endroit pour la faire évoluer en ville !");
 			return;
 		}
 

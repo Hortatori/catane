@@ -45,7 +45,7 @@ public class InterfaceJoueur {
 	public void actions(Joueur joueur) {
 
 		System.out.println(joueur.getNom()
-				+ ", souhaitez-vous :\n 1 : Construire une colonie? \n 2 : Construire une ville?  \n 3 : Construire une route? \n 4 : Faire du commerce? \n 5 acheter une carte : Finir votre tour  \\n 6 : Jouer une carte ? \\n 7 : Finir votre tour");
+				+ ", souhaitez-vous :\n 1 : Construire une colonie? \n 2 : Construire une ville?  \n 3 : Construire une route? \n 4 : Faire du commerce? \n 5 : acheter une carte\n 6 : Jouer une carte ? \n 7 : Finir votre tour");
 
 		int scan = this.sc.nextInt();
 		switch (scan) {
