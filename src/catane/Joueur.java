@@ -29,9 +29,9 @@ public class Joueur {
 	private int pts_victoire = 0;
 	public Partie partie;
 	private int longueurRoute;
-	public boolean routelongue;
 	public boolean maxcavalier;
-
+	public boolean routelongue ;
+	
 	public void setCouleur() {
 		Color coul = new RandomColor().c;
 		this.couleur = coul;
@@ -122,18 +122,6 @@ public class Joueur {
 			System.out.println("Il y a déjà une colonie ici");
 			return;
 		}
-		boolean flg = false;
-		for (Route route : this.routes) {
-			if ((route.arrivee.hauteur == s.hauteur && route.arrivee.largeur == s.largeur)
-					|| (route.depart.hauteur == s.hauteur && route.depart.largeur == s.largeur)) {
-				flg = true;
-				break;
-			}
-		}
-		if (!flg && !this.colonies.isEmpty()) {
-			System.out.println("il n'y a pas de route pour mener à cette colonie");
-			return;
-		}
 		s.colonie = true;
 		this.colonies.add(s);
 
@@ -148,6 +136,7 @@ public class Joueur {
 		this.ressources.placeColonie();
 		this.pts_victoire++;
 		System.out.println("colonie créée !");
+		
 	}
 
 	public void placerVilleInit(Sommet s) {
@@ -163,7 +152,7 @@ public class Joueur {
 			System.out.println("ville créée !");
 
 		} else {
-			System.out.println("Il vous faut déjà avoir une colonie à cet endroit pour la faire évoluer en ville !");
+			System.out.println("Il vous faut déjà  avoir une colonie à cet endroit pour la faire évoluer en ville !");
 			return;
 		}
 
@@ -192,15 +181,17 @@ public class Joueur {
 		}
 
 		System.out.println("route créée!");
-
-		// this.longueurRoute = this.partie.longueurRoute(routes);
-		// for (Joueur j : this.partie.joueurs) {
-		// if (longueurRoute > j.longueurRoute) {
-		// this.routelongue = true;
-		// }
-
-		// }
+		System.out.println ("ROUTE LA PLUS LONGUE") ;
+		System.out.println(this.partie.longueurRoute(this.routes)) ;
+		this.longueurRoute = this.partie.longueurRoute(routes);
+		for (Joueur j : this.partie.joueurs ) {
+			if (longueurRoute > j.longueurRoute) {
+				this.routelongue = true ;
+			}
+			
+		}
 		return routeTouteNeuve;
+
 	}
 
 	public void afficherColonies() {
@@ -217,49 +208,6 @@ public class Joueur {
 		for (Port p : this.ports) {
 			System.out.println(p.toString());
 		}
-	}
-
-	// méthode ne fonctionne pas très bien pour l'instant , il faudrait la faire
-	// récursive avec comme entrée un sommet et une liste de routes
-	public void longueurRoute() {
-
-		ArrayList<Integer> result = new ArrayList<Integer>();
-
-		for (Route depart : this.routes) {
-			// on parcourt toutes les routes dans tous les sens et ce en partant des deux
-			// bouts.
-
-			int lenR = 1;
-			ArrayList<Route> routesencours = new ArrayList<Route>();
-			routesencours.addAll(this.routes);
-			routesencours.remove(depart);
-
-			String s = depart.toString();
-			boolean encore = true;
-			while (encore) {
-				encore = false;
-				for (int i = 0; i < routesencours.size(); i++) {
-					Route route = routesencours.get(i);
-					if ((route.depart == depart.arrivee) || (route.depart == depart.depart)
-							|| (route.arrivee == depart.arrivee) || (route.arrivee == depart.arrivee)) {
-						lenR++;
-						routesencours.remove(route);
-						depart = route;
-						s += depart.toString();
-						encore = true;
-						break;
-					}
-				}
-
-			}
-			result.add(lenR);
-			System.out.println(s);
-			System.out.println(Arrays.toString(result.toArray()));
-
-		}
-		int max = Collections.max(result);
-		System.out.println(" La route la plus longue de " + this.nom + " est longue de " + max);
-		this.longueurRoute = max;
 	}
 
 	public void afficherCartes() {
@@ -286,98 +234,6 @@ public class Joueur {
 		} else {
 			return this.partie.joueurs.get(rang + 1);
 		}
-	}
-
-	// public static int longueurRoute(ArrayList<Route> routes) {
-	// // en fait on veut faire le chemin du chemin le plus long dans un graphe
-	// acyclique
-	// ArrayList<Integer> result = new ArrayList<Integer>();
-
-	// for (Route depart : routes) {
-
-	// ArrayList<Route> routesencours = new ArrayList<Route>();
-	// routesencours.addAll(routes);
-	// routesencours.remove(depart);
-
-	// for (Route restante : routesencours) {
-	// if ((restante.depart == depart.depart) (restante.arrivee ==
-	// depart.depart)(restante.depart == depart.arrivee) ||(restante.arrivee ==
-	// depart.arrivee)){
-	// result.add(1+ longueurRoute(routesencours));
-	// }
-	// else {result.add(1) ; }
-	// }
-	// }
-	// if (result.size() > 0 ) {
-	// return Collections.max(result); } else {return 0 ;}
-	// }
-
-	//
-	// for (Route restante : routesencours) {
-	// if ((restante.depart == depart.depart) || (restante.arrivee ==
-	// depart.depart)||(restante.depart == depart.arrivee) ||(restante.arrivee ==
-	// depart.arrivee)){
-	// result.add(1+ longueurRoute(routesencours));
-	// }
-	// else {result.add(1) ; }
-	// }
-	// }
-	// if (result.size() > 0 ) {
-	// return Collections.max(result); } else {return 0 ;}
-	// }
-	//
-	// public static int longueurRoute(ArrayList<Route> routes) {
-	// ArrayList<Integer> result = new ArrayList<Integer>();
-	// ArrayList<Sommet> sommets = new ArrayList<Sommet>();
-	// for (Route r : routes) {
-	// sommets.add(r.depart);
-	// sommets.add(r.arrivee);
-	// }
-	// for (Sommet s : sommets) {
-	// result.add(longueurRoute(s, routes));
-	// }
-
-	// return Collections.max(result);
-	// }
-
-	public static int longueurRoute(Sommet s, ArrayList<Route> routes) {
-		// on veut faire le chemin du chemin le plus long dans un graphe
-		// acyclique
-		ArrayList<Integer> result = new ArrayList<Integer>();
-		if (s == null) {
-			return 0;
-		}
-		for (Route depart : routes) {
-
-			if ((s == depart.depart) || (s == depart.arrivee)) {
-				ArrayList<Route> routesencours = new ArrayList<Route>();
-				Sommet newd = null;
-				for (Route r : routesencours) {
-
-					if (r.depart == s) {
-						routesencours.add(r);
-						newd = r.arrivee;
-					}
-					if (r.arrivee == s) {
-						routesencours.add(r);
-						newd = r.depart;
-					}
-					routesencours.remove(depart);
-					System.out.print(depart.toString());
-					result.add(1 + longueurRoute(newd, routesencours));
-
-				}
-
-			}
-
-		}
-		if (result.size() > 0) {
-			int res = Collections.max(result);
-			return res;
-		} else {
-			return 1;
-		}
-
 	}
 
 }

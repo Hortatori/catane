@@ -1,14 +1,13 @@
 /**
  * Partie initialise le plateau, les joueurs, les choix d'ia, les ressources, le choix du type de vue
- * puis ensuite les phases de jeu : les lancers de dés, les tours des joueurs, les conditions de victoire
- * les conditions d'apparitions du voleur.
- * Fait l'initialisation de tous les objets utilisés par la suite.
+ * puis ensuite les phase de jeu : les lancers de dés, les tours des joueurs
  */
 package catane;
 
 import java.io.InputStream;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
@@ -74,9 +73,9 @@ public class Partie {
 					// joueur clique sur fin de tour
 			Joueur beginner = this.joueurs.get(0);
 			Tour(beginner);
-			// int de = LanceDe();
-			//
-			// this.view.updateJoueur(joueurs.get(0), de);
+//			int de = LanceDe();
+//			
+//			this.view.updateJoueur(joueurs.get(0), de);
 		}
 	}
 
@@ -204,33 +203,28 @@ public class Partie {
 
 	public boolean Victoire() {
 		for (Joueur j : this.joueurs) {
-			int nbaatteindre = 10;
-			if (j.routelongue) {
-				nbaatteindre -= 2;
-			}
-			if (j.maxcavalier) {
-				nbaatteindre -= 2;
-			}
-
+			int nbaatteindre = 10 ;
+			if (j.routelongue ) { nbaatteindre -=2 ;}
+			if (j.maxcavalier) { nbaatteindre -=2 ; }
+			
 			if (j.getPts() > nbaatteindre) {
 				CelebrerVictoire(j);
 				return true;
 
 			}
 		}
-
+		
 		return false;
 	}
 
 	private void CelebrerVictoire(Joueur j) {
 		if (plateau.graphique) {
-			Communicate("bravo " + j.getNom(), true);
-			Communicate("Vous avez gagné ! ");
+			Communicate ("bravo "+j.getNom(), true);
+			Communicate ("Vous avez gagné ! ");
 			this.view.vp.setVisible(false);
-		} else {
-			System.out.println("you did great !");
 		}
-
+		else {System.out.println("you did great !"); }
+		
 	}
 
 	public void printTables() {
@@ -261,9 +255,10 @@ public class Partie {
 	}
 
 	public void Tour(Joueur leader) {
+		
 		int de = LanceDe();
-		System.out.println("c est le tour de " + leader.getNom() + leader.isIa());
-
+		System.out.println("c est le tour de "+ leader.getNom() + leader.isIa()) ;
+		
 		leader.cartetour = false;
 		if (de == 7) {
 			vo.VoleurArrive(joueurs, leader);
@@ -319,4 +314,144 @@ public class Partie {
 		Communicate(s);
 	}
 
+	
+	
+	
+
+//	// méthode ne fonctionne pas très bien pour l'instant , il faudrait la faire
+//	// récursive avec comme entrée un sommet et une liste de routes
+//	public void longueurRoute() {
+//
+//		ArrayList<Integer> result = new ArrayList<Integer>();
+//
+//		for (Route depart : this.routes) {
+//			// on parcourt toutes les routes dans tous les sens et ce en partant des deux
+//			// bouts.
+//
+//			int lenR = 1;
+//			ArrayList<Route> routesencours = new ArrayList<Route>();
+//			routesencours.addAll(this.routes);
+//			routesencours.remove(depart);
+//
+//			String s = depart.toString();
+//			boolean encore = true;
+//			while (encore) {
+//				encore = false;
+//				for (int i = 0; i < routesencours.size(); i++) {
+//					Route route = routesencours.get(i);
+//					if ((route.depart == depart.arrivee) || (route.depart == depart.depart)
+//							|| (route.arrivee == depart.arrivee) || (route.arrivee == depart.arrivee)) {
+//						lenR++;
+//						routesencours.remove(route);
+//						depart = route;
+//						s += depart.toString();
+//						encore = true;
+//						break;
+//					}
+//				}
+//
+//			}
+//			result.add(lenR);
+//			System.out.println(s);
+//			System.out.println(Arrays.toString(result.toArray()));
+//
+//		}
+//		int max = Collections.max(result);
+//		System.out.println(" La route la plus longue de " + this.nom + " est longue de " + max);
+//		this.longueurRoute = max;
+//	}
+
+	
+//	public static int  longueurRoute(ArrayList<Route> routes) {
+//		// en fait on veut faire le chemin du chemin le plus long dans un graphe acyclique
+//				ArrayList<Integer> result = new ArrayList<Integer>();
+//				
+//				for (Route depart : routes) {
+//				
+//					
+//					ArrayList<Route> routesencours = new ArrayList<Route>();
+//					routesencours.addAll(routes);
+//					routesencours.remove(depart);
+//					
+//					for (Route restante : routesencours) {
+//						if ((restante.depart == depart.depart) || (restante.arrivee == depart.depart)||(restante.depart == depart.arrivee) ||(restante.arrivee == depart.arrivee)){
+//						result.add(1+ longueurRoute(routesencours));
+//					}
+//						else {result.add(1) ; }
+//				}
+//				}
+//				if (result.size() > 0 ) {
+//				return Collections.max(result); } else {return 0 ;}
+//	}
+//	
+	public static int  longueurRoute( ArrayList<Route> routes) {
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		ArrayList<Sommet> sommets = new ArrayList<Sommet>();
+		for (Route r : routes) {
+			sommets.add(r.depart);
+			sommets.add(r.arrivee);
+		}
+		for(Sommet s : sommets) {
+			result.add(longueurRoute(s, routes));
+		}
+		 
+		return Collections.max(result);
+	}
+	public static int  longueurRoute(Sommet s , ArrayList<Route> routes) {
+		// en fait on veut faire le chemin du chemin le plus long dans un graphe acyclique
+				ArrayList<Integer> result = new ArrayList<Integer>();
+					if (s == null) {return 0 ;}
+					for (Route depart : routes) {
+						
+						if ((s == depart.depart) || (s == depart.arrivee)) {
+							ArrayList<Route> routesencours = new ArrayList<Route>();
+							Sommet newd = null ;
+							for (Route r : routesencours ) {
+								
+								if (r.depart == s )  {
+									routesencours.add(r) ;
+									newd = r.arrivee ;
+									}
+								if  (  r.arrivee == s) {
+									routesencours.add(r) ;
+									newd = r.depart ;
+							}
+							routesencours.remove(depart);
+							System.out.print(depart.toString());
+							result.add(1 + longueurRoute (newd, routesencours));
+							
+							}
+							
+				
+						
+						
+						
+						
+						}
+					
+						
+					
+					
+					}
+					if (result.size() > 0 ) {
+						int res = Collections.max(result);
+						return res ;} else {return 1 ;}	
+				
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

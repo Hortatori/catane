@@ -45,25 +45,40 @@ public class InterfaceJoueur {
 	public void actions(Joueur joueur) {
 
 		System.out.println(joueur.getNom()
-				+ ", souhaitez-vous :\n 1 : Construire une colonie? \n 2 : Construire une ville?  \n 3 : Construire une route? \n 4 : Faire du commerce? \n 5 : acheter une carte\n 6 : Jouer une carte ? \n 7 : Finir votre tour");
+				+ ", souhaitez-vous :\n 1 : Construire une colonie? \n 2 : Construire une ville?  \n 3 : Construire une route? \n 4 : Faire du commerce? \n 5 acheter une carte : Finir votre tour  \\n 6 : Jouer une carte ? \\n 7 : Finir votre tour");
 
 		int scan = this.sc.nextInt();
+		Ressources r = joueur.getR();
 		switch (scan) {
 			case 1:
-
+				if ((r.getBle() > 0) && (r.getBois() > 0) && (r.getMouton() > 0) && (r.getArgile() > 0)) {
+					
+					r.payArgile(1);
+					r.payBle(1);
+					r.payBois(1);
+					r.payMouton(1); 
 				construireColonie(joueur,
 						getCoord(joueur.getNom() + ", pour placer une colonie , donnez ses coordonnées"));
-
+				}
 				break;
 			case 2:
-
+				if ((r.getBle() > 1) && (r.getPierre() > 2) ) {
+					
+					r.payPierre(3);
+					r.payBle(2); 
 				construireVille(joueur, getCoord(joueur.getNom() + ", pour placer une ville , donnez ses coordonnées"));
+				}
 				break;
 
 			case 3:
+				if ((r.getBois() > 1) && (r.getArgile() > 1) ) {
+					
+					r.payArgile(1);
+					r.payBois(1);
+				
 				construireRoute(joueur,
 						getCoord(joueur.getNom() + ", pour placer une route , donnez les coordonnées du départ"),
-						getCoord("et celle de l'arrivée"));
+						getCoord("et celle de l'arrivée"));}
 				break;
 
 			case 4:
@@ -76,11 +91,15 @@ public class InterfaceJoueur {
 					System.out.println("la pioche est vide ! ");
 					break;
 				}
+				if ((r.getPierre() > 1) && (r.getMouton() > 1)  && (r.getBle() > 1) ) {
+					r.payBle(1);
+					r.payMouton(1);
+					r.payPierre(1);
 				Carte c = this.partie.pioche.pioche.getFirst();
 				joueur.cartes.add(c);
 				c.setPossesseur(joueur);
 				this.partie.pioche.pioche.removeFirst();
-				joueur.afficherCartes();
+				joueur.afficherCartes();}
 				break;
 
 			case 6:

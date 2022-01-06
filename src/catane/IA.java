@@ -22,7 +22,7 @@ public class IA {
 		Ressources r = this.joueur.getR();
 		int decision = rd.nextInt(8);
 		System.out.println("l'IA joue");
-		int ncoups = 0 ; // on limite à 3 les actions des ia
+		//int ncoups = 0 ; // on limite à 3 les actions des ia
 		switch (decision) {
 
 		case 1:
@@ -64,13 +64,16 @@ public class IA {
 				break;
 				
 			}
-			
+			if ((r.getPierre() > 1) && (r.getMouton() > 1)  && (r.getBle() > 1) ) {
+				r.payBle(1);
+				r.payMouton(1);
+				r.payPierre(1);
 			
 			Carte c = joueur.partie.pioche.pioche.getFirst();
 			joueur.cartes.add(c);
 			c.setPossesseur(joueur);
 			joueur.partie.pioche.pioche.removeFirst();
-			joueur.afficherCartes();
+			joueur.afficherCartes(); }
 			takeDecision();
 			break;
 
